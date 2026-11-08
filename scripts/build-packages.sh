@@ -5,7 +5,7 @@
 set -euo pipefail
 RACINE="$(cd "$(dirname "$0")/.." && pwd)"
 DEPOT="$(realpath -m "${1:-$RACINE/depot}")"
-AUR=(ckbcomp calamares)
+AUR=(calamares)
 
 [[ $EUID -eq 0 ]] || { echo "À lancer en root."; exit 1; }
 mkdir -p "$DEPOT"
@@ -23,18 +23,27 @@ construire() { # $1 = dossier contenant le PKGBUILD, $2.. = options makepkg en p
 }
 mkdir -p "$TRAVAIL/sortie"; chown constructeur: "$TRAVAIL/sortie"
 
-# 1. AUR (dans l'ordre : ckbcomp est une dépendance de calamares)
+# 1. ckbcomp (dépendance de calamares) depuis l'archive Debian, dernière version publiée
+VCK=$(curl -fsSL https://deb.debian.org/debian/pool/main/c/console-setup/ |
+      grep -oP 'console-setup_\K[0-9.]+(?=\.tar\.xz)' | sort -Vu | tail -1)
+[[ -n $VCK ]] || { echo "Version de console-setup introuvable"; exit 1; }
+curl -fsSL --retry 5 -o "$TRAVAIL/cs.tar.xz" "https://deb.debian.org/debian/pool/main/c/console-setup/console-setup_${VCK}.tar.xz"
+mkdir -p "$TRAVAIL/ckbcomp"
+sed -e "s/@VERSION@/$VCK/" -e "s/@SHA256@/$(sha256sum "$TRAVAIL/cs.tar.xz" | cut -d' ' -f1)/" \
+    "$RACINE/scripts/ckbcomp/PKGBUILD.in" > "$TRAVAIL/ckbcomp/PKGBUILD"
+cp "$TRAVAIL/cs.tar.xz" "$TRAVAIL/ckbcomp/console-setup_${VCK}.tar.xz"
+chown -R constructeur: "$TRAVAIL/ckbcomp"
+construire "$TRAVAIL/ckbcomp"
+pacman -U --noconfirm --needed "$TRAVAIL"/sortie/ckbcomp-[0-9]*.pkg.tar.zst
+
+# 2. AUR
 for p in "${AUR[@]}"; do
   sudo -u constructeur git clone --depth 1 "https://aur.archlinux.org/$p.git" "$TRAVAIL/aur-$p"
-  opts=()
-  # ckbcomp : l'archive de salsa.debian.org est régénérée régulièrement, sa somme de contrôle
-  # AUR devient alors fausse alors que le contenu (un script perl) ne change pas.
-  [[ $p == ckbcomp ]] && opts=(--skipchecksums)
-  construire "$TRAVAIL/aur-$p" "${opts[@]}"
+  construire "$TRAVAIL/aur-$p"
   pacman -U --noconfirm --needed "$TRAVAIL"/sortie/"$p"-[0-9]*.pkg.tar.zst
 done
 
-# 2. Paquets ExoLyx
+# 3. Paquets ExoLyx
 for d in "$TRAVAIL"/exolyx/packages/*/; do
   [[ -f "$d/PKGBUILD" ]] && construire "$d"
 done

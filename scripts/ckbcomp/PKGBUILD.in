@@ -1,0 +1,18 @@
+# Maintainer: A.DERBEZ
+# ckbcomp (dépendance de Calamares), tiré de l'archive Debian (fichiers immuables),
+# car le paquet AUR télécharge depuis salsa.debian.org qui tronque les archives.
+pkgname=ckbcomp
+pkgver=@VERSION@
+pkgrel=1
+pkgdesc="Compile une disposition XKB en table de clavier console (extrait de console-setup)"
+arch=('any')
+url="https://salsa.debian.org/installer-team/console-setup"
+license=('GPL-2.0-or-later')
+depends=('perl' 'xkeyboard-config')
+source=("https://deb.debian.org/debian/pool/main/c/console-setup/console-setup_${pkgver}.tar.xz")
+sha256sums=('@SHA256@')
+
+package() {
+  cd "$srcdir"/console-setup*/
+  install -Dm755 Keyboard/ckbcomp "$pkgdir/usr/bin/ckbcomp"
+}
