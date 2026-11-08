@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-08T09:42:00",
+  "erreur": "",
+  "pacman": [
+    {"nom": "firefox", "ancienne": "132.0.2-1", "nouvelle": "133.0-1", "taille": 70254592, "source": "pacman", "redemarrage": false},
+    {"nom": "linux", "ancienne": "6.12.3.arch1-1", "nouvelle": "6.12.4.arch1-1", "taille": 142606336, "source": "pacman", "redemarrage": true},
+    {"nom": "mesa", "ancienne": "1:24.2.8-1", "nouvelle": "1:24.3.1-1", "taille": 10380902, "source": "pacman", "redemarrage": true},
+    {"nom": "plasma-workspace", "ancienne": "6.2.4-1", "nouvelle": "6.2.5-1", "taille": 21495808, "source": "pacman", "redemarrage": false},
+    {"nom": "dolphin", "ancienne": "24.08.3-1", "nouvelle": "24.12.0-1", "taille": 2936012, "source": "pacman", "redemarrage": false},
+    {"nom": "python", "ancienne": "3.12.7-1", "nouvelle": "3.12.8-1", "taille": 27577139, "source": "pacman", "redemarrage": false},
+    {"nom": "vulkan-icd-loader", "ancienne": "1.3.295-1", "nouvelle": "1.4.303-1", "taille": 151552, "source": "pacman", "redemarrage": false}
+  ],
+  "flatpak": [
+    {"nom": "com.spotify.Client", "ancienne": "1.2.48.405", "nouvelle": "1.2.50.335", "taille": 195035136, "source": "flatpak", "redemarrage": false},
+    {"nom": "org.freedesktop.Platform", "ancienne": "—", "nouvelle": "24.08", "taille": 0, "source": "flatpak", "redemarrage": false}
+  ]
+}

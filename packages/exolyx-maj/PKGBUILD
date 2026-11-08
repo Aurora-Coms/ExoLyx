@@ -1,0 +1,46 @@
+# Maintainer: A.DERBEZ
+# Mises à jour en un clic d'ExoLyx.
+pkgname=exolyx-maj
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Mises à jour ExoLyx : vérification automatique, notification et mise à jour en un clic"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+depends=('python' 'python-pyqt6' 'qt6-declarative' 'qt6-svg' 'polkit'
+         'pacman' 'pacman-contrib' 'flatpak' 'libnotify' 'systemd')
+optdepends=('snapper: liste des instantanés dans « Restaurer un instantané »'
+            'snap-pac: instantané automatique avant/après chaque mise à jour'
+            'grub-btrfs: démarrage sur un instantané depuis GRUB')
+checkdepends=('python-pyqt6')
+
+check() {
+    cd "$startdir/../../src/maj"
+    python3 -m unittest discover -s tests
+}
+
+package() {
+    local src="$startdir/../../src/maj"
+    local dest="$pkgdir/usr/share/exolyx/maj"
+
+    install -Dm644 "$src/maj.py"         "$dest/maj.py"
+    install -Dm644 "$src/logique_maj.py" "$dest/logique_maj.py"
+    install -Dm644 "$src/qml/Main.qml"   "$dest/qml/Main.qml"
+    install -Dm644 "$src/qml/composants/Bouton.qml" "$dest/qml/composants/Bouton.qml"
+    install -Dm644 "$startdir/../../src/branding/logo.svg" "$dest/images/logo.svg"
+
+    install -Dm755 "$src/exolyx-maj" "$pkgdir/usr/bin/exolyx-maj"
+    install -Dm644 "$src/desktop/exolyx-maj.desktop" \
+        "$pkgdir/usr/share/applications/exolyx-maj.desktop"
+
+    # Helper root (action unique pacman -Syu) + action polkit
+    install -Dm755 "$src/helper/exolyx-maj-helper" "$pkgdir/usr/lib/exolyx/exolyx-maj-helper"
+    install -Dm644 "$src/helper/org.exolyx.maj.policy" \
+        "$pkgdir/usr/share/polkit-1/actions/org.exolyx.maj.policy"
+
+    # Service + minuteur utilisateur, activés pour tous les utilisateurs
+    install -Dm644 "$src/systemd/exolyx-maj.service" "$pkgdir/usr/lib/systemd/user/exolyx-maj.service"
+    install -Dm644 "$src/systemd/exolyx-maj.timer"   "$pkgdir/usr/lib/systemd/user/exolyx-maj.timer"
+    install -d "$pkgdir/usr/lib/systemd/user/timers.target.wants"
+    ln -s ../exolyx-maj.timer "$pkgdir/usr/lib/systemd/user/timers.target.wants/exolyx-maj.timer"
+}

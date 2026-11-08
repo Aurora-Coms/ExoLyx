@@ -1,0 +1,28 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Lance l'installateur Calamares d'ExoLyx avec les droits root, en conservant
+# l'accès à la session graphique (X11 ou Wayland).
+set -u
+
+if pgrep -x calamares >/dev/null; then
+    # Déjà lancé : on ne le relance pas.
+    exit 0
+fi
+
+ENV_GRAPHIQUE=(
+    "DISPLAY=${DISPLAY:-}"
+    "WAYLAND_DISPLAY=${WAYLAND_DISPLAY:-}"
+    "XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-}"
+    "XAUTHORITY=${XAUTHORITY:-$HOME/.Xauthority}"
+    "QT_QPA_PLATFORM=${QT_QPA_PLATFORM:-wayland;xcb}"
+    "XDG_CURRENT_DESKTOP=${XDG_CURRENT_DESKTOP:-KDE}"
+    "KDE_SESSION_VERSION=6"
+    "LANG=${LANG:-fr_FR.UTF-8}"
+)
+
+# Sur le live, l'utilisateur exolyx a sudo sans mot de passe : méthode préférée.
+if sudo -n true 2>/dev/null; then
+    exec sudo -E env "${ENV_GRAPHIQUE[@]}" calamares "$@"
+fi
+# Sinon : pkexec (pkexec vide l'environnement, on le repasse explicitement).
+exec pkexec env "${ENV_GRAPHIQUE[@]}" calamares "$@"

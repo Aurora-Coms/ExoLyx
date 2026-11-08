@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Épingler l'installateur ExoLyx (live)
+Comment=Ajoute « Installer ExoLyx » au gestionnaire de tâches en mode live
+Exec=/usr/lib/exolyx/calamares/epingler-installateur.sh
+Terminal=false
+NoDisplay=true
+OnlyShowIn=KDE;
+X-KDE-autostart-phase=2

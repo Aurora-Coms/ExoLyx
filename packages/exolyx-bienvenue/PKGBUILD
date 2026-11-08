@@ -1,0 +1,44 @@
+# Maintainer: A.DERBEZ
+# Assistant de premier démarrage d'ExoLyx.
+pkgname=exolyx-bienvenue
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Bienvenue dans ExoLyx : apparence, pilotes et applications au premier démarrage"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+depends=('python' 'python-pyqt6' 'qt6-declarative' 'qt6-svg' 'polkit'
+         'pciutils' 'systemd' 'pacman' 'flatpak' 'plasma-workspace')
+optdepends=("exolyx-theme: thèmes de couleurs, d'icônes et look-and-feel appliqués"
+            "exolyx-wallpapers: fonds d'écran sombre et clair"
+            "exolyx-calamares-config: bouton « Installer ExoLyx » en mode live")
+checkdepends=('python-pyqt6')
+
+check() {
+    cd "$startdir/../../src/bienvenue"
+    python3 -m unittest discover -s tests
+}
+
+package() {
+    local src="$startdir/../../src/bienvenue"
+    local dest="$pkgdir/usr/share/exolyx/bienvenue"
+
+    install -Dm644 "$src/bienvenue.py" "$dest/bienvenue.py"
+    install -Dm644 "$src/logique.py"   "$dest/logique.py"
+    install -d "$dest/qml/pages" "$dest/qml/composants"
+    install -m644 "$src"/qml/Main.qml             "$dest/qml/"
+    install -m644 "$src"/qml/pages/*.qml          "$dest/qml/pages/"
+    install -m644 "$src"/qml/composants/*.qml     "$dest/qml/composants/"
+    install -Dm644 "$startdir/../../src/branding/logo.svg" "$dest/images/logo.svg"
+
+    install -Dm755 "$src/exolyx-bienvenue" "$pkgdir/usr/bin/exolyx-bienvenue"
+    install -Dm644 "$src/desktop/exolyx-bienvenue.desktop" \
+        "$pkgdir/usr/share/applications/exolyx-bienvenue.desktop"
+    install -Dm644 "$src/desktop/exolyx-bienvenue-autostart.desktop" \
+        "$pkgdir/etc/xdg/autostart/exolyx-bienvenue.desktop"
+
+    # Helper root (liste blanche) + action polkit
+    install -Dm755 "$src/helper/exolyx-helper" "$pkgdir/usr/lib/exolyx/exolyx-helper"
+    install -Dm644 "$src/helper/org.exolyx.helper.policy" \
+        "$pkgdir/usr/share/polkit-1/actions/org.exolyx.helper.policy"
+}

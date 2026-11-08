@@ -1,0 +1,171 @@
+#!/usr/bin/python3 -I
+# SPDX-License-Identifier: GPL-3.0-or-later
+"""exolyx-helper — actions root de l'appli de bienvenue ExoLyx.
+
+Appelé uniquement via pkexec (action polkit org.exolyx.helper).
+Aucune commande arbitraire : une seule action (« installer ») et une liste
+blanche fermée de paquets pacman et d'applications Flatpak.
+
+    pkexec /usr/lib/exolyx/exolyx-helper installer pacman:vlc flatpak:com.spotify.Client
+    exolyx-helper installer --simulation pacman:vlc        (essai, sans root)
+
+Protocole de sortie (lignes lues par l'appli) :
+    @@ETAPE <i> <n> <libellé>     début d'une étape
+    @@PROGRES <0-100>             progression globale
+    @@FIN <code>                  fin (0 = succès)
+Codes : 0 succès, 2 requête refusée, 3 pas root, 4 base pacman verrouillée,
+        5 échec d'installation.
+"""
+import os
+import re
+import subprocess
+import sys
+import time
+
+PACMAN_AUTORISES = frozenset({
+    # Applications
+    "libreoffice-fresh", "libreoffice-fresh-fr", "vlc", "gimp",
+    "thunderbird", "thunderbird-i18n-fr", "obs-studio", "kdenlive", "krita",
+    # Pilotes
+    "nvidia-open", "nvidia-utils", "nvidia-settings", "virtualbox-guest-utils",
+})
+FLATPAK_AUTORISES = frozenset({
+    "com.valvesoftware.Steam", "com.discordapp.Discord",
+    "com.spotify.Client", "com.visualstudio.code",
+})
+ACTIONS = ("installer",)
+MAX_JETONS = 32
+FLATHUB = "https://dl.flathub.org/repo/flathub.flatpakrepo"
+RE_PACMAN = re.compile(r"^[a-z0-9][a-z0-9@._+-]{0,63}$")
+RE_FLATPAK = re.compile(r"^[A-Za-z][A-Za-z0-9_-]*(\.[A-Za-z0-9_-]+){2,}$")
+RE_ETAPE_PACMAN = re.compile(r"^\((\s*\d+)/(\d+)\)\s")
+ENV_PROPRE = {
+    "PATH": "/usr/local/sbin:/usr/local/bin:/usr/bin",
+    "LC_ALL": "C.UTF-8",
+    "LANG": "C.UTF-8",
+    "HOME": "/root",
+}
+
+
+class Refus(Exception):
+    """Requête non autorisée."""
+
+
+def valider(argv):
+    """Valide la ligne de commande ; renvoie (action, simulation, pacman, flatpak).
+
+    Lève Refus pour toute action, option ou paquet hors liste blanche."""
+    if not argv:
+        raise Refus("aucune action")
+    action, reste = argv[0], list(argv[1:])
+    if action not in ACTIONS:
+        raise Refus(f"action inconnue : {action!r}")
+    simulation = False
+    if "--simulation" in reste:
+        simulation = True
+        reste.remove("--simulation")
+    if not reste:
+        raise Refus("aucun paquet demandé")
+    if len(reste) > MAX_JETONS:
+        raise Refus("trop de paquets")
+    pacman, flatpak = [], []
+    for jeton in reste:
+        if not isinstance(jeton, str) or ":" not in jeton:
+            raise Refus(f"jeton invalide : {jeton!r}")
+        source, nom = jeton.split(":", 1)
+        if source == "pacman":
+            if not RE_PACMAN.match(nom) or nom not in PACMAN_AUTORISES:
+                raise Refus(f"paquet non autorisé : {nom!r}")
+            if nom not in pacman:
+                pacman.append(nom)
+        elif source == "flatpak":
+            if not RE_FLATPAK.match(nom) or nom not in FLATPAK_AUTORISES:
+                raise Refus(f"application Flatpak non autorisée : {nom!r}")
+            if nom not in flatpak:
+                flatpak.append(nom)
+        else:
+            raise Refus(f"source inconnue : {source!r}")
+    return action, simulation, pacman, flatpak
+
+
+def dire(ligne):
+    print(ligne, flush=True)
+
+
+def lancer(cmd, simulation, debut, fin):
+    """Exécute cmd en relayant sa sortie ; progression entre debut et fin (%)."""
+    dire("$ " + " ".join(cmd))
+    if simulation:
+        for i in range(1, 4):
+            time.sleep(0.15)
+            dire(f"({i}/3) simulation de « {cmd[-1]} »")
+            dire(f"@@PROGRES {int(debut + (fin - debut) * i / 3)}")
+        return 0
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                            stdin=subprocess.DEVNULL, env=ENV_PROPRE, text=True,
+                            errors="replace", bufsize=1)
+    for ligne in proc.stdout:
+        ligne = ligne.rstrip("\n")
+        dire(ligne)
+        m = RE_ETAPE_PACMAN.match(ligne)
+        if m:
+            i, n = int(m.group(1)), int(m.group(2))
+            if n:
+                dire(f"@@PROGRES {int(debut + (fin - debut) * i / n)}")
+    return proc.wait()
+
+
+def installer(simulation, pacman, flatpak):
+    etapes = (1 if pacman else 0) + len(flatpak)
+    n = 0
+    part = 100 / max(etapes, 1)
+    if pacman:
+        if not simulation and os.path.exists("/var/lib/pacman/db.lck"):
+            dire("La base pacman est verrouillée (une autre installation est en cours).")
+            return 4
+        n += 1
+        dire(f"@@ETAPE {n} {etapes} Installation depuis les dépôts : {', '.join(pacman)}")
+        base = ["pacman", "--noconfirm", "--noprogressbar", "--needed"]
+        code = lancer(base + ["-S"] + pacman, simulation, 0, part)
+        if code != 0:
+            # Base locale trop ancienne (fichiers introuvables sur les miroirs) :
+            # on synchronise ET on met à jour (jamais -Sy seul : mise à jour partielle).
+            dire("Nouvel essai avec synchronisation complète du système…")
+            code = lancer(base + ["-Syu"] + pacman, simulation, 0, part)
+        if code != 0:
+            return 5
+        if "virtualbox-guest-utils" in pacman:
+            lancer(["systemctl", "enable", "--now", "vboxservice.service"], simulation, part, part)
+    if flatpak:
+        lancer(["flatpak", "remote-add", "--system", "--if-not-exists", "flathub", FLATHUB],
+               simulation, n * part, n * part)
+        for app in flatpak:
+            debut = n * part
+            n += 1
+            dire(f"@@ETAPE {n} {etapes} Installation de {app} (Flathub)")
+            code = lancer(["flatpak", "install", "--system", "-y", "--noninteractive",
+                           "flathub", app], simulation, debut, n * part)
+            if code != 0:
+                return 5
+    dire("@@PROGRES 100")
+    return 0
+
+
+def main(argv):
+    try:
+        action, simulation, pacman, flatpak = valider(argv)
+    except Refus as e:
+        dire(f"Refusé : {e}")
+        dire("@@FIN 2")
+        return 2
+    if not simulation and os.geteuid() != 0:
+        dire("Ce programme doit être lancé via pkexec.")
+        dire("@@FIN 3")
+        return 3
+    code = installer(simulation, pacman, flatpak) if action == "installer" else 2
+    dire(f"@@FIN {code}")
+    return code
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

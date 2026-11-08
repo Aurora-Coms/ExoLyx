@@ -1,0 +1,47 @@
+# Maintainer: A.DERBEZ
+# Configuration et habillage de l'installateur Calamares 3.3 d'ExoLyx.
+pkgname=exolyx-calamares-config
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Configuration, habillage et diaporama de l'installateur Calamares d'ExoLyx"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+# Uniquement calamares : ce paquet est retiré de la cible par « pacman -Rns »,
+# tout autre dépendance (snapper, grub-btrfs…) serait alors désinstallée.
+# Les paquets système doivent figurer dans la liste de paquets de l'ISO.
+depends=('calamares')
+provides=('calamares-config')
+conflicts=('calamares-config' 'calamares-branding' 'endeavouros-calamares-config'
+           'calamares-tools' 'manjaro-calamares-config')
+backup=('etc/calamares/settings.conf')
+
+package() {
+    local src="$startdir/../../src/calamares"
+
+    # Configuration principale et modules
+    install -Dm644 "$src/settings.conf" "$pkgdir/etc/calamares/settings.conf"
+    local f
+    for f in "$src"/modules/*.conf; do
+        install -Dm644 "$f" "$pkgdir/etc/calamares/modules/$(basename "$f")"
+    done
+
+    # Habillage
+    local b="$pkgdir/usr/share/calamares/branding/exolyx"
+    install -d "$b"
+    install -m644 "$src"/branding/exolyx/{branding.desc,show.qml,stylesheet.qss} "$b/"
+    install -m644 "$src"/branding/exolyx/*.png "$b/"
+
+    # Scripts exécutés dans la cible par shellprocess
+    install -Dm755 "$src/scripts/nettoyage.sh"    "$pkgdir/usr/lib/exolyx/calamares/nettoyage.sh"
+    install -Dm755 "$src/scripts/finalisation.sh" "$pkgdir/usr/lib/exolyx/calamares/finalisation.sh"
+
+    # Lanceur, raccourci et épinglage dans le panneau (mode live)
+    install -Dm755 "$src/lanceur/exolyx-installer" "$pkgdir/usr/bin/exolyx-installer"
+    install -Dm644 "$src/lanceur/exolyx-installer.desktop" \
+        "$pkgdir/usr/share/applications/exolyx-installer.desktop"
+    install -Dm755 "$src/lanceur/epingler-installateur.sh" \
+        "$pkgdir/usr/lib/exolyx/calamares/epingler-installateur.sh"
+    install -Dm644 "$src/lanceur/exolyx-installer-dock.desktop" \
+        "$pkgdir/etc/xdg/autostart/exolyx-installer-dock.desktop"
+}

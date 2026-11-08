@@ -23,6 +23,8 @@ fastfetch
 pacman-contrib
 reflector
 arch-install-scripts
+squashfs-tools
+polkit
 usbutils
 pciutils
 smartmontools

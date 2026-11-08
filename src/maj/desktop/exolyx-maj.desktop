@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Mises à jour
+GenericName=Mises à jour du système
+Comment=Mettre à jour ExoLyx et les applications en un clic
+Exec=/usr/bin/exolyx-maj
+Icon=system-software-update
+Terminal=false
+StartupNotify=true
+StartupWMClass=exolyx-maj
+Categories=System;Settings;PackageManager;
+Keywords=mise à jour;maj;pacman;flatpak;système;instantané;

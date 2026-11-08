@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+[Unit]
+Description=Vérification des mises à jour ExoLyx (10 min après la connexion, puis toutes les 6 h)
+
+[Timer]
+OnStartupSec=10min
+OnUnitActiveSec=6h
+RandomizedDelaySec=5min
+Persistent=false
+
+[Install]
+WantedBy=timers.target

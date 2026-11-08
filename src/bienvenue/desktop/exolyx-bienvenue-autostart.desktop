@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Bienvenue dans ExoLyx
+Comment=Assistant de premier démarrage
+Exec=/usr/bin/exolyx-bienvenue --demarrage
+Icon=/usr/share/exolyx/bienvenue/images/logo.svg
+Terminal=false
+NoDisplay=true
+OnlyShowIn=KDE;
+X-KDE-autostart-phase=2

@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+[Unit]
+Description=Vérification des mises à jour ExoLyx
+After=graphical-session.target network-online.target
+PartOf=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/exolyx-maj --verifier
+# exolyx-maj --zone est lancé dans sa propre unité (systemd-run) ;
+# KillMode=process le protège aussi en cas de repli sans systemd-run.
+KillMode=process
+Nice=10
+IOSchedulingClass=idle

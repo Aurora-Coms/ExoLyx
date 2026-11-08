@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Bienvenue dans ExoLyx
+GenericName=Premiers pas
+Comment=Régler l'apparence, installer pilotes et applications
+Exec=/usr/bin/exolyx-bienvenue
+Icon=/usr/share/exolyx/bienvenue/images/logo.svg
+Terminal=false
+StartupNotify=true
+StartupWMClass=exolyx-bienvenue
+Categories=System;Settings;
+Keywords=bienvenue;premiers pas;pilotes;applications;thème;

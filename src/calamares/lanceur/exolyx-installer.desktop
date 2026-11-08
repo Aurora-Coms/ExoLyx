@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Installer ExoLyx
+GenericName=Installateur du système
+Comment=Installer ExoLyx sur cet ordinateur
+Exec=/usr/bin/exolyx-installer
+Icon=/usr/share/calamares/branding/exolyx/icone.png
+Terminal=false
+StartupNotify=true
+Categories=System;
+Keywords=installer;installation;calamares;système;
