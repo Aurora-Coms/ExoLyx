@@ -1,0 +1,24 @@
+# Maintainer: A.DERBEZ
+# Thèmes d'icônes ExoLyx : Trait, Duo (par défaut) et Relief, en sombre et clair.
+# SVG pré-générés par src/icones/generer.py (commités) ; aperçu : src/icones/apercu.html.
+pkgname=exolyx-icons
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Thèmes d'icônes ExoLyx (Trait, Duo, Relief — sombre et clair), vert pomme"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+depends=('breeze-icons')
+
+package() {
+    local src="$startdir/../../src/icones/themes"
+    local theme
+    for theme in ExoLyx-Trait ExoLyx-Trait-Clair ExoLyx-Duo ExoLyx-Duo-Clair \
+                 ExoLyx-Relief ExoLyx-Relief-Clair; do
+        [[ -f "$src/$theme/index.theme" ]] || { echo "Thème manquant : $theme" >&2; return 1; }
+        install -d "$pkgdir/usr/share/icons/$theme"
+        cp -r --no-preserve=ownership "$src/$theme/." "$pkgdir/usr/share/icons/$theme/"
+    done
+    find "$pkgdir/usr/share/icons" -type d -exec chmod 755 {} +
+    find "$pkgdir/usr/share/icons" -type f -exec chmod 644 {} +
+}

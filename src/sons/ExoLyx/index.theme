@@ -1,0 +1,8 @@
+[Sound Theme]
+Name=ExoLyx
+Comment=Sons ExoLyx : cloches cristallines et accords majeurs, doux et spatiaux
+Inherits=freedesktop
+Directories=stereo
+
+[stereo]
+OutputProfile=stereo

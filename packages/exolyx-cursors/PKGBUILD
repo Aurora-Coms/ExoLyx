@@ -1,0 +1,27 @@
+# Maintainer: A.DERBEZ
+# Thème de curseurs « ExoLyx-Curseur » (Xcursor 24/32/48/64 px, attente animée en orbite).
+# Fichiers pré-générés par src/curseurs/generer.py (commités) ; test : src/curseurs/test_curseurs.py.
+pkgname=exolyx-cursors
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Curseurs ExoLyx : pointeur vert pomme à contour sombre"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+depends=('breeze')   # breeze_cursors : thème hérité pour les noms rares
+checkdepends=('python')
+
+check() {
+    python3 "$startdir/../../src/curseurs/test_curseurs.py" "$startdir/../../src/curseurs/ExoLyx-Curseur"
+}
+
+package() {
+    local src="$startdir/../../src/curseurs/ExoLyx-Curseur"
+    local dest="$pkgdir/usr/share/icons/ExoLyx-Curseur"
+    install -Dm644 "$src/index.theme"  "$dest/index.theme"
+    install -Dm644 "$src/cursor.theme" "$dest/cursor.theme"
+    install -d "$dest/cursors"
+    # -P : conserve les alias sous forme de liens symboliques relatifs
+    cp -P --no-preserve=ownership "$src"/cursors/* "$dest/cursors/"
+    find "$dest/cursors" -type f -exec chmod 644 {} +
+}

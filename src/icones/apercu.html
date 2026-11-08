@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Icônes ExoLyx</title>
+<style>
+  :root { --accent:#A8D479; --fond:#0D1310; --surface:#141C17; --texte:#E6EFE1; --doux:#97A893;
+          --clair-fond:#F4F8F1; --clair-texte:#16201A; --bordure:#2A362E; }
+  body { margin:0; background:var(--fond); color:var(--texte); font:14px Inter, system-ui, sans-serif; }
+  header { padding:20px 16px 8px; }
+  h1 { margin:0 0 4px; font-size:22px; color:var(--accent); }
+  p { margin:0; color:var(--doux); }
+  .outils { display:flex; flex-wrap:wrap; gap:8px; padding:12px 16px; }
+  button { background:var(--surface); color:var(--texte); border:1px solid var(--bordure); border-radius:6px;
+           padding:6px 12px; font:inherit; cursor:pointer; }
+  button.actif { border-color:var(--accent); color:var(--accent); }
+  section { padding:12px 16px 20px; }
+  section.clair { background:var(--clair-fond); color:var(--clair-texte); }
+  h2 { font-size:15px; margin:8px 0 10px; }
+  .grille { display:grid; grid-template-columns:repeat(auto-fill, minmax(92px, 1fr)); gap:6px; }
+  figure { margin:0; display:flex; flex-direction:column; align-items:center; gap:6px; padding:8px 2px;
+           border-radius:10px; }
+  figure:hover { background:rgba(168,212,121,.12); }
+  figcaption { font-size:10px; opacity:.7; text-align:center; word-break:break-all; }
+  img { image-rendering:auto; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Thèmes d'icônes ExoLyx</h1>
+  <p>Trait, Duo et Relief — variantes sombre et claire. Ouvrir depuis src/icones/ (les SVG sont lus dans themes/).</p>
+</header>
+<div class="outils" id="tailles"></div>
+<div id="planches"></div>
+<script>
+const ICONES = [["apps", "accessories-calculator", true], ["apps", "accessories-screenshot", true], ["apps", "accessories-text-editor", true], ["apps", "archive-manager", true], ["apps", "ark", true], ["apps", "calamares", true], ["apps", "distributor-logo", true], ["apps", "distributor-logo-archlinux", true], ["apps", "exolyx-bienvenue", true], ["apps", "exolyx-maj", true], ["apps", "firefox", true], ["apps", "gwenview", true], ["apps", "help-browser", true], ["apps", "image-viewer", true], ["apps", "installer", true], ["apps", "internet-mail", true], ["apps", "kate", true], ["apps", "konsole", true], ["apps", "libreoffice-startcenter", true], ["apps", "mail-client", true], ["apps", "multimedia-audio-player", true], ["apps", "multimedia-video-player", true], ["apps", "office", true], ["apps", "org.kde.ark", true], ["apps", "org.kde.discover", true], ["apps", "org.kde.dolphin", true], ["apps", "org.kde.gwenview", true], ["apps", "org.kde.kate", true], ["apps", "org.kde.kcalc", true], ["apps", "org.kde.konsole", true], ["apps", "org.kde.plasma-systemmonitor", true], ["apps", "org.kde.spectacle", true], ["apps", "org.kde.systemsettings", true], ["apps", "org.mozilla.firefox", true], ["apps", "plasmadiscover", true], ["apps", "preferences-desktop-theme", true], ["apps", "preferences-system", true], ["apps", "spectacle", true], ["apps", "system-file-manager", true], ["apps", "system-help", true], ["apps", "system-installer", true], ["apps", "system-lock-screen", true], ["apps", "system-log-out", true], ["apps", "system-reboot", true], ["apps", "system-shutdown", true], ["apps", "system-software-update", true], ["apps", "system-suspend", true], ["apps", "systemsettings", true], ["apps", "utilities-file-archiver", true], ["apps", "utilities-system-monitor", true], ["apps", "utilities-terminal", true], ["apps", "web-browser", true], ["places", "drive-harddisk", false], ["places", "drive-removable-media", false], ["places", "drive-removable-media-usb", false], ["places", "folder", false], ["places", "folder-documents", false], ["places", "folder-download", false], ["places", "folder-downloads", false], ["places", "folder-images", false], ["places", "folder-music", false], ["places", "folder-open", false], ["places", "folder-pictures", false], ["places", "folder-publicshare", false], ["places", "folder-tag", false], ["places", "folder-templates", false], ["places", "folder-videos", false], ["places", "media-optical", false], ["places", "network-workgroup", false], ["places", "start-here", true], ["places", "start-here-kde", true], ["places", "start-here-kde-plasma", true], ["places", "user-desktop", false], ["places", "user-home", false], ["places", "user-trash", false], ["places", "user-trash-full", false], ["categories", "applications-all", true], ["categories", "applications-development", true], ["categories", "applications-education", true], ["categories", "applications-games", true], ["categories", "applications-graphics", true], ["categories", "applications-internet", true], ["categories", "applications-multimedia", true], ["categories", "applications-office", true], ["categories", "applications-science", true], ["categories", "applications-system", true], ["categories", "applications-utilities", true], ["categories", "preferences-other", true]];
+const STYLES = [["trait", "Trait"], ["duo", "Duo"], ["relief", "Relief"]];
+const PETITS = [16, 22];
+let taille = 48;
+function dessiner() {
+  const racine = document.getElementById('planches');
+  racine.innerHTML = '';
+  for (const variante of ['sombre', 'clair']) {
+    for (const [cle, nomStyle] of STYLES) {
+      const theme = 'ExoLyx-' + nomStyle + (variante === 'clair' ? '-Clair' : '');
+      const sec = document.createElement('section');
+      if (variante === 'clair') sec.className = 'clair';
+      sec.innerHTML = '<h2>' + theme + ' — ' + taille + ' px</h2>';
+      const g = document.createElement('div');
+      g.className = 'grille';
+      for (const [ctx, nom, petit] of ICONES) {
+        const dossier = (petit && PETITS.includes(taille)) ? String(taille) : 'scalable';
+        const f = document.createElement('figure');
+        const img = document.createElement('img');
+        img.src = 'themes/' + theme + '/' + dossier + '/' + ctx + '/' + nom + '.svg';
+        img.width = img.height = taille;
+        img.alt = nom;
+        const c = document.createElement('figcaption');
+        c.textContent = nom;
+        f.append(img, c);
+        g.append(f);
+      }
+      sec.append(g);
+      racine.append(sec);
+    }
+  }
+}
+const barre = document.getElementById('tailles');
+for (const t of [16, 22, 32, 48, 64]) {
+  const b = document.createElement('button');
+  b.textContent = t + ' px';
+  b.onclick = () => { taille = t; [...barre.children].forEach(x => x.classList.toggle('actif', x === b)); dessiner(); };
+  if (t === taille) b.classList.add('actif');
+  barre.append(b);
+}
+dessiner();
+</script>
+</body>
+</html>

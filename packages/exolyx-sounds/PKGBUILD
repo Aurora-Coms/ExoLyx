@@ -1,0 +1,19 @@
+# Maintainer: A.DERBEZ
+# Thème de sons freedesktop « ExoLyx » (cloches cristallines, accords majeurs).
+# Fichiers .oga pré-générés par src/sons/generer.py (numpy + ffmpeg/libvorbis), commités.
+pkgname=exolyx-sounds
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Thème de sons ExoLyx : notifications douces et démarrage spatial"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+optdepends=('sound-theme-freedesktop: sons de repli pour les événements non couverts')
+
+package() {
+    local src="$startdir/../../src/sons/ExoLyx"
+    local dest="$pkgdir/usr/share/sounds/ExoLyx"
+    install -Dm644 "$src/index.theme" "$dest/index.theme"
+    install -d "$dest/stereo"
+    install -m644 "$src"/stereo/*.oga "$dest/stereo/"
+}
