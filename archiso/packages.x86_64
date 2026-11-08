@@ -136,7 +136,7 @@ exolyx-sounds
 exolyx-sddm
 exolyx-plymouth
 exolyx-grub-theme
-exolyx-fichiers
+# exolyx-fichiers  (réactivé dès que le paquet est prêt)
 exolyx-bienvenue
 exolyx-maj
 exolyx-calamares-config
