@@ -1,0 +1,24 @@
+# Maintainer: A.DERBEZ
+# Collection de fonds d'écran ExoLyx (159 fonds choisis), générés au moment
+# de la construction depuis les SVG de src/wallpapers/outils (aucune image
+# n'est commitée). Liste : src/wallpapers/selection.txt
+pkgname=exolyx-wallpapers-collection
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Collection de fonds d'écran ExoLyx (paysages, géométrie, cosmos…)"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+makedepends=('python' 'resvg' 'python-pillow')
+
+build() {
+  local src="$startdir/../../src/wallpapers"
+  python "$src/outils/paquets.py" "$srcdir/fonds" --largeur 3840 --hauteur 2160
+}
+
+package() {
+  install -d "$pkgdir/usr/share/wallpapers"
+  cp -r "$srcdir/fonds/"ExoLyx-* "$pkgdir/usr/share/wallpapers/"
+  find "$pkgdir/usr/share/wallpapers" -type d -exec chmod 755 {} +
+  find "$pkgdir/usr/share/wallpapers" -type f -exec chmod 644 {} +
+}
