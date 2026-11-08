@@ -1,0 +1,7 @@
+depot/
+sortie/
+__pycache__/
+*.pyc
+*.pkg.tar.zst
+packages/*/src/
+packages/*/pkg/

@@ -1,0 +1,11 @@
+NAME="ExoLyx"
+PRETTY_NAME="ExoLyx"
+ID=exolyx
+ID_LIKE=arch
+BUILD_ID=rolling
+ANSI_COLOR="38;2;168;212;121"
+HOME_URL="https://github.com/Aurora-Coms/ExoLyx"
+DOCUMENTATION_URL="https://github.com/Aurora-Coms/ExoLyx#readme"
+SUPPORT_URL="https://github.com/Aurora-Coms/ExoLyx/issues"
+BUG_REPORT_URL="https://github.com/Aurora-Coms/ExoLyx/issues"
+LOGO=exolyx

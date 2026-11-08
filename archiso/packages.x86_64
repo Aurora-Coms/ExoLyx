@@ -1,0 +1,140 @@
+# ---- Base ----
+base
+base-devel
+linux
+linux-firmware
+linux-headers
+intel-ucode
+amd-ucode
+sof-firmware
+mkinitcpio
+mkinitcpio-archiso
+glibc-locales
+sudo
+nano
+vim
+git
+wget
+curl
+rsync
+man-db
+bash-completion
+fastfetch
+pacman-contrib
+reflector
+arch-install-scripts
+usbutils
+pciutils
+smartmontools
+# ---- Démarrage ----
+syslinux
+grub
+efibootmgr
+os-prober
+memtest86+
+memtest86+-efi
+plymouth
+plymouth-kcm
+# ---- Disques et systèmes de fichiers ----
+btrfs-progs
+dosfstools
+e2fsprogs
+xfsprogs
+ntfs-3g
+exfatprogs
+cryptsetup
+lvm2
+udisks2
+gptfdisk
+# ---- Instantanés, mémoire, sécurité ----
+snapper
+snap-pac
+grub-btrfs
+inotify-tools
+zram-generator
+ufw
+# ---- Réseau, Bluetooth, impression ----
+networkmanager
+bluez
+bluez-utils
+cups
+# ---- Son ----
+pipewire
+pipewire-alsa
+pipewire-pulse
+pipewire-jack
+wireplumber
+# ---- Graphique ----
+mesa
+vulkan-radeon
+vulkan-intel
+intel-media-driver
+virtualbox-guest-utils
+xorg-server
+xorg-xwayland
+# ---- Plasma ----
+plasma-desktop
+plasma-workspace
+kwin
+plasma-nm
+plasma-pa
+plasma-firewall
+plasma-systemmonitor
+powerdevil
+bluedevil
+kscreen
+kinfocenter
+systemsettings
+kde-gtk-config
+breeze
+breeze-gtk
+kdeplasma-addons
+xdg-desktop-portal-kde
+kwallet-pam
+sddm
+sddm-kcm
+print-manager
+discover
+packagekit-qt6
+flatpak
+# ---- Applis KDE de base ----
+konsole
+kate
+spectacle
+gwenview
+okular
+ark
+kcalc
+# ---- Internet ----
+firefox
+firefox-i18n-fr
+# ---- Polices ----
+noto-fonts
+noto-fonts-emoji
+ttf-dejavu
+inter-font
+ttf-jetbrains-mono
+# ---- Applis maison (Python/Qt) ----
+python
+python-pyqt6
+qt6-declarative
+qt6-svg
+qt6-5compat
+libnotify
+xdg-utils
+# ---- ExoLyx ----
+calamares
+ckbcomp
+exolyx-system
+exolyx-theme
+exolyx-wallpapers
+exolyx-icons
+exolyx-cursors
+exolyx-sounds
+exolyx-sddm
+exolyx-plymouth
+exolyx-grub-theme
+exolyx-fichiers
+exolyx-bienvenue
+exolyx-maj
+exolyx-calamares-config

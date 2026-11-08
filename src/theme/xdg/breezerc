@@ -1,0 +1,10 @@
+[Common]
+OutlineCloseButton=false
+ShadowSize=ShadowLarge
+
+[Style]
+MenuOpacity=92
+
+[Windeco]
+DrawBorderOnMaximizedWindows=false
+TitleAlignment=AlignCenter

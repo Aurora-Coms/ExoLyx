@@ -1,0 +1,19 @@
+# Maintainer: A.DERBEZ
+pkgname=exolyx-system
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Réglages système ExoLyx : identité, dépôt, zram, sysctl, fastfetch"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+depends=('zram-generator' 'pacman' 'filesystem')
+optdepends=('fastfetch: résumé du système dans le terminal')
+install=exolyx-system.install
+
+package() {
+  local src="$startdir/../../src/systeme"
+  cp -a "$src"/. "$pkgdir"/
+  chmod 755 "$pkgdir"/usr/lib/exolyx/appliquer-identite.sh
+  install -Dm644 "$startdir/../../src/branding/logo.svg" "$pkgdir/usr/share/pixmaps/exolyx.svg"
+  install -Dm644 "$startdir/../../src/branding/logo.svg" "$pkgdir/usr/share/icons/hicolor/scalable/apps/exolyx.svg"
+}

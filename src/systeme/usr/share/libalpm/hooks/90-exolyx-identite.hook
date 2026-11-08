@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = filesystem
+Target = pacman
+
+[Action]
+Description = Application de l'identité ExoLyx…
+When = PostTransaction
+Exec = /usr/lib/exolyx/appliquer-identite.sh

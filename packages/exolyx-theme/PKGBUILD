@@ -1,0 +1,22 @@
+# Maintainer: A.DERBEZ
+pkgname=exolyx-theme
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Apparence Plasma ExoLyx : couleurs vert pomme (sombre/clair), disposition, écran de chargement, Konsole"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+depends=('plasma-workspace' 'breeze' 'inter-font' 'ttf-jetbrains-mono')
+optdepends=('exolyx-icons: icônes ExoLyx' 'exolyx-cursors: curseur ExoLyx'
+            'exolyx-wallpapers: fonds d’écran ExoLyx' 'exolyx-sounds: sons ExoLyx' 'konsole: terminal')
+
+package() {
+  local src="$startdir/../../src/theme"
+  install -Dm644 -t "$pkgdir/usr/share/color-schemes" "$src"/color-schemes/*.colors
+  install -dm755 "$pkgdir/usr/share/plasma/look-and-feel"
+  cp -a "$src"/look-and-feel/. "$pkgdir/usr/share/plasma/look-and-feel/"
+  install -Dm644 -t "$pkgdir/usr/share/konsole" "$src"/konsole/ExoLyx.colorscheme "$src"/konsole/ExoLyx.profile
+  install -Dm644 -t "$pkgdir/etc/xdg" "$src"/xdg/*
+  find "$pkgdir" -type d -exec chmod 755 {} +
+  find "$pkgdir" -type f -exec chmod 644 {} +
+}

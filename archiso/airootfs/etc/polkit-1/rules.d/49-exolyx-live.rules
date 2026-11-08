@@ -1,0 +1,4 @@
+// Session live : l'utilisateur exolyx peut tout faire sans mot de passe.
+polkit.addRule(function(action, subject) {
+    if (subject.user == "exolyx") { return polkit.Result.YES; }
+});

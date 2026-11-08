@@ -1,0 +1,12 @@
+[Plugins]
+blurEnabled=true
+wobblywindowsEnabled=false
+
+[Effect-blur]
+BlurStrength=8
+NoiseStrength=2
+
+[org.kde.kdecoration2]
+library=org.kde.breeze
+theme=Breeze
+ButtonsOnRight=IAX

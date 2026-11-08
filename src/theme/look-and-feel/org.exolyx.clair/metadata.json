@@ -1,0 +1,17 @@
+{
+  "KPackageStructure": "Plasma/LookAndFeel",
+  "KPlugin": {
+    "Id": "org.exolyx.clair",
+    "Name": "ExoLyx clair",
+    "Description": "Apparence ExoLyx clair : couleurs vert pomme, icônes ExoLyx, dock flottant",
+    "Authors": [
+      {
+        "Name": "A.DERBEZ"
+      }
+    ],
+    "License": "GPL-3.0-or-later",
+    "Version": "1.0",
+    "Website": "https://github.com/Aurora-Coms/ExoLyx"
+  },
+  "X-Plasma-APIVersion": "2"
+}
