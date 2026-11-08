@@ -1,0 +1,31 @@
+# Maintainer: A.DERBEZ
+# Thème SDDM « exolyx » (Qt 6, SDDM ≥ 0.21, sans dépendance à Plasma).
+# Images pré-générées par src/sddm/outils/generer.py ; banc de test :
+# src/sddm/tests/banc.py (non installé).
+pkgname=exolyx-sddm
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Thème de connexion SDDM ExoLyx (orbites tressées, vert pomme)"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+depends=('sddm>=0.21' 'qt6-declarative' 'inter-font')
+backup=('etc/sddm.conf.d/10-exolyx.conf'
+        'etc/X11/xorg.conf.d/00-exolyx-clavier.conf')
+
+package() {
+  local src="$startdir/../../src/sddm"
+  local dest="$pkgdir/usr/share/sddm/themes/exolyx"
+
+  install -Dm644 -t "$dest" \
+    "$src/exolyx/Main.qml" \
+    "$src/exolyx/metadata.desktop" \
+    "$src/exolyx/theme.conf" \
+    "$src/exolyx/apercu.png"
+  install -Dm644 -t "$dest/composants" "$src/exolyx/composants/"*.qml
+  install -Dm644 -t "$dest/images" "$src/exolyx/images/"*.png
+  install -Dm644 -t "$dest/images/icones" "$src/exolyx/images/icones/"*.png
+
+  install -Dm644 "$src/conf/10-exolyx.conf" "$pkgdir/etc/sddm.conf.d/10-exolyx.conf"
+  install -Dm644 "$src/conf/00-exolyx-clavier.conf" "$pkgdir/etc/X11/xorg.conf.d/00-exolyx-clavier.conf"
+}

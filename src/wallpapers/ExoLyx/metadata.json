@@ -1,0 +1,13 @@
+{
+  "KPlugin": {
+    "Authors": [
+      {
+        "Name": "A.DERBEZ"
+      }
+    ],
+    "Id": "ExoLyx",
+    "License": "GPL-3.0-or-later",
+    "Name": "ExoLyx",
+    "Description": "Fond d'écran ExoLyx sombre"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "KPlugin": {
+    "Authors": [
+      {
+        "Name": "A.DERBEZ"
+      }
+    ],
+    "Id": "ExoLyx-Clair",
+    "License": "GPL-3.0-or-later",
+    "Name": "ExoLyx Clair",
+    "Description": "Fond d'écran ExoLyx clair"
+  }
+}

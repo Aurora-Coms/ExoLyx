@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=ExoLyx
+Description=Démarrage ExoLyx : planète en relief, orbites tressées qui tournent, progression verte
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/exolyx
+ScriptFile=/usr/share/plymouth/themes/exolyx/exolyx.script

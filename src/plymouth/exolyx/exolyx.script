@@ -1,0 +1,367 @@
+// =====================================================================
+//  Thème Plymouth « exolyx » — module script
+//  Fond #0D1310, logo « Orbite tressée » au centre : les orbites tournent
+//  autour de la planète et une lune les parcourt ; barre de progression
+//  verte ; invite de mot de passe (déchiffrement) stylée.
+//
+//  Les images sont rendues pour un écran de 2160 px de haut
+//  (outils/generer.py) et mises à l'échelle ici.
+// =====================================================================
+
+// ---------- fond ----------
+Window.SetBackgroundTopColor(0.051, 0.075, 0.063);     // #0D1310
+Window.SetBackgroundBottomColor(0.035, 0.055, 0.043);  // #090E0B
+
+// ---------- géométrie de l'écran ----------
+ecran.l = Window.GetWidth();
+ecran.h = Window.GetHeight();
+ecran.x = Window.GetX();
+ecran.y = Window.GetY();
+
+echelle = ecran.h / 2160;
+if (ecran.l / 3840 < echelle)
+    echelle = ecran.l / 3840;
+// sur les tout petits écrans (VM 800×600…), on garde un logo lisible
+if (echelle < 0.24)
+    echelle = 0.24;
+
+centre.x = ecran.x + ecran.l / 2;
+centre.y = ecran.y + ecran.h * 0.42;
+
+// taille de police (points) adaptée à l'écran
+fun police(taille_1080p) {
+    local.p = Math.Int(taille_1080p * ecran.h / 1080);
+    if (local.p < 9)
+        local.p = 9;
+    return "Inter " + local.p;
+}
+
+fun texte(chaine, taille, r, v, b) {
+    return Image.Text(chaine, r, v, b, 1, police(taille));
+}
+
+fun charger(nom) {
+    local.img = Image(nom);
+    local.l = Math.Int(local.img.GetWidth() * echelle + 0.5);
+    local.h = Math.Int(local.img.GetHeight() * echelle + 0.5);
+    if (local.l < 1) local.l = 1;
+    if (local.h < 1) local.h = 1;
+    return local.img.Scale(local.l, local.h);
+}
+
+fun placer_centre(sprite, image, x, y, z) {
+    sprite.SetImage(image);
+    sprite.SetX(Math.Int(x - image.GetWidth() / 2));
+    sprite.SetY(Math.Int(y - image.GetHeight() / 2));
+    sprite.SetZ(z);
+}
+
+// ---------- logo ----------
+halo.image = charger("halo.png");
+halo.sprite = Sprite();
+placer_centre(halo.sprite, halo.image, centre.x, centre.y, -10);
+
+planete.image = charger("planete.png");
+planete.sprite = Sprite();
+placer_centre(planete.sprite, planete.image, centre.x, centre.y, 10);
+planete.rayon = planete.image.GetWidth() / 2;
+
+orbites.arriere = charger("orbites-arriere.png");
+orbites.avant = charger("orbites-avant.png");
+orbites.sprite_arriere = Sprite();
+orbites.sprite_avant = Sprite();
+placer_centre(orbites.sprite_arriere, orbites.arriere, centre.x, centre.y, 0);
+placer_centre(orbites.sprite_avant, orbites.avant, centre.x, centre.y, 20);
+orbites.angle = 0;          // rotation d'ensemble des orbites (radians)
+orbites.vitesse = 0.0075;   // radians par image (~ un tour en 14 s à 60 i/s)
+
+// lune : parcourt l'orbite A du logo (rx = 112/66 r, ry = 38/66 r, inclinée de -24°)
+lune.image = charger("lune.png");
+lune.sprite = Sprite(lune.image);
+lune.t = -0.35;
+lune.vitesse = 0.03;
+lune.rx = planete.rayon * 112 / 66;
+lune.ry = planete.rayon * 38 / 66;
+lune.inclinaison = -24 * Math.Pi / 180;
+
+// ---------- barre de progression ----------
+barre.largeur = Math.Int(560 * echelle);
+barre.hauteur = Math.Int(10 * echelle);
+if (barre.hauteur < 3) barre.hauteur = 3;
+barre.x = Math.Int(centre.x - barre.largeur / 2);
+barre.y = Math.Int(centre.y + planete.rayon * 2.15);
+barre.piste = Image("barre-piste.png").Scale(barre.largeur, barre.hauteur);
+barre.source = Image("barre.png");
+barre.sprite_piste = Sprite(barre.piste);
+barre.sprite_piste.SetPosition(barre.x, barre.y, 40);
+barre.sprite = Sprite();
+barre.sprite.SetPosition(barre.x, barre.y, 41);
+barre.affichee = 0;     // progression affichée (lissée)
+barre.cible = 0;        // progression reçue de plymouthd
+barre.largeur_dessinee = -1;
+
+fun barre_visible(oui) {
+    if (oui) {
+        barre.sprite_piste.SetOpacity(1);
+        barre.sprite.SetOpacity(1);
+    } else {
+        barre.sprite_piste.SetOpacity(0);
+        barre.sprite.SetOpacity(0);
+    }
+}
+
+fun barre_dessiner() {
+    local.l = Math.Int(barre.largeur * barre.affichee);
+    if (local.l < barre.hauteur) local.l = barre.hauteur;   // toujours une pastille visible
+    if (local.l != barre.largeur_dessinee) {
+        barre.sprite.SetImage(barre.source.Scale(local.l, barre.hauteur));
+        global.barre.largeur_dessinee = local.l;
+    }
+}
+
+// ---------- texte d'état (mode) ----------
+mode = Plymouth.GetMode();
+etat.sprite = Sprite();
+etat.sprite.SetZ(40);
+
+fun etat_texte(chaine) {
+    if (chaine == "") {
+        etat.sprite.SetOpacity(0);
+        return;
+    }
+    local.img = texte(chaine, 15, 0.592, 0.659, 0.576);   // texte-doux #97A893
+    etat.sprite.SetImage(local.img);
+    etat.sprite.SetX(Math.Int(centre.x - local.img.GetWidth() / 2));
+    etat.sprite.SetY(Math.Int(barre.y + barre.hauteur + 26 * echelle * 2));
+    etat.sprite.SetOpacity(1);
+}
+
+if (mode == "shutdown") {
+    barre_visible(0);
+    etat_texte("Extinction en cours…");
+} else if (mode == "reboot") {
+    barre_visible(0);
+    etat_texte("Redémarrage en cours…");
+} else if (mode == "updates" || mode == "system-upgrade" || mode == "firmware-upgrade") {
+    barre_visible(1);
+    etat_texte("Installation des mises à jour…");
+} else {
+    barre_visible(1);
+    etat_texte("");
+}
+
+fun progression_demarrage(duree, progression) {
+    global.barre.cible = progression;
+}
+Plymouth.SetBootProgressFunction(progression_demarrage);
+
+fun progression_mise_a_jour(progression) {
+    // progression en pourcentage (0–100)
+    global.barre.cible = progression / 100;
+    etat_texte("Installation des mises à jour… " + Math.Int(progression) + " %");
+}
+Plymouth.SetSystemUpdateFunction(progression_mise_a_jour);
+
+// ---------- messages (plymouth display-message) ----------
+bandeau.sprite = Sprite();
+bandeau.sprite.SetZ(45);
+
+fun afficher_message(chaine) {
+    local.img = texte(chaine, 14, 0.902, 0.937, 0.882);   // texte #E6EFE1
+    bandeau.sprite.SetImage(local.img);
+    bandeau.sprite.SetX(Math.Int(centre.x - local.img.GetWidth() / 2));
+    bandeau.sprite.SetY(Math.Int(ecran.y + ecran.h - 90 * echelle * 2));
+    bandeau.sprite.SetOpacity(1);
+}
+fun cacher_message(chaine) {
+    bandeau.sprite.SetOpacity(0);
+}
+Plymouth.SetDisplayMessageFunction(afficher_message);
+Plymouth.SetHideMessageFunction(cacher_message);
+
+// ---------- invite de mot de passe (déchiffrement LUKS) ----------
+saisie.boite_source = Image("boite.png");
+saisie.boite = charger("boite.png");
+saisie.boite_l_min = saisie.boite.GetWidth();
+saisie.champ = charger("champ.png");
+saisie.puce = charger("puce.png");
+saisie.cadenas = charger("cadenas.png");
+saisie.y = barre.y - planete.rayon * 0.15 + saisie.boite.GetHeight() / 2;
+
+saisie.sprite_boite = Sprite();
+placer_centre(saisie.sprite_boite, saisie.boite, centre.x, saisie.y, 50);
+saisie.sprite_cadenas = Sprite();
+saisie.sprite_invite = Sprite();
+saisie.sprite_invite.SetZ(52);
+saisie.sprite_champ = Sprite();
+saisie.champ_y = saisie.y + saisie.boite.GetHeight() * 0.17;
+placer_centre(saisie.sprite_champ, saisie.champ, centre.x, saisie.champ_y, 51);
+saisie.sprite_vide = Sprite();
+saisie.sprite_vide.SetZ(52);
+saisie.puces_max = Math.Int((saisie.champ.GetWidth() - saisie.champ.GetHeight()) / (saisie.puce.GetWidth() * 1.7));
+saisie.nb_sprites = 0;
+
+fun saisie_visible(oui) {
+    local.o = 0;
+    if (oui) local.o = 1;
+    saisie.sprite_boite.SetOpacity(local.o);
+    saisie.sprite_cadenas.SetOpacity(local.o);
+    saisie.sprite_invite.SetOpacity(local.o);
+    saisie.sprite_champ.SetOpacity(local.o);
+    saisie.sprite_vide.SetOpacity(0);
+    for (local.i = 0; local.i < saisie.nb_sprites; local.i++)
+        saisie.puces[local.i].SetOpacity(0);
+}
+saisie_visible(0);
+
+// avertissement Verr. Maj.
+saisie.sprite_maj = Sprite(texte("⇪  Verr. Maj. activé", 13, 0.910, 0.761, 0.416));   // attention #E8C26A
+saisie.sprite_maj.SetX(Math.Int(centre.x - saisie.sprite_maj.GetImage().GetWidth() / 2));
+saisie.sprite_maj.SetY(Math.Int(saisie.y + saisie.boite.GetHeight() / 2 + 18 * echelle * 2));
+saisie.sprite_maj.SetZ(52);
+saisie.sprite_maj.SetOpacity(0);
+
+fun saisie_invite(chaine) {
+    if (chaine == "")
+        chaine = "Mot de passe de chiffrement";
+    local.img = texte(chaine, 15, 0.902, 0.937, 0.882);
+    local.l = local.img.GetWidth() + saisie.cadenas.GetWidth() * 1.3;
+    // la boîte s'élargit pour les invites longues (cryptsetup…)
+    local.lb = local.l + saisie.boite.GetHeight() * 0.5;
+    if (local.lb < saisie.boite_l_min) local.lb = saisie.boite_l_min;
+    if (local.lb > ecran.l * 0.94) local.lb = ecran.l * 0.94;
+    if (Math.Int(local.lb) != saisie.boite.GetWidth()) {
+        global.saisie.boite = saisie.boite_source.Scale(Math.Int(local.lb), saisie.boite.GetHeight());
+        placer_centre(saisie.sprite_boite, saisie.boite, centre.x, saisie.y, 50);
+    }
+    local.x = centre.x - local.l / 2;
+    local.y = saisie.y - saisie.boite.GetHeight() * 0.20;
+    saisie.sprite_cadenas.SetImage(saisie.cadenas);
+    saisie.sprite_cadenas.SetPosition(Math.Int(local.x), Math.Int(local.y - saisie.cadenas.GetHeight() / 2), 52);
+    saisie.sprite_invite.SetImage(local.img);
+    saisie.sprite_invite.SetX(Math.Int(local.x + saisie.cadenas.GetWidth() * 1.3));
+    saisie.sprite_invite.SetY(Math.Int(local.y - local.img.GetHeight() / 2));
+}
+
+fun saisie_puces(nombre) {
+    local.n = nombre;
+    if (local.n > saisie.puces_max) local.n = saisie.puces_max;
+    local.pas = saisie.puce.GetWidth() * 1.7;
+    local.x0 = centre.x - saisie.champ.GetWidth() / 2 + saisie.champ.GetHeight() * 0.45;
+    // crée les sprites manquants
+    while (saisie.nb_sprites < local.n) {
+        saisie.puces[saisie.nb_sprites] = Sprite(saisie.puce);
+        saisie.puces[saisie.nb_sprites].SetZ(53);
+        global.saisie.nb_sprites = saisie.nb_sprites + 1;
+    }
+    for (local.i = 0; local.i < saisie.nb_sprites; local.i++) {
+        if (local.i < local.n) {
+            saisie.puces[local.i].SetX(Math.Int(local.x0 + local.i * local.pas));
+            saisie.puces[local.i].SetY(Math.Int(saisie.champ_y - saisie.puce.GetHeight() / 2));
+            saisie.puces[local.i].SetOpacity(1);
+        } else {
+            saisie.puces[local.i].SetOpacity(0);
+        }
+    }
+    // texte indicatif quand le champ est vide
+    if (local.n == 0) {
+        local.img = texte("Saisissez le mot de passe puis Entrée", 13, 0.592, 0.659, 0.576);
+        saisie.sprite_vide.SetImage(local.img);
+        saisie.sprite_vide.SetX(Math.Int(local.x0));
+        saisie.sprite_vide.SetY(Math.Int(saisie.champ_y - local.img.GetHeight() / 2));
+        saisie.sprite_vide.SetOpacity(1);
+    } else {
+        saisie.sprite_vide.SetOpacity(0);
+    }
+}
+
+fun afficher_mot_de_passe(invite, puces) {
+    global.en_saisie = 1;
+    barre_visible(0);
+    etat_texte("");
+    saisie_visible(1);
+    saisie_invite(invite);
+    saisie_puces(puces);
+}
+Plymouth.SetDisplayPasswordFunction(afficher_mot_de_passe);
+
+// question (texte en clair) : même boîte, réponse affichée telle quelle
+fun afficher_question(invite, reponse) {
+    global.en_saisie = 1;
+    barre_visible(0);
+    saisie_visible(1);
+    saisie_invite(invite);
+    saisie_puces(0);
+    if (reponse != "") {
+        local.img = texte(reponse, 15, 0.902, 0.937, 0.882);
+        saisie.sprite_vide.SetImage(local.img);
+        saisie.sprite_vide.SetOpacity(1);
+    }
+}
+Plymouth.SetDisplayQuestionFunction(afficher_question);
+
+fun affichage_normal() {
+    global.en_saisie = 0;
+    saisie_visible(0);
+    if (mode == "boot" || mode == "updates" || mode == "system-upgrade" || mode == "firmware-upgrade")
+        barre_visible(1);
+}
+Plymouth.SetDisplayNormalFunction(affichage_normal);
+en_saisie = 0;
+
+// ---------- fin : les orbites accélèrent ----------
+fin = 0;
+fun quitter() {
+    global.fin = 1;
+    global.barre.cible = 1;
+}
+Plymouth.SetQuitFunction(quitter);
+
+// ---------- animation ----------
+image_no = 0;
+fun rafraichir() {
+    global.image_no = image_no + 1;
+
+    // vitesse : accélère à la fin du démarrage
+    local.k = 1;
+    if (fin) local.k = 4;
+    global.orbites.angle = orbites.angle + orbites.vitesse * local.k;
+    if (orbites.angle > 2 * Math.Pi) global.orbites.angle = orbites.angle - 2 * Math.Pi;
+    global.lune.t = lune.t + lune.vitesse * local.k;
+    if (lune.t > 2 * Math.Pi) global.lune.t = lune.t - 2 * Math.Pi;
+
+    // rotation des orbites : une image sur deux pour ménager le processeur
+    if (image_no % 2 == 0) {
+        orbites.sprite_arriere.SetImage(orbites.arriere.Rotate(orbites.angle));
+        orbites.sprite_avant.SetImage(orbites.avant.Rotate(orbites.angle));
+    }
+
+    // position de la lune : ellipse du logo, puis rotation d'ensemble
+    local.x0 = lune.rx * Math.Cos(lune.t);
+    local.y0 = lune.ry * Math.Sin(lune.t);
+    local.x1 = local.x0 * Math.Cos(lune.inclinaison) - local.y0 * Math.Sin(lune.inclinaison);
+    local.y1 = local.x0 * Math.Sin(lune.inclinaison) + local.y0 * Math.Cos(lune.inclinaison);
+    local.a = orbites.angle;
+    local.x = local.x1 * Math.Cos(local.a) - local.y1 * Math.Sin(local.a);
+    local.y = local.x1 * Math.Sin(local.a) + local.y1 * Math.Cos(local.a);
+    lune.sprite.SetX(Math.Int(centre.x + local.x - lune.image.GetWidth() / 2));
+    lune.sprite.SetY(Math.Int(centre.y + local.y - lune.image.GetHeight() / 2));
+    // devant la planète sur la moitié « avant » de l'orbite (y > 0 dans le repère du logo)
+    if (local.y1 > 0)
+        lune.sprite.SetZ(30);
+    else
+        lune.sprite.SetZ(5);
+
+    // progression lissée
+    if (barre.cible > barre.affichee)
+        global.barre.affichee = barre.affichee + (barre.cible - barre.affichee) * 0.08 + 0.0004;
+    if (barre.affichee > 1) global.barre.affichee = 1;
+    barre_dessiner();
+
+    // Verr. Maj. pendant la saisie du mot de passe
+    if (en_saisie && Plymouth.GetCapslockState())
+        saisie.sprite_maj.SetOpacity(1);
+    else
+        saisie.sprite_maj.SetOpacity(0);
+}
+Plymouth.SetRefreshFunction(rafraichir);

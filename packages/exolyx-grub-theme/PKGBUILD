@@ -1,0 +1,27 @@
+# Maintainer: A.DERBEZ
+# Thème GRUB 2 « exolyx » : fond sombre, logo en haut, menu centré,
+# élément sélectionné vert pomme. Polices Inter (OFL) pré-converties en .pf2
+# par src/grub/outils/generer.py (grub-mkfont), chargées par grub-mkconfig.
+#
+# Arch ne lit pas /etc/default/grub.d/ : l'activation passe par
+# /usr/share/exolyx/grub/appliquer-theme.sh (idempotent), appelé par
+# l'installateur, qui régénère ensuite grub.cfg (grub-mkconfig).
+pkgname=exolyx-grub-theme
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Thème du menu de démarrage GRUB ExoLyx"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later' 'OFL-1.1')
+depends=('grub')
+
+package() {
+  local src="$startdir/../../src/grub"
+  local dest="$pkgdir/usr/share/grub/themes/exolyx"
+
+  install -Dm644 -t "$dest" \
+    "$src/exolyx/theme.txt" \
+    "$src/exolyx/"*.png \
+    "$src/exolyx/"*.pf2
+  install -Dm755 "$src/appliquer-theme.sh" "$pkgdir/usr/share/exolyx/grub/appliquer-theme.sh"
+}

@@ -1,0 +1,23 @@
+# Maintainer: A.DERBEZ
+# Fonds d'écran ExoLyx (sombre et clair) au format paquet de fond Plasma.
+# Les PNG sont pré-générés et commités : src/wallpapers/outils/generer.py
+# (cairosvg) les régénère depuis le SVG si besoin, hors CI.
+pkgname=exolyx-wallpapers
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Fonds d'écran ExoLyx « Orbite tressée » (sombre et clair)"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+
+package() {
+  local src="$startdir/../../src/wallpapers"
+  local nom
+  for nom in ExoLyx ExoLyx-Clair; do
+    install -Dm644 "$src/$nom/metadata.json" "$pkgdir/usr/share/wallpapers/$nom/metadata.json"
+    install -Dm644 "$src/$nom/contents/screenshot.png" "$pkgdir/usr/share/wallpapers/$nom/contents/screenshot.png"
+    install -Dm644 -t "$pkgdir/usr/share/wallpapers/$nom/contents/images" "$src/$nom/contents/images/"*.png
+  done
+  # SVG maîtres (utiles pour d'autres résolutions)
+  install -Dm644 -t "$pkgdir/usr/share/exolyx/wallpapers" "$src/source/"*.svg
+}

@@ -1,0 +1,17 @@
+[SddmGreeterTheme]
+Name=ExoLyx
+Name[fr]=ExoLyx
+Description=Thème de connexion ExoLyx : horloge, orbites tressées et champ mot de passe vert
+Description[fr]=Thème de connexion ExoLyx : horloge, orbites tressées et champ mot de passe vert
+Author=A.DERBEZ
+Copyright=(c) A.DERBEZ
+License=GPL-3.0-or-later
+Type=sddm-theme
+Version=1.0.0
+Website=https://github.com/Aurora-Coms/ExoLyx
+Screenshot=apercu.png
+MainScript=Main.qml
+ConfigFile=theme.conf
+Theme-Id=exolyx
+Theme-API=2.0
+QtVersion=6

@@ -1,0 +1,30 @@
+# Maintainer: A.DERBEZ
+# Thème Plymouth « exolyx » (module script).
+# Images pré-générées par src/plymouth/outils/generer.py (cairosvg).
+#
+# Activation : exolyx-plymouth.install exécute `plymouth-set-default-theme exolyx`
+# SANS -R : l'initramfs n'est PAS reconstruit ici, c'est l'installateur ExoLyx
+# qui relance `mkinitcpio -P` (hook « plymouth » requis dans HOOKS).
+# Plymouth ne lit pas de dossier plymouthd.conf.d : la configuration de
+# référence est fournie dans /usr/share/exolyx/plymouth/plymouthd.conf.
+pkgname=exolyx-plymouth
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Thème de démarrage Plymouth ExoLyx (orbites tressées, progression verte)"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+depends=('plymouth')
+optdepends=('inter-font: police des textes (sinon police par défaut de l’initramfs)')
+install=exolyx-plymouth.install
+
+package() {
+  local src="$startdir/../../src/plymouth"
+  local dest="$pkgdir/usr/share/plymouth/themes/exolyx"
+
+  install -Dm644 -t "$dest" \
+    "$src/exolyx/exolyx.plymouth" \
+    "$src/exolyx/exolyx.script" \
+    "$src/exolyx/"*.png
+  install -Dm644 "$src/conf/plymouthd.conf" "$pkgdir/usr/share/exolyx/plymouth/plymouthd.conf"
+}

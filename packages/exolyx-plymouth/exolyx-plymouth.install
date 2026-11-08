@@ -1,0 +1,41 @@
+# Script d'installation du paquet exolyx-plymouth.
+# Choisit le thème « exolyx » sans reconstruire l'initramfs :
+# l'installateur ExoLyx lance ensuite `mkinitcpio -P` (hook plymouth).
+# Après une installation manuelle, faire :  sudo mkinitcpio -P
+
+_appliquer() {
+  if command -v plymouth-set-default-theme >/dev/null 2>&1; then
+    plymouth-set-default-theme exolyx
+  else
+    # repli : écrit directement [Daemon] Theme=exolyx dans plymouthd.conf
+    local conf=/etc/plymouth/plymouthd.conf
+    mkdir -p /etc/plymouth
+    [ -f "$conf" ] || printf '[Daemon]\n' > "$conf"
+    if grep -q '^Theme=' "$conf"; then
+      sed -i 's/^Theme=.*/Theme=exolyx/' "$conf"
+    elif grep -q '^\[Daemon\]' "$conf"; then
+      sed -i '/^\[Daemon\]/a Theme=exolyx' "$conf"
+    else
+      printf '[Daemon]\nTheme=exolyx\n' >> "$conf"
+    fi
+  fi
+}
+
+post_install() {
+  _appliquer
+  echo ">>> Thème Plymouth « exolyx » sélectionné."
+  echo ">>> Pensez à régénérer l'initramfs : mkinitcpio -P"
+}
+
+post_upgrade() {
+  # met à jour l'initramfs seulement si le thème est utilisé : on le signale
+  if [ "$(plymouth-set-default-theme 2>/dev/null)" = "exolyx" ]; then
+    echo ">>> Thème Plymouth « exolyx » mis à jour : mkinitcpio -P pour l'appliquer."
+  fi
+}
+
+pre_remove() {
+  if [ "$(plymouth-set-default-theme 2>/dev/null)" = "exolyx" ]; then
+    plymouth-set-default-theme --reset 2>/dev/null || true
+  fi
+}
