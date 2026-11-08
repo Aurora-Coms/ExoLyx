@@ -136,7 +136,13 @@ exolyx-sounds
 exolyx-sddm
 exolyx-plymouth
 exolyx-grub-theme
-# exolyx-fichiers  (réactivé dès que le paquet est prêt)
+# ---- Explorateur : GNOME Files ----
+nautilus
+gvfs
+gvfs-mtp
+gvfs-smb
+ffmpegthumbnailer
+sushi
 exolyx-bienvenue
 exolyx-maj
 exolyx-calamares-config

@@ -24,10 +24,11 @@ Rufus (Windows, mode **DD**), Ventoy, ou `dd` sous Linux.
 | Écran de connexion | `exolyx-sddm` | `src/sddm` |
 | Démarrage (Plymouth) | `exolyx-plymouth` | `src/plymouth` |
 | Menu de démarrage (GRUB) | `exolyx-grub-theme` | `src/grub` |
-| Explorateur **Fichiers** | `exolyx-fichiers` | `src/fichiers` |
 | Appli de **Bienvenue** | `exolyx-bienvenue` | `src/bienvenue` |
 | **Mises à jour** en un clic | `exolyx-maj` | `src/maj` |
 | Installateur (Calamares) | `exolyx-calamares-config` | `src/calamares` |
+
+Explorateur de fichiers : **GNOME Files** (Nautilus).
 
 Système installé : Btrfs + instantanés automatiques (snapper, snap-pac, grub-btrfs), zram, pare-feu ufw, Plymouth.
 

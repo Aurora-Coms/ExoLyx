@@ -15,7 +15,7 @@ menu.writeConfig("favoritesPortedToKAstats", "true");
 var lanceurs = [];
 if (applicationExists("exolyx-installer.desktop")) lanceurs.push("applications:exolyx-installer.desktop");
 lanceurs = lanceurs.concat([
-    "applications:exolyx-fichiers.desktop",
+    "applications:org.gnome.Nautilus.desktop",
     "applications:firefox.desktop",
     "applications:org.kde.konsole.desktop",
     "applications:org.kde.discover.desktop",

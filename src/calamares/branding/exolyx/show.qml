@@ -37,7 +37,7 @@ Rectangle {
         { titre: "Bienvenue dans ExoLyx",
           texte: "Merci d'avoir choisi ExoLyx ! Pendant que l'installation se poursuit, découvrez ce qui vous attend : un bureau KDE Plasma moderne, rapide et entièrement en français." },
         { titre: "Vos fichiers, bien rangés",
-          texte: "Le gestionnaire de fichiers Dolphin ouvre vos documents, photos et clés USB en un clic. Onglets, aperçus et recherche instantanée sont inclus." },
+          texte: "Files, le gestionnaire de fichiers, ouvre vos documents, photos et clés USB en un clic. Onglets, aperçus et recherche instantanée sont inclus." },
         { titre: "Instantanés et sécurité",
           texte: "Avant et après chaque mise à jour, ExoLyx crée un instantané du système. Un souci ? Redémarrez sur « Instantanés ExoLyx » dans le menu de démarrage. Le pare-feu est activé dès le départ." },
         { titre: "Des milliers d'applications",
