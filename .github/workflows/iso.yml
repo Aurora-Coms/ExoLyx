@@ -49,8 +49,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           cd depot
-          cp -L exolyx.db.tar.gz exolyx.db
-          cp -L exolyx.files.tar.gz exolyx.files
+          # exolyx.db est un lien symbolique : GitHub n'accepte que de vrais fichiers
+          rm -f exolyx.db exolyx.files
+          cp exolyx.db.tar.gz exolyx.db
+          cp exolyx.files.tar.gz exolyx.files
           gh release view depot >/dev/null 2>&1 || \
             gh release create depot --title "Dépôt pacman ExoLyx" \
               --notes "Paquets ExoLyx pour pacman. Ne pas télécharger à la main : utilisé par les mises à jour du système."
