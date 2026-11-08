@@ -15,9 +15,10 @@ TRAVAIL=$(mktemp -d); chown constructeur: "$TRAVAIL"
 # makepkg travaille sur une copie du dépôt (droits d'écriture)
 cp -a "$RACINE" "$TRAVAIL/exolyx"; chown -R constructeur: "$TRAVAIL/exolyx"
 
-construire() { # $1 = dossier contenant le PKGBUILD
-  echo "::group::Paquet $(basename "$1")"
-  ( cd "$1" && sudo -u constructeur PKGDEST="$TRAVAIL/sortie" makepkg -s --noconfirm --needed --cleanbuild )
+construire() { # $1 = dossier contenant le PKGBUILD, $2.. = options makepkg en plus
+  local d="$1"; shift
+  echo "::group::Paquet $(basename "$d")"
+  ( cd "$d" && sudo -u constructeur PKGDEST="$TRAVAIL/sortie" makepkg -s --noconfirm --needed --cleanbuild "$@" )
   echo "::endgroup::"
 }
 mkdir -p "$TRAVAIL/sortie"; chown constructeur: "$TRAVAIL/sortie"
@@ -25,7 +26,11 @@ mkdir -p "$TRAVAIL/sortie"; chown constructeur: "$TRAVAIL/sortie"
 # 1. AUR (dans l'ordre : ckbcomp est une dépendance de calamares)
 for p in "${AUR[@]}"; do
   sudo -u constructeur git clone --depth 1 "https://aur.archlinux.org/$p.git" "$TRAVAIL/aur-$p"
-  construire "$TRAVAIL/aur-$p"
+  opts=()
+  # ckbcomp : l'archive de salsa.debian.org est régénérée régulièrement, sa somme de contrôle
+  # AUR devient alors fausse alors que le contenu (un script perl) ne change pas.
+  [[ $p == ckbcomp ]] && opts=(--skipchecksums)
+  construire "$TRAVAIL/aur-$p" "${opts[@]}"
   pacman -U --noconfirm --needed "$TRAVAIL"/sortie/"$p"-[0-9]*.pkg.tar.zst
 done
 
