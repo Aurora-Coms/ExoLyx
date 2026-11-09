@@ -1,20 +1,30 @@
 # Maintainer: A.DERBEZ
 pkgname=exolyx-applis
-pkgver=1.0.0
+pkgver=1.1.0
 pkgrel=1
-pkgdesc="Personnalisation ExoLyx des logiciels de base : Firefox (accueil, réglages), Kate, invite du terminal"
+pkgdesc="Style « Ardoise » des logiciels de base ExoLyx : Firefox, Terminal, Kate, Logithèque, Configuration, Captures, Images, PDF, Archives, Calculatrice"
 arch=('any')
 url="https://github.com/Aurora-Coms/ExoLyx"
 license=('GPL-3.0-or-later')
-depends=('bash')
-optdepends=('firefox: page d’accueil et réglages ExoLyx' 'kate: thème de coloration ExoLyx' 'git: branche dans l’invite')
+depends=('bash' 'exolyx-theme')
+optdepends=('firefox: page d’accueil, réglages et style Ardoise' 'kate: thème de coloration Ardoise'
+            'konsole: profil Ardoise' 'git: branche dans l’invite')
 install=exolyx-applis.install
 
 package() {
   local src="$startdir/../../src/applis"
+  # Firefox : politiques, page d'accueil, style Ardoise de l'interface (AutoConfig)
   install -Dm644 "$src/firefox/policies.json" "$pkgdir/etc/firefox/policies/policies.json"
+  install -Dm644 "$src/firefox/autoconfig.js" "$pkgdir/usr/lib/firefox/defaults/pref/exolyx-autoconfig.js"
+  install -Dm644 "$src/firefox/exolyx.cfg" "$pkgdir/usr/lib/firefox/exolyx.cfg"
+  install -Dm644 "$src/firefox/ardoise.css" "$pkgdir/usr/share/exolyx/firefox/ardoise.css"
   install -Dm644 -t "$pkgdir/usr/share/exolyx/accueil" "$src"/accueil/index.html "$src"/accueil/logo.svg
-  install -Dm644 "$src/kate/ExoLyx.theme" "$pkgdir/usr/share/org.kde.syntax-highlighting/themes/ExoLyx.theme"
-  install -Dm644 "$src/kate/katerc" "$pkgdir/etc/xdg/katerc"
+  # Kate : thèmes de coloration
+  install -Dm644 -t "$pkgdir/usr/share/org.kde.syntax-highlighting/themes" "$src"/kate/*.theme
+  # Terminal : profil et couleurs Ardoise
+  install -Dm644 -t "$pkgdir/usr/share/konsole" "$src"/konsole/Ardoise.colorscheme "$src"/konsole/Ardoise.profile
+  # Réglages par défaut de chaque logiciel ([UiSettings] ColorScheme=Ardoise, etc.)
+  install -Dm644 -t "$pkgdir/etc/xdg" "$src"/xdg/*
+  # Invite du terminal
   install -Dm644 "$src/bash/exolyx.bashrc" "$pkgdir/etc/bash/exolyx.bashrc"
 }

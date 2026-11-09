@@ -1,0 +1,46 @@
+/* Style « Ardoise » pour l'interface de Firefox (ExoLyx). Ne touche pas au contenu des pages. */
+@-moz-document url("chrome://browser/content/browser.xhtml") {
+  :root {
+    --ardoise-fond: #1e1f22;
+    --ardoise-panneau: #2b2d30;
+    --ardoise-bouton: #393b40;
+    --ardoise-texte: #dfe1e5;
+    --ardoise-doux: #868a91;
+    --ardoise-accent: #e8803a;
+    --ardoise-selection: #2e436e;
+
+    --lwt-accent-color: var(--ardoise-fond) !important;
+    --lwt-text-color: var(--ardoise-texte) !important;
+    --toolbar-bgcolor: var(--ardoise-panneau) !important;
+    --toolbar-color: var(--ardoise-texte) !important;
+    --tab-selected-bgcolor: var(--ardoise-panneau) !important;
+    --tab-selected-textcolor: #ffffff !important;
+    --toolbar-field-background-color: var(--ardoise-fond) !important;
+    --toolbar-field-focus-background-color: var(--ardoise-fond) !important;
+    --toolbar-field-color: var(--ardoise-texte) !important;
+    --toolbar-field-focus-border-color: var(--ardoise-accent) !important;
+    --focus-outline-color: var(--ardoise-accent) !important;
+    --toolbarbutton-icon-fill-attention: var(--ardoise-accent) !important;
+    --urlbar-box-bgcolor: var(--ardoise-panneau) !important;
+    --arrowpanel-background: var(--ardoise-panneau) !important;
+    --arrowpanel-color: var(--ardoise-texte) !important;
+    --sidebar-background-color: var(--ardoise-panneau) !important;
+    --sidebar-text-color: var(--ardoise-texte) !important;
+    --tab-border-radius: 3px !important;
+    --toolbarbutton-border-radius: 3px !important;
+    --toolbarbutton-active-background: var(--ardoise-bouton) !important;
+    --toolbarbutton-hover-background: var(--ardoise-bouton) !important;
+  }
+  #navigator-toolbox { background-color: var(--ardoise-fond) !important; border-bottom-color: var(--ardoise-bouton) !important; }
+  /* Onglets plats, onglet actif souligné d'orange */
+  .tab-background { border-radius: 3px 3px 0 0 !important; margin-block: 3px 0 !important; box-shadow: none !important; }
+  .tabbrowser-tab[selected] .tab-background,
+  .tabbrowser-tab[visuallyselected] .tab-background {
+    background: var(--ardoise-panneau) !important;
+    box-shadow: inset 0 -2px 0 var(--ardoise-accent) !important;
+  }
+  #urlbar-background { border-radius: 3px !important; }
+  #urlbar[focused] #urlbar-background { outline: 1px solid var(--ardoise-accent) !important; }
+  #PersonalToolbar { background: var(--ardoise-panneau) !important; }
+  #sidebar-box, #sidebar-main { background-color: var(--ardoise-panneau) !important; color: var(--ardoise-texte) !important; }
+}

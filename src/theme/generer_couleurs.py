@@ -13,6 +13,12 @@ PALETTES = {
       fond="#F4F8F1", surface="#FFFFFF", haute="#E9F0E4", vue="#FFFFFF", alt="#F1F6EE", bord="#D3DECB",
       texte="#16201A", doux="#5B6B57", inactif="#8A9886", surAccent="#FFFFFF",
       erreur="#C2453A", attention="#A87A12", info="#2F7F94", lien="#4E8F3A", visite="#7B4FA8"),
+  # Style « Ardoise » des logiciels de base : anthracite dense, accent orange, sélection bleu nuit
+  "Ardoise": dict(nom="Ardoise", accent="#E8803A", accent2="#F09A5C", accentFroid="#6AAB73",
+      fond="#1E1F22", surface="#2B2D30", haute="#393B40", vue="#1E1F22", alt="#232427", bord="#393B40",
+      texte="#DFE1E5", doux="#868A91", inactif="#6F737A", surAccent="#FFFFFF",
+      erreur="#F75464", attention="#E0B45C", info="#56A8F5", lien="#56A8F5", visite="#C77DBB",
+      selection="#2E436E"),
 }
 
 def section(p, fond, alt, texte=None):
@@ -37,7 +43,8 @@ def schema(cle, p):
     s["Colors:Complementary"] = section(PALETTES["ExoLyx"], "#0D1310", "#141C17")
     s["Colors:Header"] = section(p, p["surface"], p["fond"])
     s["Colors:Header][Inactive"] = section(p, p["fond"], p["surface"])
-    sel = section(p, p["accent"], p["accentFroid"], p["surAccent"])
+    fond_sel = p.get("selection", p["accent"])
+    sel = section(p, fond_sel, p.get("selection", p["accentFroid"]), p["surAccent"])
     sel.update({"ForegroundActive": p["surAccent"], "ForegroundInactive": p["surAccent"],
                 "ForegroundLink": p["surAccent"], "ForegroundVisited": p["surAccent"]})
     s["Colors:Selection"] = sel

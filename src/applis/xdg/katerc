@@ -1,7 +1,10 @@
+[UiSettings]
+ColorScheme=Ardoise
+
 [KTextEditor Renderer]
 Auto Color Theme Selection=false
-Color Theme=ExoLyx
-Text Font=JetBrains Mono,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+Color Theme=Ardoise
+Text Font=JetBrains Mono,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 Show Indentation Lines=true
 Animate Bracket Matching=true
 
@@ -9,3 +12,7 @@ Animate Bracket Matching=true
 Line Numbers=true
 Scroll Past End=true
 Show Scrollbar Minimap=true
+
+[General]
+Show Full Path in Title=false
+Show Statusbar=true

@@ -1,0 +1,11 @@
+[Desktop Entry]
+DefaultProfile=Ardoise.profile
+
+[UiSettings]
+WindowColorScheme=Ardoise
+ColorScheme=Ardoise
+
+[TabBar]
+TabBarPosition=Top
+CloseTabOnMiddleMouseButton=true
+NewTabButton=true
