@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Couleurs des applis GTK
+Comment=Applique les couleurs ExoLyx à GNOME Files et aux applis GTK 4
+Exec=/usr/lib/exolyx/exolyx-gtk-sync --suivre
+OnlyShowIn=KDE;
+NoDisplay=true
+X-KDE-autostart-phase=1

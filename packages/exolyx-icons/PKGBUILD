@@ -3,7 +3,7 @@
 # SVG pré-générés par src/icones/generer.py (commités) ; aperçu : src/icones/apercu.html.
 pkgname=exolyx-icons
 pkgver=1.0.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Thèmes d'icônes ExoLyx (Trait, Duo, Relief — sombre et clair), vert pomme"
 arch=('any')
 url="https://github.com/Aurora-Coms/ExoLyx"

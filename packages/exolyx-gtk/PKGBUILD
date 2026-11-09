@@ -1,0 +1,18 @@
+# Maintainer: A.DERBEZ
+pkgname=exolyx-gtk
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Couleurs ExoLyx pour GNOME Files et les applis GTK 4 / libadwaita, réglages GNOME par défaut"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+depends=('python' 'glib2' 'dconf')
+install=exolyx-gtk.install
+
+package() {
+  local src="$startdir/../../src/gtk"
+  install -Dm755 "$src/exolyx-gtk-sync" "$pkgdir/usr/lib/exolyx/exolyx-gtk-sync"
+  install -Dm644 "$src/autostart/exolyx-gtk-sync.desktop" "$pkgdir/etc/xdg/autostart/exolyx-gtk-sync.desktop"
+  install -Dm644 "$src/dconf/profile-user" "$pkgdir/etc/dconf/profile/user"
+  install -Dm644 "$src/dconf/10-exolyx" "$pkgdir/etc/dconf/db/local.d/10-exolyx"
+}

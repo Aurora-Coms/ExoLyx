@@ -1,0 +1,9 @@
+_ligne='[[ -r /etc/bash/exolyx.bashrc ]] && . /etc/bash/exolyx.bashrc'
+post_install() {
+  # /etc/bash.bashrc appartient à bash : on y ajoute seulement une ligne de chargement
+  grep -qF "$_ligne" /etc/bash.bashrc 2>/dev/null || printf '\n# ExoLyx\n%s\n' "$_ligne" >> /etc/bash.bashrc
+}
+post_upgrade() { post_install; }
+pre_remove() {
+  sed -i '/^# ExoLyx$/d; \|/etc/bash/exolyx.bashrc|d' /etc/bash.bashrc 2>/dev/null || true
+}

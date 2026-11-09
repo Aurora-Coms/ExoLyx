@@ -1,0 +1,11 @@
+[KTextEditor Renderer]
+Auto Color Theme Selection=false
+Color Theme=ExoLyx
+Text Font=JetBrains Mono,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+Show Indentation Lines=true
+Animate Bracket Matching=true
+
+[KTextEditor View]
+Line Numbers=true
+Scroll Past End=true
+Show Scrollbar Minimap=true

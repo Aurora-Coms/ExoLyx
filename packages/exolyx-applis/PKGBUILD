@@ -1,0 +1,20 @@
+# Maintainer: A.DERBEZ
+pkgname=exolyx-applis
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Personnalisation ExoLyx des logiciels de base : Firefox (accueil, réglages), Kate, invite du terminal"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+depends=('bash')
+optdepends=('firefox: page d’accueil et réglages ExoLyx' 'kate: thème de coloration ExoLyx' 'git: branche dans l’invite')
+install=exolyx-applis.install
+
+package() {
+  local src="$startdir/../../src/applis"
+  install -Dm644 "$src/firefox/policies.json" "$pkgdir/etc/firefox/policies/policies.json"
+  install -Dm644 -t "$pkgdir/usr/share/exolyx/accueil" "$src"/accueil/index.html "$src"/accueil/logo.svg
+  install -Dm644 "$src/kate/ExoLyx.theme" "$pkgdir/usr/share/org.kde.syntax-highlighting/themes/ExoLyx.theme"
+  install -Dm644 "$src/kate/katerc" "$pkgdir/etc/xdg/katerc"
+  install -Dm644 "$src/bash/exolyx.bashrc" "$pkgdir/etc/bash/exolyx.bashrc"
+}

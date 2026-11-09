@@ -2,7 +2,7 @@
 # Configuration et habillage de l'installateur Calamares 3.3 d'ExoLyx.
 pkgname=exolyx-calamares-config
 pkgver=1.0.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Configuration, habillage et diaporama de l'installateur Calamares d'ExoLyx"
 arch=('any')
 url="https://github.com/Aurora-Coms/ExoLyx"

@@ -1,0 +1,49 @@
+{
+  "policies": {
+    "DisableTelemetry": true,
+    "DisableFirefoxStudies": true,
+    "DisablePocket": true,
+    "DontCheckDefaultBrowser": true,
+    "NoDefaultBookmarks": true,
+    "OverrideFirstRunPage": "",
+    "OverridePostUpdatePage": "",
+    "Homepage": {
+      "URL": "file:///usr/share/exolyx/accueil/index.html",
+      "StartPage": "homepage",
+      "Locked": false
+    },
+    "FirefoxHome": {
+      "Search": true,
+      "TopSites": true,
+      "SponsoredTopSites": false,
+      "Highlights": false,
+      "Pocket": false,
+      "SponsoredPocket": false,
+      "Snippets": false,
+      "Locked": false
+    },
+    "UserMessaging": {
+      "ExtensionRecommendations": false,
+      "FeatureRecommendations": false,
+      "MoreFromMozilla": false,
+      "SkipOnboarding": true,
+      "Locked": false
+    },
+    "Bookmarks": [
+      { "Title": "ExoLyx", "URL": "https://github.com/Aurora-Coms/ExoLyx", "Placement": "toolbar" },
+      { "Title": "Aide ExoLyx", "URL": "https://github.com/Aurora-Coms/ExoLyx#readme", "Placement": "toolbar" },
+      { "Title": "Wiki Arch (fr)", "URL": "https://wiki.archlinux.fr/", "Placement": "toolbar" }
+    ],
+    "DisplayBookmarksToolbar": "newtab",
+    "Preferences": {
+      "intl.locale.requested": { "Value": "fr", "Status": "default" },
+      "widget.use-xdg-desktop-portal.file-picker": { "Value": 1, "Status": "default" },
+      "widget.use-xdg-desktop-portal.mime-handler": { "Value": 1, "Status": "default" },
+      "browser.tabs.inTitlebar": { "Value": 1, "Status": "default" },
+      "browser.newtabpage.activity-stream.showSponsored": { "Value": false, "Status": "default" },
+      "browser.newtabpage.activity-stream.showSponsoredTopSites": { "Value": false, "Status": "default" },
+      "browser.aboutConfig.showWarning": { "Value": false, "Status": "default" },
+      "media.ffmpeg.vaapi.enabled": { "Value": true, "Status": "default" }
+    }
+  }
+}

@@ -26,6 +26,8 @@ Rufus (Windows, mode **DD**), Ventoy, ou `dd` sous Linux.
 | Menu de démarrage (GRUB) | `exolyx-grub-theme` | `src/grub` |
 | Appli de **Bienvenue** | `exolyx-bienvenue` | `src/bienvenue` |
 | **Mises à jour** en un clic | `exolyx-maj` | `src/maj` |
+| Couleurs ExoLyx dans GNOME Files / GTK 4 | `exolyx-gtk` | `src/gtk` |
+| Firefox (accueil, réglages), Kate, invite du terminal | `exolyx-applis` | `src/applis` |
 | Installateur (Calamares) | `exolyx-calamares-config` | `src/calamares` |
 
 Explorateur de fichiers : **GNOME Files** (Nautilus).

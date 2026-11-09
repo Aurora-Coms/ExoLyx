@@ -1,7 +1,7 @@
 # Maintainer: A.DERBEZ
 pkgname=exolyx-system
 pkgver=1.0.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Réglages système ExoLyx : identité, dépôt, zram, sysctl, fastfetch"
 arch=('any')
 url="https://github.com/Aurora-Coms/ExoLyx"

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accueil — ExoLyx</title>
+<style>
+  :root {
+    --fond: #0D1310; --surface: #141C17; --haute: #1C2620; --bord: #2A362E;
+    --texte: #E6EFE1; --doux: #97A893; --accent: #A8D479; --sur-accent: #0D1310;
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --fond: #F4F8F1; --surface: #FFFFFF; --haute: #E9F0E4; --bord: #D3DECB;
+      --texte: #16201A; --doux: #5B6B57; --accent: #5E9B2E; --sur-accent: #FFFFFF;
+      color-scheme: light;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: radial-gradient(1200px 600px at 70% -10%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%), var(--fond);
+    color: var(--texte); font-family: Inter, "Noto Sans", system-ui, sans-serif;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 16px;
+  }
+  .logo { width: 96px; height: 96px; margin-bottom: 8px; }
+  .heure { font-size: clamp(56px, 9vw, 96px); font-weight: 200; letter-spacing: 2px; line-height: 1; }
+  .date { color: var(--doux); font-size: 17px; margin: 10px 0 28px; }
+  .date::first-letter { text-transform: uppercase; }
+  form { width: min(620px, 100%); position: relative; }
+  input[type=search] {
+    width: 100%; height: 54px; border-radius: 27px; border: 1px solid var(--bord);
+    background: var(--surface); color: var(--texte); font: inherit; font-size: 17px; padding: 0 60px 0 24px; outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input[type=search]:focus { border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent); }
+  button {
+    position: absolute; right: 6px; top: 6px; width: 42px; height: 42px; border-radius: 21px; border: 0;
+    background: var(--accent); color: var(--sur-accent); cursor: pointer; display: grid; place-items: center;
+  }
+  .raccourcis { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; width: min(620px, 100%); margin-top: 32px; }
+  .raccourcis a {
+    display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 8px; border-radius: 14px;
+    background: var(--surface); border: 1px solid var(--bord); color: var(--texte); text-decoration: none; font-size: 13px;
+    transition: transform .12s, border-color .12s;
+  }
+  .raccourcis a:hover { border-color: var(--accent); transform: translateY(-2px); }
+  @media (max-width: 640px) { .raccourcis { grid-template-columns: repeat(3, 1fr); } }
+  .pastille { width: 36px; height: 36px; border-radius: 10px; background: var(--haute); display: grid; place-items: center; font-weight: 600; color: var(--accent); }
+  footer { margin-top: 36px; color: var(--doux); font-size: 12px; }
+</style>
+</head>
+<body>
+  <img class="logo" src="logo.svg" alt="">
+  <div class="heure" id="heure">--:--</div>
+  <div class="date" id="date"></div>
+  <form action="https://duckduckgo.com/" method="get" role="search">
+    <input type="search" name="q" placeholder="Rechercher sur le Web…" aria-label="Rechercher sur le Web" autofocus>
+    <input type="hidden" name="kl" value="fr-fr">
+    <button type="submit" aria-label="Rechercher">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+    </button>
+  </form>
+  <nav class="raccourcis">
+    <a href="https://www.wikipedia.fr/"><span class="pastille">W</span>Wikipédia</a>
+    <a href="https://www.youtube.com/"><span class="pastille">▶</span>YouTube</a>
+    <a href="https://mail.google.com/"><span class="pastille">@</span>Courriel</a>
+    <a href="https://www.openstreetmap.org/"><span class="pastille">◎</span>Cartes</a>
+    <a href="https://flathub.org/fr"><span class="pastille">◆</span>Flathub</a>
+    <a href="https://github.com/Aurora-Coms/ExoLyx"><span class="pastille">✦</span>ExoLyx</a>
+  </nav>
+  <footer>ExoLyx · page d'accueil locale, aucune donnée envoyée</footer>
+<script>
+  const h = document.getElementById("heure"), d = document.getElementById("date");
+  function maj() {
+    const t = new Date();
+    h.textContent = t.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+    d.textContent = t.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  }
+  maj(); setInterval(maj, 1000);
+</script>
+</body>
+</html>

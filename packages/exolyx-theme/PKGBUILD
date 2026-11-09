@@ -1,7 +1,7 @@
 # Maintainer: A.DERBEZ
 pkgname=exolyx-theme
 pkgver=1.0.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Apparence Plasma ExoLyx : couleurs vert pomme (sombre/clair), disposition, écran de chargement, Konsole"
 arch=('any')
 url="https://github.com/Aurora-Coms/ExoLyx"
