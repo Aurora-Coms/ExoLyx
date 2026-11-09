@@ -26,7 +26,8 @@ Rufus (Windows, mode **DD**), Ventoy, ou `dd` sous Linux.
 | Menu de démarrage (GRUB) | `exolyx-grub-theme` | `src/grub` |
 | Appli de **Bienvenue** | `exolyx-bienvenue` | `src/bienvenue` |
 | **Mises à jour** en un clic | `exolyx-maj` | `src/maj` |
-| Firefox (accueil, réglages), Kate, invite du terminal | `exolyx-applis` | `src/applis` |
+| Style Ardoise des logiciels de base, Firefox (accueil, réglages), invite du terminal | `exolyx-applis` | `src/applis` |
+| Réglage « Style des applications » (Ardoise ou d'origine) | `exolyx-style-applis` | `src/style-applis` |
 | Installateur (Calamares) | `exolyx-calamares-config` | `src/calamares` |
 
 Explorateur de fichiers : **GNOME Files** (Nautilus).

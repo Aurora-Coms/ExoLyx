@@ -80,18 +80,6 @@
         "Value": true,
         "Status": "default"
       },
-      "extensions.activeThemeID": {
-        "Value": "firefox-compact-dark@mozilla.org",
-        "Status": "default"
-      },
-      "browser.compactmode.show": {
-        "Value": true,
-        "Status": "default"
-      },
-      "browser.uidensity": {
-        "Value": 1,
-        "Status": "default"
-      },
       "layout.css.prefers-color-scheme.content-override": {
         "Value": 0,
         "Status": "default"

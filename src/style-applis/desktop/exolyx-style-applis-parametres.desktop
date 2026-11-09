@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Style des applications
+Comment=Interface Ardoise ou d'origine pour les logiciels de base
+Exec=/usr/bin/exolyx-style-applis
+Icon=preferences-desktop-theme
+X-KDE-System-Settings-Parent-Category=applications
+X-KDE-System-Settings-Parent-Category-V2=applications
+X-KDE-Weight=5
+X-KDE-Keywords=style,interface,ardoise,thème,couleurs,applications,logiciels,origine,défaut

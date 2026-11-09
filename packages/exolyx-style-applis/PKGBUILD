@@ -1,0 +1,25 @@
+# Maintainer: A.DERBEZ
+pkgname=exolyx-style-applis
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Réglage « Style des applications » : interface Ardoise ou d'origine des logiciels de base"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+depends=('python' 'python-pyqt6' 'qt6-declarative' 'exolyx-applis')
+checkdepends=('python')
+
+check() {
+  cd "$startdir/../../src/style-applis"
+  python -m unittest discover -s tests
+}
+
+package() {
+  local src="$startdir/../../src/style-applis"
+  install -Dm644 -t "$pkgdir/usr/share/exolyx/style-applis" "$src"/app.py "$src"/logique.py
+  install -Dm644 -t "$pkgdir/usr/share/exolyx/style-applis/qml" "$src"/qml/*.qml
+  install -Dm755 "$src/exolyx-style-applis" "$pkgdir/usr/bin/exolyx-style-applis"
+  install -Dm644 "$src/desktop/exolyx-style-applis.desktop" "$pkgdir/usr/share/applications/exolyx-style-applis.desktop"
+  install -Dm644 "$src/desktop/exolyx-style-applis-parametres.desktop" \
+    "$pkgdir/usr/share/plasma/systemsettings/externalmodules/exolyx-style-applis.desktop"
+}

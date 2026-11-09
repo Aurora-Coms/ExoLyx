@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Style des applications
+GenericName=Interface des logiciels
+Comment=Choisir l'interface Ardoise ou d'origine des logiciels de base
+Exec=exolyx-style-applis
+Icon=preferences-desktop-theme
+Categories=Qt;Settings;DesktopSettings;
+NoDisplay=true
