@@ -741,7 +741,7 @@ def _(s):
 # --------------------------------------------------------------------------
 ICONES = {
     "apps": {
-        "system-file-manager": "gestionnaire", "org.kde.dolphin": "gestionnaire", "org.gnome.Nautilus": "gestionnaire",
+        "system-file-manager": "gestionnaire", "org.kde.dolphin": "gestionnaire",
         "utilities-terminal": "terminal", "org.kde.konsole": "terminal", "konsole": "terminal",
         "firefox": "navigateur", "org.mozilla.firefox": "navigateur", "web-browser": "navigateur",
         "systemsettings": "reglages", "preferences-system": "reglages", "org.kde.systemsettings": "reglages",
