@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Teintes dynamiques
+GenericName=Couleurs selon le fond d'écran
+Comment=Adapter les couleurs du système au fond d'écran
+Exec=/usr/bin/exolyx-teintes
+Icon=/usr/share/exolyx/teintes/images/teintes.svg
+Terminal=false
+StartupNotify=true
+StartupWMClass=exolyx-teintes
+Categories=Qt;KDE;Settings;DesktopSettings;
+Keywords=couleur;couleurs;teinte;accent;fond d'écran;thème;palette;dynamique;

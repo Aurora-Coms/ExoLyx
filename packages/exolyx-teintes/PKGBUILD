@@ -1,0 +1,39 @@
+# Maintainer: A.DERBEZ
+# Teintes dynamiques : les couleurs du système suivent le fond d'écran.
+pkgname=exolyx-teintes
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Teintes dynamiques ExoLyx : couleurs du système adaptées au fond d'écran"
+arch=('any')
+url="https://github.com/Aurora-Coms/ExoLyx"
+license=('GPL-3.0-or-later')
+depends=('python' 'python-pyqt6' 'qt6-declarative' 'qt6-svg' 'plasma-workspace' 'systemsettings')
+optdepends=("exolyx-theme: schémas ExoLyx d'origine (retour au vert)")
+checkdepends=('python')
+
+check() {
+    cd "$startdir/../../src/teintes"
+    python3 -m unittest discover -s tests
+}
+
+package() {
+    local src="$startdir/../../src/teintes"
+    local dest="$pkgdir/usr/share/exolyx/teintes"
+
+    install -Dm644 -t "$dest" "$src/moteur.py" "$src/teintes.py" "$src/reglage.py"
+    # générateur de schémas KDE partagé avec exolyx-theme
+    install -Dm644 "$startdir/../../src/theme/generer_couleurs.py" "$dest/generer_couleurs.py"
+    install -Dm644 -t "$dest/qml" "$src"/qml/*.qml
+    install -Dm644 "$src/images/teintes.svg" "$dest/images/teintes.svg"
+    install -Dm644 "$startdir/../../src/branding/logo.svg" "$dest/images/logo.svg"
+
+    install -Dm755 "$src/exolyx-teintes" "$pkgdir/usr/bin/exolyx-teintes"
+    install -Dm644 "$src/desktop/exolyx-teintes.desktop" \
+        "$pkgdir/usr/share/applications/exolyx-teintes.desktop"
+    # entrée « Apparence & Style » de la Configuration du système (module externe Plasma 6)
+    install -Dm644 "$src/desktop/exolyx-teintes-parametres.desktop" \
+        "$pkgdir/usr/share/plasma/systemsettings/externalmodules/exolyx-teintes.desktop"
+    # service de session : suit les changements de fond d'écran
+    install -Dm644 "$src/desktop/exolyx-teintes-service.desktop" \
+        "$pkgdir/etc/xdg/autostart/exolyx-teintes-service.desktop"
+}

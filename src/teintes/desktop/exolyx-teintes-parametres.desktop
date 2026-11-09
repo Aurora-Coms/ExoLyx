@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Teintes dynamiques
+Comment=Les couleurs du système suivent le fond d'écran
+Exec=/usr/bin/exolyx-teintes
+Icon=/usr/share/exolyx/teintes/images/teintes.svg
+X-KDE-System-Settings-Parent-Category=appearance
+X-KDE-System-Settings-Parent-Category-V2=appearance
+X-KDE-Weight=25
+X-KDE-Keywords=couleur,couleurs,teinte,accent,fond d'écran,thème,palette,dynamique

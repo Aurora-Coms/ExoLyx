@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Teintes dynamiques (service)
+Comment=Recolore le système quand le fond d'écran change
+Exec=/usr/bin/exolyx-teintes service
+Icon=/usr/share/exolyx/teintes/images/teintes.svg
+NoDisplay=true
+X-KDE-autostart-phase=2
+OnlyShowIn=KDE;
