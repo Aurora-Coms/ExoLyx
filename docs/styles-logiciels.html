@@ -2,227 +2,241 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Chakra+Petch:wght@500;600&family=Space+Mono:wght@400;700&family=Nunito:wght@600;800&display=swap">
 <style>
-/* Mise en page : en-tête court, puis une rangée de 5 maquettes par logiciel ; panneau « Mes choix » collant en bas. */
+/* Mise en page : en-tête, nuancier des 10 styles, puis pour chaque logiciel une grille de 10 maquettes (5 × 2) ; panneau « Mes choix » collant en bas. */
 :root {
-  --bg: #0d1310; --surface: #141c17; --haute: #1c2620; --bord: #2a362e;
-  --texte: #e6efe1; --doux: #97a893; --accent: #a8d479; --sur-accent: #0d1310;
+  --bg: #f6f6f4; --surface: #ffffff; --haute: #ececea; --bord: #d9d9d5;
+  --texte: #1a1a1a; --doux: #66665f; --accent: #1a1a1a; --sur-accent: #ffffff;
   --f-titre: "Bricolage Grotesque", "Inter", system-ui, sans-serif;
   --f-texte: "Inter", "Noto Sans", system-ui, sans-serif;
   --f-mono: "JetBrains Mono", ui-monospace, monospace;
-  color-scheme: dark;
 }
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    --bg: #f4f8f1; --surface: #ffffff; --haute: #e9f0e4; --bord: #d3decb;
-    --texte: #16201a; --doux: #5b6b57; --accent: #4f8a26; --sur-accent: #ffffff; color-scheme: light;
-  }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #121212; --surface: #1b1b1b; --haute: #262626; --bord: #333; --texte: #ededed; --doux: #9a9a9a; --accent: #ededed; --sur-accent: #121212; color-scheme: dark; }
 }
-:root[data-theme="light"] {
-  --bg: #f4f8f1; --surface: #ffffff; --haute: #e9f0e4; --bord: #d3decb;
-  --texte: #16201a; --doux: #5b6b57; --accent: #4f8a26; --sur-accent: #ffffff; color-scheme: light;
-}
+:root[data-theme="dark"] { --bg: #121212; --surface: #1b1b1b; --haute: #262626; --bord: #333; --texte: #ededed; --doux: #9a9a9a; --accent: #ededed; --sur-accent: #121212; color-scheme: dark; }
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--texte); font-family: var(--f-texte); font-size: 15px; line-height: 1.5; }
-.page { max-width: 1480px; margin: 0 auto; padding-block: 40px 140px;
+.page { max-width: 1500px; margin: 0 auto; padding-block: 40px 150px;
   padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-h1 { font-family: var(--f-titre); font-size: clamp(30px, 4.4vw, 50px); line-height: 1.05; margin: 0; letter-spacing: -0.5px; text-wrap: balance; }
-.intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; margin-bottom: 18px; }
-.intro p { margin: 12px 0 0; color: var(--doux); max-width: 68ch; }
-.reglages { display: flex; gap: 8px; flex-wrap: wrap; }
-.seg { display: inline-flex; border: 1px solid var(--bord); border-radius: 999px; padding: 3px; background: var(--surface); }
-.seg button { font: 500 13px var(--f-texte); color: var(--doux); background: none; border: 0; border-radius: 999px; padding: 6px 14px; cursor: pointer; }
-.seg button[aria-pressed="true"] { background: var(--accent); color: var(--sur-accent); }
-button:focus-visible, .carte:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1 { font-family: var(--f-titre); font-size: clamp(30px, 4.4vw, 52px); line-height: 1.05; margin: 0; letter-spacing: -0.5px; text-wrap: balance; }
+.intro p { margin: 12px 0 0; color: var(--doux); max-width: 70ch; }
+button:focus-visible, .carte:focus-visible, a:focus-visible { outline: 2px solid var(--texte); outline-offset: 2px; }
 
-.familles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 26px 0 8px; }
-.famille { border-top: 2px solid var(--bord); padding-top: 10px; }
-.famille b { font-family: var(--f-titre); font-size: 18px; display: block; }
-.famille span { color: var(--doux); font-size: 13px; }
+.nuancier { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 28px 0 6px; }
+.nuance { border: 1px solid var(--bord); border-radius: 10px; padding: 10px; background: var(--surface); display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.nuance .pal { display: flex; height: 18px; border-radius: 5px; overflow: hidden; border: 1px solid var(--bord); }
+.nuance .pal i { flex: 1; }
+.nuance b { font-family: var(--f-titre); font-size: 17px; }
+.nuance .mode { font: 11px var(--f-mono); color: var(--doux); text-transform: uppercase; letter-spacing: .6px; }
+.nuance span.d { color: var(--doux); font-size: 13px; line-height: 1.4; }
 
-section.logiciel { margin-top: 44px; }
-.entete { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
-.entete h2 { font-family: var(--f-titre); font-size: 26px; margin: 0; }
+.sommaire { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 22px; }
+.sommaire a { font-size: 13px; color: var(--texte); text-decoration: none; border: 1px solid var(--bord); border-radius: 999px; padding: 4px 12px; background: var(--surface); }
+.sommaire a.fait { border-color: var(--texte); }
+
+section.logiciel { margin-top: 48px; scroll-margin-top: 16px; }
+.entete { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; border-bottom: 1px solid var(--bord); padding-bottom: 8px; }
+.entete h2 { font-family: var(--f-titre); font-size: 28px; margin: 0; }
 .entete .paquet { font: 12px var(--f-mono); color: var(--doux); }
 .entete .choisi { margin-left: auto; font-size: 13px; color: var(--doux); }
-.entete .choisi strong { color: var(--accent); }
-.rangee { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
-.carte { background: var(--surface); border: 1px solid var(--bord); border-radius: 12px; padding: 10px; cursor: pointer; text-align: left;
-  color: inherit; font: inherit; display: flex; flex-direction: column; gap: 10px; transition: border-color .15s, transform .15s; min-width: 0; }
-.carte:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--bord)); }
-.carte[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
-.carte .legende { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.entete .choisi strong { color: var(--texte); }
+.rangee { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.carte { background: var(--surface); border: 1px solid var(--bord); border-radius: 12px; padding: 8px 8px 10px; cursor: pointer; text-align: left;
+  color: inherit; font: inherit; display: flex; flex-direction: column; gap: 8px; min-width: 0; transition: border-color .15s; }
+.carte:hover { border-color: var(--doux); }
+.carte[aria-pressed="true"] { border-color: var(--texte); box-shadow: 0 0 0 2px var(--texte); }
+.carte .legende { display: flex; align-items: center; gap: 8px; padding: 0 2px; }
 .carte .legende b { font-family: var(--f-titre); font-size: 16px; }
+.carte .legende small { font: 10px var(--f-mono); color: var(--doux); text-transform: uppercase; letter-spacing: .5px; margin-right: auto; }
 .carte .coche { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--bord); display: grid; place-items: center; flex: none; }
-.carte[aria-pressed="true"] .coche { background: var(--accent); border-color: var(--accent); }
-.carte[aria-pressed="true"] .coche::after { content: ""; width: 9px; height: 5px; border: 2px solid var(--sur-accent); border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); }
-.carte p { margin: 0; color: var(--doux); font-size: 13px; line-height: 1.45; }
+.carte[aria-pressed="true"] .coche { background: var(--texte); border-color: var(--texte); }
+.carte[aria-pressed="true"] .coche::after { content: ""; width: 9px; height: 5px; border: 2px solid var(--surface); border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); }
+.carte p { margin: 0; padding: 0 2px; color: var(--doux); font-size: 12.5px; line-height: 1.45; }
 
-@media (max-width: 1100px) { .rangee, .familles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (max-width: 720px) { .rangee, .familles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .intro { grid-template-columns: 1fr; } }
-@media (max-width: 460px) { .rangee, .familles { grid-template-columns: 1fr; } }
+@media (max-width: 1150px) { .rangee, .nuancier { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 720px) { .rangee, .nuancier { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 460px) { .rangee, .nuancier { grid-template-columns: 1fr; } }
 
-/* Panneau des choix */
-.panneau { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; background: color-mix(in srgb, var(--surface) 92%, transparent);
-  backdrop-filter: blur(12px); border-top: 1px solid var(--bord);
+.panneau { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; background: var(--surface); border-top: 1px solid var(--bord);
   padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
-.panneau .int { max-width: 1480px; margin: 0 auto; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.panneau .int { max-width: 1500px; margin: 0 auto; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
 .panneau .compte { font-family: var(--f-titre); font-size: 18px; }
 .panneau .liste { flex: 1; min-width: 0; color: var(--doux); font-size: 13px; overflow-wrap: anywhere; }
 .btn { font: 600 14px var(--f-texte); border-radius: 999px; padding: 10px 18px; border: 1px solid var(--bord); background: var(--haute); color: var(--texte); cursor: pointer; }
 .btn.principal { background: var(--accent); color: var(--sur-accent); border-color: var(--accent); }
 .texte-copie { width: 100%; font: 12px var(--f-mono); background: var(--bg); color: var(--texte); border: 1px solid var(--bord); border-radius: 8px; padding: 8px; }
 
-/* ================= Maquettes ================= */
-.m { --mbg:#0d1310; --msurf:#141c17; --mhaut:#1c2620; --mbord:#2a362e; --mtxt:#e6efe1; --mdoux:#97a893; --macc:#a8d479; --msur:#0d1310;
-  --r: 8px; --rb: 6px; --pad: 7px; --font: "Inter", sans-serif;
-  aspect-ratio: 16 / 10.5; max-width: 100%; border-radius: var(--rw, 10px); overflow: hidden; position: relative;
-  background: var(--mbg); color: var(--mtxt); font: 500 8px/1.3 var(--font); display: flex; flex-direction: column;
-  border: 1px solid var(--mbord); container-type: inline-size; }
-.clairs .m { --mbg:#f4f8f1; --msurf:#ffffff; --mhaut:#e9f0e4; --mbord:#d3decb; --mtxt:#16201a; --mdoux:#5b6b57; --macc:#5e9b2e; --msur:#ffffff; }
+/* ========================= Maquettes ========================= */
+.m { aspect-ratio: 16 / 11; max-width: 100%; overflow: hidden; position: relative; display: flex; flex-direction: column;
+  background: var(--fen); color: var(--tx); font: 500 7.5px/1.35 var(--font); border-radius: var(--rw); border: var(--bw) solid var(--bc);
+  box-shadow: var(--ombre, none); }
 .m * { box-sizing: border-box; }
-.m .tb { height: 9%; min-height: 14px; display: flex; align-items: center; gap: 5px; padding: 0 7px; background: var(--mhaut); flex: none; }
-.m .tb .ti { flex: 1; text-align: center; font-weight: 600; color: var(--mdoux); white-space: nowrap; overflow: hidden; }
-.m .tb i { width: 6px; height: 6px; border-radius: 50%; background: var(--mdoux); opacity: .55; display: block; }
-.m .tb i.x { background: var(--macc); opacity: 1; }
-.m .corps { flex: 1; display: flex; min-height: 0; }
-.m .col { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-.m .outils { display: flex; gap: 4px; align-items: center; padding: var(--pad); border-bottom: 1px solid var(--mbord); flex: none; }
-.m .o { height: 11px; min-width: 11px; padding: 0 4px; border-radius: var(--rb); background: var(--mhaut); display: grid; place-items: center; color: var(--mdoux); font-size: 6.5px; white-space: nowrap; }
-.m .o.acc { background: var(--macc); color: var(--msur); }
+.m .barre-titre { flex: none; display: flex; align-items: center; gap: 4px; padding: 0 6px; height: 15px; background: var(--titre-bg, var(--fen)); color: var(--titre-tx, var(--dx)); border-bottom: var(--sep); }
+.m .barre-titre .nom { font-weight: 600; white-space: nowrap; overflow: hidden; font-family: var(--font-titre, var(--font)); }
 .m .esp { flex: 1; }
-.m .champ { flex: 1; height: 12px; border-radius: var(--rb); background: var(--msurf); border: 1px solid var(--mbord); display: flex; align-items: center; padding: 0 5px; color: var(--mdoux); font-size: 6.5px; min-width: 0; overflow: hidden; white-space: nowrap; }
-.m .zone .champ, .m .lat .champ { flex: none; }
-.m .lat { width: 26%; background: var(--msurf); border-right: 1px solid var(--mbord); padding: var(--pad); display: flex; flex-direction: column; gap: 3px; flex: none; }
-.m .it { height: 11px; border-radius: var(--rb); display: flex; align-items: center; gap: 4px; padding: 0 4px; color: var(--mdoux); font-size: 6.5px; white-space: nowrap; overflow: hidden; }
-.m .it::before { content: ""; width: 6px; height: 6px; border-radius: 2px; background: currentColor; opacity: .5; flex: none; }
-.m .it.on { background: color-mix(in srgb, var(--macc) 20%, transparent); color: var(--mtxt); }
-.m .it.on::before { background: var(--macc); opacity: 1; }
-.m .zone { flex: 1; padding: var(--pad); display: flex; flex-direction: column; gap: 5px; min-height: 0; overflow: hidden; }
-.m .ligne { height: 4px; border-radius: 2px; background: var(--mdoux); opacity: .35; }
-.m .ligne.f { opacity: .7; background: var(--mtxt); }
-.m .ligne.a { background: var(--macc); opacity: .9; }
-.m .grille { display: grid; grid-template-columns: repeat(var(--n, 4), 1fr); gap: 5px; }
-.m .vign { aspect-ratio: 4/3; border-radius: var(--r); background: linear-gradient(135deg, color-mix(in srgb, var(--macc) 45%, var(--mhaut)), var(--mhaut)); }
-.m .vign.b { background: linear-gradient(160deg, #79c2d4aa, var(--mhaut)); }
-.m .vign.c { background: linear-gradient(200deg, #e8c26aaa, var(--mhaut)); }
-.m .carteM { background: var(--msurf); border: 1px solid var(--mbord); border-radius: var(--r); padding: 5px; display: flex; flex-direction: column; gap: 3px; }
-.m .onglets { display: flex; gap: 3px; padding: 4px var(--pad) 0; flex: none; }
-.m .og { height: 11px; padding: 0 7px; border-radius: var(--rb) var(--rb) 0 0; background: var(--mhaut); color: var(--mdoux); display: flex; align-items: center; font-size: 6.5px; white-space: nowrap; }
-.m .og.on { background: var(--msurf); color: var(--mtxt); }
-.m .term { font: 6.5px/1.55 "JetBrains Mono", monospace; padding: var(--pad); flex: 1; background: var(--msurf); overflow: hidden; }
-.m .term .v { color: var(--macc); } .m .term .d { color: var(--mdoux); } .m .term .j { color: #e8c26a; } .m .term .b { color: #79c2d4; }
-.m .num { color: var(--mdoux); text-align: right; padding-right: 5px; user-select: none; }
-.m .code { display: grid; grid-template-columns: auto 1fr; font: 6.5px/1.6 "JetBrains Mono", monospace; padding: var(--pad) 0; flex: 1; background: var(--msurf); }
-.m .code .k { color: var(--macc); } .m .code .s { color: #e8c26a; } .m .code .c { color: var(--mdoux); font-style: italic; } .m .code .f { color: #8dd4b4; }
-.m .feuille { background: #fbfdf9; border-radius: 3px; box-shadow: 0 2px 6px #0004; padding: 8px; display: flex; flex-direction: column; gap: 4px; }
-.m .feuille .ligne { background: #31402f; }
-.m .touches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; flex: 1; }
-.m .t { border-radius: var(--rb); background: var(--mhaut); display: grid; place-items: center; font-size: 8px; color: var(--mtxt); }
-.m .t.op { color: var(--macc); } .m .t.eg { background: var(--macc); color: var(--msur); }
-.m .ecran { font: 600 15px "Inter", sans-serif; text-align: right; padding: 4px 6px; flex: none; }
-.m .ecran small { display: block; font-size: 7px; color: var(--mdoux); font-weight: 500; }
-.m .barre { height: 4px; border-radius: 2px; background: var(--mhaut); overflow: hidden; } .m .barre i { display: block; height: 100%; width: var(--w, 60%); background: var(--macc); }
-.m .rangeeF { display: grid; grid-template-columns: 1fr auto auto; gap: 6px; align-items: center; padding: 2px 4px; border-radius: var(--rb); font-size: 6.5px; color: var(--mdoux); }
-.m .rangeeF.on { background: color-mix(in srgb, var(--macc) 18%, transparent); color: var(--mtxt); }
-.m .pastille { width: 14px; height: 14px; border-radius: 4px; background: color-mix(in srgb, var(--macc) 40%, var(--mhaut)); flex: none; }
-.m .bas { display: flex; gap: 4px; padding: var(--pad); border-top: 1px solid var(--mbord); align-items: center; flex: none; }
+.m .bt { width: 7px; height: 7px; border-radius: var(--rbt, 50%); background: var(--dx); opacity: .45; flex: none; }
+.m .menus { flex: none; display: flex; gap: 8px; padding: 2px 6px; border-bottom: var(--sep); color: var(--tx); }
+.m .onglets { flex: none; display: flex; gap: 3px; padding: 4px 6px 0; align-items: flex-end; border-bottom: var(--sep); }
+.m .og { padding: 2px 7px; white-space: nowrap; color: var(--dx); border-radius: var(--r2) var(--r2) 0 0; }
+.m .og.on { color: var(--tx); background: var(--surf); }
+.m .barre-titre .og { border-radius: var(--r2); }
+.m .outils { flex: none; display: flex; gap: 4px; align-items: center; padding: 4px 6px; border-bottom: var(--sep); }
+.m .o { height: 12px; min-width: 12px; padding: 0 4px; border-radius: var(--r2); display: grid; place-items: center; color: var(--tx); background: var(--btn); white-space: nowrap; border: var(--bb, 0px) solid var(--bc); }
+.m .o.acc { background: var(--acc); color: var(--suracc); }
+.m .champ { flex: 1; min-width: 0; height: 13px; border-radius: var(--r2); background: var(--champ, var(--surf)); border: var(--bb, 1px) solid var(--bc2, var(--bc)); color: var(--dx); display: flex; align-items: center; padding: 0 5px; white-space: nowrap; overflow: hidden; }
+.m .corps { flex: 1; display: flex; min-height: 0; }
+.m .lat { flex: none; width: 25%; background: var(--latbg, var(--surf)); padding: 6px 5px; display: flex; flex-direction: column; gap: 2px; border-right: var(--sep); overflow: hidden; }
+.m .lat.droite { order: 2; border-right: 0; border-left: var(--sep); }
+.m .lat .titre { font-size: 6px; text-transform: uppercase; letter-spacing: .6px; color: var(--dx); padding: 2px 4px; }
+.m .it { padding: 2px 4px; border-radius: var(--r2); color: var(--tx); white-space: nowrap; overflow: hidden; display: flex; align-items: center; gap: 4px; position: relative; }
+.m .it::before { content: ""; width: 6px; height: 6px; border-radius: 2px; background: var(--dx); opacity: .45; flex: none; }
+.m .it.on { background: var(--sel); color: var(--seltx, var(--tx)); }
+.m .it.on::before { background: var(--acc); opacity: 1; }
+.m .rail { flex: none; width: 15px; display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 6px 0; background: var(--latbg, var(--surf)); border-right: var(--sep); }
+.m .rail i { width: 8px; height: 8px; border-radius: 3px; background: var(--dx); opacity: .5; }
+.m .rail i.on { background: var(--acc); opacity: 1; box-shadow: var(--lueur, none); }
+.m .contenu { flex: 1; min-width: 0; display: flex; flex-direction: column; background: var(--zone, transparent); }
+.m .zone { flex: 1; padding: 6px; display: flex; flex-direction: column; gap: 5px; min-height: 0; overflow: hidden; }
+.m .grand-titre { font: 700 13px/1.1 var(--font-titre, var(--font)); padding: 6px 6px 0; color: var(--tx); letter-spacing: var(--ls-titre, 0); flex: none; }
+.m .etat { flex: none; display: flex; gap: 8px; padding: 2px 6px; border-top: var(--sep); color: var(--dx); font-size: 6.5px; background: var(--etatbg, transparent); }
+.m .dock { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); display: flex; gap: 4px; padding: 3px; border-radius: 999px; background: var(--surf); box-shadow: 0 3px 10px #0003; border: 1px solid var(--bc); }
+.m .dock .o { border-radius: 999px; }
+.m .ligne { height: 3.5px; border-radius: 2px; background: var(--tx); opacity: .22; flex: none; }
+.m .ligne.f { opacity: .65; } .m .ligne.a { background: var(--acc); opacity: .9; }
+.m .grille { display: grid; grid-template-columns: repeat(var(--n, 3), 1fr); gap: 5px; }
+.m .vign { aspect-ratio: 4/3; border-radius: var(--r3); background: linear-gradient(140deg, var(--im1), var(--im2)); border: var(--bb, 0px) solid var(--bc); }
+.m .vign.b { background: linear-gradient(200deg, var(--im3), var(--im1)); }
+.m .vign.c { background: linear-gradient(160deg, var(--im2), var(--im3)); }
+.m .bloc { background: var(--surf); border: var(--bb, 1px) solid var(--bc2, var(--bc)); border-radius: var(--r3); padding: 5px; display: flex; flex-direction: column; gap: 3px; box-shadow: var(--ombre-bloc, none); min-width: 0; }
+.m .mono { font-family: "JetBrains Mono", monospace; font-size: 6.5px; line-height: 1.6; }
+.m .term { flex: 1; padding: 6px; background: var(--termbg, var(--surf)); color: var(--tx); overflow: hidden; }
+.m .c1 { color: var(--acc); } .m .c2 { color: var(--acc2); } .m .c3 { color: var(--dx); } .m .c4 { color: var(--acc3, var(--acc2)); }
+.m .code { flex: 1; display: grid; grid-template-columns: auto 1fr; gap: 0 6px; padding: 6px 4px; background: var(--termbg, var(--surf)); overflow: hidden; }
+.m .code .n { color: var(--dx); text-align: right; opacity: .7; }
+.m .rangeeF { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; padding: 2px 4px; border-radius: var(--r2); color: var(--tx); }
+.m .rangeeF.on { background: var(--sel); color: var(--seltx, var(--tx)); }
+.m .rangeeF span:not(:first-child) { color: var(--dx); }
+.m .rangeeF.on span { color: inherit; }
+.m .feuille { align-self: center; width: 60%; background: #fbfbf8; color: #222; border-radius: 2px; box-shadow: 0 2px 8px #0004; padding: 7px; display: flex; flex-direction: column; gap: 3.5px; }
+.m .feuille .ligne { background: #222; }
+.m .surligne { background: var(--acc); opacity: .35; height: 5px; border-radius: 1px; }
+.m .interr { width: 15px; height: 8px; border-radius: 999px; background: var(--btn); position: relative; flex: none; border: var(--bb, 0px) solid var(--bc); }
+.m .interr::after { content: ""; position: absolute; top: 1px; left: 1px; width: 6px; height: 6px; border-radius: 50%; background: var(--tx); opacity: .6; }
+.m .interr.on { background: var(--acc); } .m .interr.on::after { left: auto; right: 1px; background: var(--suracc); opacity: 1; }
+.m .curseur { height: 3px; border-radius: 2px; background: var(--btn); position: relative; } .m .curseur i { position: absolute; inset: 0 30% 0 0; background: var(--acc); border-radius: 2px; }
+.m .touches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; flex: 1; }
+.m .t { border-radius: var(--r2); background: var(--btn); display: grid; place-items: center; font-size: 8px; color: var(--tx); border: var(--bb, 0px) solid var(--bc); box-shadow: var(--ombre-btn, none); }
+.m .t.op { color: var(--acc); } .m .t.eg { background: var(--acc); color: var(--suracc); }
+.m .ecran { text-align: right; padding: 3px 8px 4px; font: 600 17px/1.1 var(--font-titre, var(--font)); flex: none; }
+.m .ecran small { display: block; font: 500 7px var(--font); color: var(--dx); }
+.m .progres { height: 4px; border-radius: 2px; background: var(--btn); overflow: hidden; flex: none; } .m .progres i { display: block; height: 100%; width: 45%; background: var(--acc); }
 
-/* ---- Famille 1 : Orbite (verre fumé, flou, lueurs) ---- */
-.m.orbite { --r: 10px; --rb: 999px; --rw: 14px;
-  background: radial-gradient(120% 90% at 85% 0%, color-mix(in srgb, var(--macc) 30%, transparent), transparent 60%), radial-gradient(80% 70% at 0% 100%, #79c2d433, transparent 60%), var(--mbg); }
-.m.orbite .tb { background: transparent; }
-.m.orbite .lat, .m.orbite .term, .m.orbite .code, .m.orbite .carteM { background: color-mix(in srgb, var(--msurf) 55%, transparent); backdrop-filter: blur(6px); }
-.m.orbite .lat { border-right: 0; margin: 0 0 6px 6px; border-radius: 10px; }
-.m.orbite .outils { border-bottom: 0; }
-.m.orbite .o, .m.orbite .champ { background: color-mix(in srgb, var(--mtxt) 9%, transparent); border-color: transparent; }
-.m.orbite .o.acc { background: var(--macc); box-shadow: 0 0 10px color-mix(in srgb, var(--macc) 70%, transparent); }
-.m.orbite .it.on { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--macc) 60%, transparent); }
-.m.orbite .og { border-radius: 999px; margin-bottom: 3px; } .m.orbite .og.on { background: color-mix(in srgb, var(--macc) 25%, transparent); }
-.m.orbite .term, .m.orbite .code { margin: 0 6px 6px; border-radius: 10px; }
-.m.orbite .t { background: color-mix(in srgb, var(--mtxt) 8%, transparent); border-radius: 50%; } .m.orbite .t.eg { box-shadow: 0 0 10px var(--macc); }
-.m.orbite .bas { border-top: 0; }
+/* ---------- 1. Graphite (clair) ---------- */
+.st-graphite { --fen:#f5f5f7; --surf:#fff; --btn:#e8e8ed; --tx:#1d1d1f; --dx:#6e6e73; --acc:#0a84ff; --acc2:#bf5af2; --acc3:#c46a00; --suracc:#fff; --sel:#0a84ff; --seltx:#fff;
+  --bc:#d2d2d7; --bw:1px; --rw:11px; --r2:6px; --r3:8px; --font:"Inter",sans-serif; --sep:1px solid #e3e3e8; --latbg:#e9e9ee; --im1:#a1c4fd; --im2:#c2e9fb; --im3:#fbc2eb; --ombre:0 6px 18px #0002; }
+.st-graphite .bt:nth-of-type(1) { background:#ff5f57; opacity:1 } .st-graphite .bt:nth-of-type(2) { background:#febc2e; opacity:1 } .st-graphite .bt:nth-of-type(3) { background:#28c840; opacity:1 }
+.st-graphite .onglets { background: var(--btn); margin: 4px 6px 0; border-radius: 7px; padding: 2px; border: 0; }
+.st-graphite .og { border-radius: 5px; flex: 1; text-align: center; } .st-graphite .og.on { background: #fff; box-shadow: 0 1px 2px #0002; }
 
-/* ---- Famille 2 : Épure (plat, aéré, sans cadres) ---- */
-.m.epure { --pad: 10px; --r: 4px; --rb: 4px; --rw: 8px; }
-.m.epure .tb { background: var(--mbg); }
-.m.epure .tb .ti { text-align: left; color: var(--mtxt); font-weight: 600; }
-.m.epure .lat { background: var(--mbg); border-right: 0; width: 22%; }
-.m.epure .it.on { background: none; color: var(--macc); }
-.m.epure .it::before { display: none; }
-.m.epure .outils { border-bottom: 0; }
-.m.epure .o { background: none; color: var(--mdoux); } .m.epure .o.acc { background: none; color: var(--macc); text-decoration: underline; }
-.m.epure .champ { background: none; border: 0; border-bottom: 1px solid var(--mbord); border-radius: 0; }
-.m.epure .carteM { background: none; border: 0; border-bottom: 1px solid var(--mbord); border-radius: 0; }
-.m.epure .og { background: none; border-bottom: 1.5px solid transparent; border-radius: 0; } .m.epure .og.on { background: none; border-color: var(--macc); }
-.m.epure .term, .m.epure .code { background: var(--mbg); }
-.m.epure .t { background: none; font-weight: 400; } .m.epure .t.eg { background: none; color: var(--macc); font-weight: 600; }
-.m.epure .bas { border-top: 0; }
+/* ---------- 2. Encre (clair) ---------- */
+.st-encre { --fen:#f7f7f2; --surf:#f7f7f2; --btn:transparent; --tx:#141414; --dx:#6f6f68; --acc:#1d3fbb; --acc2:#b23a2b; --acc3:#7a5c00; --suracc:#fff; --sel:transparent; --seltx:#1d3fbb;
+  --bc:#141414; --bw:1px; --rw:2px; --r2:0px; --r3:0px; --font:"Inter",sans-serif; --font-titre:"Newsreader",Georgia,serif; --sep:1px solid #141414; --latbg:#f7f7f2; --im1:#d8d4c8; --im2:#a8a294; --im3:#e9e5da; --bb:0px; --bc2:#14141433; }
+.st-encre .og.on { background: none; box-shadow: inset 0 -2px 0 var(--acc); color: var(--acc); }
+.st-encre .it.on { text-decoration: underline; text-underline-offset: 2px; } .st-encre .it::before { display: none; }
+.st-encre .o { padding: 0 2px; } .st-encre .o.acc { background: none; color: var(--acc); text-decoration: underline; }
+.st-encre .champ { border: 0; border-bottom: 1px solid #141414; background: none; }
+.st-encre .grand-titre { font-size: 17px; font-weight: 600; }
+.st-encre .bloc { border-width: 0 0 1px 0; border-color: #14141433; padding: 4px 0; }
+.st-encre .t { background: none; font-family: "Newsreader", serif; font-size: 10px; } .st-encre .t.eg { background: none; color: var(--acc); }
 
-/* ---- Famille 3 : Relief (volumes doux, comme les icônes Relief) ---- */
-.m.relief { --r: 9px; --rb: 6px; --rw: 12px; }
-.m.relief .tb { background: linear-gradient(var(--mhaut), var(--msurf)); box-shadow: 0 1px 0 #0003; }
-.m.relief .o, .m.relief .t, .m.relief .it.on { background: linear-gradient(180deg, color-mix(in srgb, var(--mtxt) 12%, var(--mhaut)), var(--mhaut)); box-shadow: 0 1px 0 #0005, inset 0 1px 0 #ffffff1c; }
-.m.relief .o.acc, .m.relief .t.eg { background: linear-gradient(180deg, color-mix(in srgb, #fff 30%, var(--macc)), var(--macc) 55%, color-mix(in srgb, #000 20%, var(--macc))); box-shadow: 0 1px 2px #0007, inset 0 1px 0 #ffffff55; }
-.m.relief .champ, .m.relief .term, .m.relief .code { box-shadow: inset 0 1px 3px #0006; }
-.m.relief .lat { background: linear-gradient(90deg, var(--msurf), color-mix(in srgb, var(--msurf) 80%, var(--mbg))); }
-.m.relief .carteM, .m.relief .vign { box-shadow: 0 2px 4px #0005, inset 0 1px 0 #ffffff14; }
-.m.relief .og.on { box-shadow: inset 0 1px 0 #ffffff1c; }
+/* ---------- 3. Nuit polaire (sombre) ---------- */
+.st-polaire { --fen:#2e3440; --surf:#3b4252; --btn:#434c5e; --tx:#eceff4; --dx:#9aa3b5; --acc:#88c0d0; --acc2:#b48ead; --acc3:#ebcb8b; --suracc:#2e3440; --sel:#434c5e;
+  --bc:#4c566a; --bw:1px; --rw:8px; --r2:4px; --r3:6px; --font:"Inter",sans-serif; --sep:1px solid #3b4252; --latbg:#2b303b; --im1:#5e81ac; --im2:#88c0d0; --im3:#a3be8c; --termbg:#2b303b; --bb:0px; }
 
-/* ---- Famille 4 : Console (dense, monospace, lignes fines) ---- */
-.m.console { --pad: 4px; --r: 0px; --rb: 2px; --rw: 4px; --font: "JetBrains Mono", monospace; font-size: 7px; }
-.m.console .tb { height: 7%; background: var(--mbg); border-bottom: 1px solid var(--mbord); }
-.m.console .tb .ti { text-align: left; color: var(--macc); }
-.m.console .tb i { border-radius: 1px; }
-.m.console .o { background: none; border: 1px solid var(--mbord); } .m.console .o.acc { background: none; color: var(--macc); border-color: var(--macc); }
-.m.console .lat { background: var(--mbg); width: 22%; }
-.m.console .it { height: 9px; } .m.console .it::before { content: "›"; background: none; width: auto; height: auto; opacity: 1; }
-.m.console .it.on { background: none; color: var(--macc); }
-.m.console .carteM { border-radius: 0; background: none; }
-.m.console .og { border-radius: 0; background: none; border: 1px solid var(--mbord); border-bottom: 0; } .m.console .og.on { color: var(--macc); }
-.m.console .vign { border-radius: 0; } .m.console .t { border-radius: 0; background: none; border: 1px solid var(--mbord); }
-.m.console .t.eg { background: none; color: var(--macc); border-color: var(--macc); }
-.m.console .ecran { font-family: "JetBrains Mono", monospace; color: var(--macc); }
+/* ---------- 4. Synthwave (sombre) ---------- */
+.st-synth { --fen:#160d2e; --surf:#21134a; --btn:#2c1b5e; --tx:#f6ecff; --dx:#a58fd6; --acc:#ff4fd8; --acc2:#3ef0ff; --acc3:#ffd23e; --suracc:#160d2e; --sel:#ff4fd830;
+  --bc:#3d2a7a; --bw:1px; --rw:10px; --r2:999px; --r3:8px; --font:"Inter",sans-serif; --font-titre:"Chakra Petch",sans-serif; --sep:1px solid #2c1b5e; --latbg:#120a26;
+  --im1:#ff4fd8; --im2:#3ef0ff; --im3:#7b2ff7; --termbg:#100822; --lueur:0 0 6px #ff4fd8; --ombre:0 0 18px #7b2ff755; --ls-titre:1px; --titre-bg:linear-gradient(90deg,#2c1b5e,#160d2e); --titre-tx:#3ef0ff; }
+.st-synth .o.acc, .st-synth .t.eg, .st-synth .interr.on { box-shadow: 0 0 8px #ff4fd8; }
+.st-synth .og { border-radius: 999px; margin-bottom: 3px; } .st-synth .og.on { background: #ff4fd833; color: #fff; box-shadow: inset 0 0 0 1px #ff4fd8; }
+.st-synth .t { border-radius: 6px; }
+.st-synth .ecran { color: var(--acc2); text-shadow: 0 0 8px #3ef0ff; }
 
-/* ---- Famille 5 : Cartes (tout flotte, grandes cibles, style tablette) ---- */
-.m.cartes { --pad: 8px; --r: 12px; --rb: 8px; --rw: 16px; background: var(--mhaut); }
-.m.cartes .tb { background: var(--mhaut); }
-.m.cartes .lat { background: var(--msurf); border: 0; border-radius: 12px; margin: 0 0 7px 7px; padding: 6px; }
-.m.cartes .it { height: 14px; border-radius: 7px; } .m.cartes .it.on { background: var(--macc); color: var(--msur); } .m.cartes .it.on::before { background: var(--msur); }
-.m.cartes .outils { border: 0; } .m.cartes .o { height: 14px; background: var(--msurf); border-radius: 8px; }
-.m.cartes .champ { height: 15px; border-radius: 8px; border: 0; }
-.m.cartes .zone { background: var(--msurf); border-radius: 12px; margin: 0 7px 7px; }
-.m.cartes .carteM { background: var(--mhaut); border: 0; }
-.m.cartes .og { border-radius: 8px; height: 13px; margin-bottom: 4px; } .m.cartes .og.on { background: var(--msurf); }
-.m.cartes .term, .m.cartes .code { margin: 0 7px 7px; border-radius: 12px; }
-.m.cartes .t { border-radius: 10px; background: var(--msurf); } .m.cartes .bas { border: 0; }
+/* ---------- 5. Brutal (clair) ---------- */
+.st-brutal { --fen:#ffffff; --surf:#ffffff; --btn:#ffffff; --tx:#000; --dx:#555; --acc:#ffe500; --acc2:#ff3d00; --acc3:#0047ff; --suracc:#000; --sel:#ffe500;
+  --bc:#000; --bw:2px; --rw:0px; --r2:0px; --r3:0px; --font:"Space Mono",monospace; --font-titre:"Space Mono",monospace; --sep:2px solid #000; --latbg:#fff; --bb:1.5px;
+  --im1:#ff3d00; --im2:#ffe500; --im3:#0047ff; --ombre:4px 4px 0 #000; --ombre-bloc:2px 2px 0 #000; --ombre-btn:1.5px 1.5px 0 #000; --rbt:0; --titre-bg:#000; --titre-tx:#fff; }
+.st-brutal .m { font-size: 7px; }
+.st-brutal .bt { background: #fff; opacity: 1; }
+.st-brutal .o, .st-brutal .lat .titre, .st-brutal .og { text-transform: uppercase; font-weight: 700; }
+.st-brutal .o { box-shadow: 1.5px 1.5px 0 #000; } .st-brutal .og.on { background: var(--acc); border: 1.5px solid #000; border-bottom: 0; }
+.st-brutal .it::before { border-radius: 0; background: #000; opacity: 1; }
+.st-brutal .t.op { color: #ff3d00; font-weight: 700; } .st-brutal .c1 { color: #0047ff; } .st-brutal .c4 { color: #ff3d00; }
+
+/* ---------- 6. Mica (clair) ---------- */
+.st-mica { --fen:#eef1f6; --surf:#fbfbfc; --btn:#ffffffcc; --tx:#1b1b1b; --dx:#616161; --acc:#0067c0; --acc2:#8764b8; --acc3:#c239b3; --suracc:#fff; --sel:#0067c014;
+  --bc:#e1e4ea; --bw:1px; --rw:9px; --r2:5px; --r3:7px; --font:"Inter",sans-serif; --sep:0px solid transparent; --latbg:transparent; --zone:#fbfbfc;
+  --im1:#7fb2e5; --im2:#c7d8f0; --im3:#e6c7e3; --ombre:0 8px 24px #0002; --titre-bg:transparent; }
+.st-mica .m { background: linear-gradient(135deg, #e3eaf5, #f3eef7); }
+.st-mica .contenu { margin: 0 6px 6px 0; border-radius: 8px; border: 1px solid var(--bc); overflow: hidden; }
+.st-mica .it.on::after { content: ""; position: absolute; left: 0; top: 3px; bottom: 3px; width: 2px; border-radius: 2px; background: var(--acc); }
+.st-mica .it::before { border-radius: 50%; }
+.st-mica .barre-titre .og.on { background: #fbfbfc; box-shadow: 0 1px 2px #0001; }
+
+/* ---------- 7. Ardoise (sombre) ---------- */
+.st-ardoise { --fen:#1e1f22; --surf:#2b2d30; --btn:#393b40; --tx:#dfe1e5; --dx:#868a91; --acc:#e8803a; --acc2:#56a8f5; --acc3:#c77dbb; --suracc:#1e1f22; --sel:#2e436e; --seltx:#fff;
+  --bc:#393b40; --bw:1px; --rw:5px; --r2:3px; --r3:3px; --font:"Inter",sans-serif; --sep:1px solid #393b40; --latbg:#2b2d30; --termbg:#1e1f22; --etatbg:#2b2d30;
+  --im1:#56a8f5; --im2:#e8803a; --im3:#6aab73; }
+.st-ardoise .m { font-size: 7px; } .st-ardoise .it, .st-ardoise .rangeeF { padding: 1px 4px; }
+.st-ardoise .og.on { background: var(--fen); box-shadow: inset 0 -2px 0 var(--acc); }
+
+/* ---------- 8. Pastel (clair) ---------- */
+.st-pastel { --fen:#fbf5ff; --surf:#ffffff; --btn:#f0e5ff; --tx:#3a2e4d; --dx:#8b7ba3; --acc:#8e5cff; --acc2:#e0604a; --acc3:#1f9c8c; --suracc:#fff; --sel:#efe4ff;
+  --bc:#ecdffc; --bw:1px; --rw:16px; --r2:999px; --r3:14px; --font:"Nunito",sans-serif; --font-titre:"Nunito",sans-serif; --sep:0px solid transparent;
+  --im1:#ffc8dd; --im2:#bde0fe; --im3:#cdb4db; --ombre-bloc:0 3px 10px #8e5cff1a; --ombre:0 10px 26px #8e5cff22; --termbg:#fff; }
+.st-pastel .m { font-weight: 600; }
+.st-pastel .og { border-radius: 999px; margin-bottom: 3px; } .st-pastel .og.on { background: var(--acc); color: #fff; }
+.st-pastel .grand-titre { font-weight: 800; color: var(--acc); }
+.st-pastel .t { border-radius: 10px; } .st-pastel .term, .st-pastel .code { margin: 0 6px 6px; border-radius: 12px; box-shadow: 0 3px 10px #8e5cff1a; }
+
+/* ---------- 9. OLED (sombre) ---------- */
+.st-oled { --fen:#000; --surf:#0d0d0d; --btn:#1a1a1a; --tx:#fff; --dx:#8a8a8a; --acc:#ffb020; --acc2:#ff6b4a; --acc3:#7cc4ff; --suracc:#000; --sel:#1a1a1a; --seltx:#ffb020;
+  --bc:#000; --bw:0px; --rw:12px; --r2:8px; --r3:10px; --font:"Inter",sans-serif; --sep:0px solid transparent; --latbg:#000; --termbg:#000;
+  --im1:#3a2a10; --im2:#ffb020; --im3:#262626; --ls-titre:-0.3px; }
+.st-oled .grand-titre { font-size: 18px; font-weight: 700; }
+.st-oled .og { border-radius: 8px; margin-bottom: 3px; } .st-oled .og.on { background: #1a1a1a; color: var(--acc); }
+.st-oled .champ { border: 0; background: #141414; } .st-oled .bloc { border: 0; }
+.st-oled .t { border-radius: 50%; }
+
+/* ---------- 10. Rétro (clair) ---------- */
+.st-retro { --fen:#c3c3c3; --surf:#ffffff; --btn:#c3c3c3; --tx:#000; --dx:#404040; --acc:#000080; --acc2:#008080; --acc3:#800000; --suracc:#fff; --sel:#000080; --seltx:#fff;
+  --bc:#808080; --bw:2px; --rw:0px; --r2:0px; --r3:0px; --font:"Noto Sans","Tahoma",sans-serif; --sep:1px solid #808080; --latbg:#fff; --titre-bg:linear-gradient(90deg,#000080,#1084d0); --titre-tx:#fff;
+  --im1:#008080; --im2:#c3c3c3; --im3:#000080; --rbt:0; --bb:0px; --champ:#fff; --bc2:#808080; --etatbg:#c3c3c3; --termbg:#000; }
+.st-retro .m { border-color: #fff #404040 #404040 #fff; }
+.st-retro .bt { background: #c3c3c3; opacity: 1; border: 1px solid; border-color: #fff #404040 #404040 #fff; width: 8px; height: 7px; }
+.st-retro .o, .st-retro .t, .st-retro .interr { border: 1px solid; border-color: #fff #404040 #404040 #fff; }
+.st-retro .o.acc { background: #c3c3c3; color: #000; outline: 1px dotted #000; outline-offset: -3px; }
+.st-retro .champ, .st-retro .bloc, .st-retro .lat, .st-retro .term, .st-retro .code { border: 1px solid; border-color: #808080 #fff #fff #808080; }
+.st-retro .term, .st-retro .code { color: #c0c0c0; } .st-retro .term .c1, .st-retro .code .c1 { color: #00ff00; } .st-retro .code .c4, .st-retro .term .c4 { color: #ffff00; } .st-retro .code .c2, .st-retro .term .c2 { color: #00ffff; }
+.st-retro .og.on { background: #c3c3c3; border: 1px solid; border-color: #fff #404040 transparent #fff; }
+.st-retro .t.eg { background: #c3c3c3; color: #000; font-weight: 700; }
+.st-retro .ecran { background: #fff; margin: 4px 6px 0; border: 1px solid; border-color: #808080 #fff #fff #808080; font-family: "Noto Sans", sans-serif; }
+.st-retro .progres i { background: repeating-linear-gradient(90deg, #000080 0 5px, transparent 5px 7px); }
+.st-retro .feuille { border-radius: 0; }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 
 <div class="page">
   <header class="intro">
-    <div>
-      <h1>Styles des logiciels ExoLyx</h1>
-      <p>Pour chaque logiciel de base, cinq interfaces possibles. Cliquez sur celle que vous voulez pour chaque logiciel, puis copiez vos choix et envoyez-les-moi. GNOME Files n'est pas concerné.</p>
-    </div>
-    <div class="reglages">
-      <div class="seg" role="group" aria-label="Aperçu des maquettes">
-        <button type="button" id="b-sombre" aria-pressed="true">Sombre</button>
-        <button type="button" id="b-clair" aria-pressed="false">Clair</button>
-      </div>
-    </div>
+    <h1>Styles des logiciels ExoLyx</h1>
+    <p>Dix styles d'interface très différents, chacun avec ses couleurs, sa typographie et sa disposition, montrés pour chaque logiciel de base. Choisissez un style par logiciel (vous pouvez les mélanger), puis copiez vos choix et envoyez-les-moi. GNOME Files n'est pas concerné.</p>
   </header>
 
-  <div class="familles" aria-label="Les cinq familles de style">
-    <div class="famille"><b>Orbite</b><span>Verre fumé, flou, lueurs vertes, pastilles</span></div>
-    <div class="famille"><b>Épure</b><span>Plat, aéré, sans cadres, texte d'abord</span></div>
-    <div class="famille"><b>Relief</b><span>Volumes doux et boutons bombés, comme les icônes Relief</span></div>
-    <div class="famille"><b>Console</b><span>Dense, police à chasse fixe, filets fins</span></div>
-    <div class="famille"><b>Cartes</b><span>Panneaux flottants arrondis, grandes cibles tactiles</span></div>
-  </div>
-
+  <div class="nuancier" id="nuancier" aria-label="Les dix styles"></div>
+  <nav class="sommaire" id="sommaire" aria-label="Aller à un logiciel"></nav>
   <main id="logiciels"></main>
 </div>
 
@@ -230,167 +244,187 @@ section.logiciel { margin-top: 44px; }
   <div class="int">
     <span class="compte" id="compte">0 / 10 choisis</span>
     <span class="liste" id="liste">Cliquez sur une maquette pour la choisir.</span>
-    <button type="button" class="btn" id="hasard">Compléter au hasard</button>
+    <button type="button" class="btn" id="tout">Même style partout</button>
     <button type="button" class="btn principal" id="copier">Copier mes choix</button>
     <textarea class="texte-copie" id="texte" rows="3" readonly hidden aria-label="Choix à copier"></textarea>
   </div>
 </div>
 
 <script>
-const FAMILLES = ["Orbite", "Épure", "Relief", "Console", "Cartes"];
-const CLASSES = ["orbite", "epure", "relief", "console", "cartes"];
-const tb = t => `<div class="tb"><i></i><i></i><span class="ti">${t}</span><i></i><i class="x"></i></div>`;
-const L = (w, c = "") => `<div class="ligne ${c}" style="width:${w}%"></div>`;
-
-const LOGICIELS = [
-  { id: "firefox", nom: "Firefox", paquet: "firefox", desc: [
-      "Onglets en pastilles flottantes, barre d'adresse en verre, fond qui laisse voir la page.",
-      "Une seule barre : onglets et adresse fusionnés, aucune bordure, maximum de place pour la page.",
-      "Barre d'outils bombée, boutons en relief, onglet actif qui ressort comme une touche.",
-      "Onglets verticaux compacts à gauche, barre d'adresse en chasse fixe, idéal pour beaucoup d'onglets.",
-      "Onglets en cartes, gros boutons, page posée sur un panneau arrondi."],
-    vue: () => `${tb("Firefox")}<div class="onglets"><div class="og on">Accueil</div><div class="og">Wikipédia</div><div class="og">+</div></div>
-      <div class="outils"><div class="o">‹</div><div class="o">›</div><div class="o">↻</div><div class="champ">duckduckgo.com/?q=exolyx</div><div class="o acc">☆</div></div>
-      <div class="zone"><div class="grille" style="--n:3"><div class="vign"></div><div class="vign b"></div><div class="vign c"></div></div>${L(80, "f")}${L(65)}${L(70)}</div>`,
-    vueConsole: () => `${tb("firefox")}<div class="corps"><div class="lat"><div class="it on">Accueil</div><div class="it">Wikipédia</div><div class="it">GitHub</div><div class="it">YouTube</div><div class="it">Flathub</div></div>
-      <div class="col"><div class="outils"><div class="o">‹</div><div class="o">›</div><div class="champ">duckduckgo.com/?q=exolyx</div></div>
-      <div class="zone"><div class="grille" style="--n:3"><div class="vign"></div><div class="vign b"></div><div class="vign c"></div></div>${L(80, "f")}${L(65)}</div></div></div>` },
-
-  { id: "konsole", nom: "Terminal", paquet: "konsole", desc: [
-      "Fond translucide et flouté sur le bureau, onglets en pastilles, invite verte lumineuse.",
-      "Plein écran sans barre d'outils ni onglets visibles, marges larges, texte seul.",
-      "Cadre bombé façon écran rétro, zone de texte enfoncée, boutons d'onglets en relief.",
-      "Écran partagé en deux, barre d'état en bas, aucune décoration superflue.",
-      "Chaque onglet est une carte, gros boutons « Nouvel onglet » et « Diviser »."],
-    vue: () => `${tb("Terminal")}<div class="onglets"><div class="og on">~</div><div class="og">~/exolyx</div></div>
-      <div class="term"><span class="v">alex</span><span class="d">@exolyx</span> <span class="v">~</span> ❯ fastfetch<br><span class="v">   .-''-.</span>  <span class="b">OS</span>  ExoLyx<br><span class="v">  ( () )</span>  <span class="b">Bureau</span>  Plasma 6<br><span class="v">   '-..-'</span>  <span class="b">Thème</span>  ExoLyx<br><span class="v">alex</span><span class="d">@exolyx</span> <span class="v">~/exolyx</span> <span class="d">(main)</span> ❯ <span class="j">git</span> status</div>`,
-    vueConsole: () => `${tb("konsole — 2 volets")}<div class="corps"><div class="term" style="border-right:1px solid var(--mbord)"><span class="v">❯</span> htop<br><span class="d">CPU</span> <span class="v">▮▮▮▯▯▯</span> 32%<br><span class="d">Mém</span> <span class="j">▮▮▮▮▯▯</span> 3,1 Go</div><div class="term"><span class="v">❯</span> git log --oneline<br><span class="j">a8ed125</span> Profil ISO<br><span class="j">5461067</span> VM VirtualBox</div></div><div class="bas"><div class="o">bash</div><div class="esp"></div><div class="o">120×32</div></div>` },
-
-  { id: "kate", nom: "Éditeur de texte", paquet: "kate", desc: [
-      "Panneau de fichiers en verre, coloration ExoLyx, minicarte lumineuse à droite.",
-      "Mode écriture : une seule colonne centrée, numéros de ligne discrets, rien d'autre.",
-      "Onglets et panneau latéral bombés, zone de code légèrement enfoncée.",
-      "Dense pour coder : arborescence compacte, terminal intégré en bas, police fixe partout.",
-      "Fichiers ouverts en cartes, grands boutons Enregistrer / Exécuter."],
-    vue: () => `${tb("Éditeur — accueil.py")}<div class="corps"><div class="lat"><div class="it">src</div><div class="it on">accueil.py</div><div class="it">config.toml</div><div class="it">README.md</div></div>
-      <div class="code"><span class="num">1<br>2<br>3<br>4<br>5<br>6</span><span><span class="c"># Page d'accueil</span><br><span class="k">def</span> <span class="f">saluer</span>(nom):<br>&nbsp;&nbsp;<span class="k">return</span> <span class="s">f"Bonjour {nom}"</span><br><br><span class="f">print</span>(saluer(<span class="s">"Alex"</span>))<br></span></div></div>` },
-
-  { id: "discover", nom: "Logithèque", paquet: "discover", desc: [
-      "Bannière d'applis en verre avec halo vert, catégories en pastilles.",
-      "Liste éditoriale : grandes captures, texte court, aucune bordure.",
-      "Vignettes d'applis bombées comme des boîtes, bouton Installer en relief.",
-      "Tableau compact : nom, version, taille, source (pacman / Flatpak), tri par colonne.",
-      "Grille de grandes cartes tactiles, bouton Installer pleine largeur."],
-    vue: () => `${tb("Logithèque")}<div class="corps"><div class="lat"><div class="it on">À la une</div><div class="it">Jeux</div><div class="it">Graphisme</div><div class="it">Bureautique</div><div class="it">Mises à jour</div></div>
-      <div class="zone"><div class="champ">Rechercher une application…</div><div class="grille" style="--n:3">${["", " b", " c"].map(c => `<div class="carteM"><div class="vign${c}"></div>${L(70, "f")}<div class="o acc" style="align-self:start">Installer</div></div>`).join("")}</div></div></div>`,
-    vueConsole: () => `${tb("discover")}<div class="zone"><div class="champ">› rechercher</div>${[["gimp", "3.0.4", "pacman", 1], ["krita", "5.2.9", "pacman"], ["steam", "1.0.0.83", "flatpak"], ["vlc", "3.0.21", "pacman"], ["obs-studio", "31.1", "pacman"]].map(r => `<div class="rangeeF${r[3] ? " on" : ""}"><span>${r[0]}</span><span>${r[1]}</span><span>${r[2]}</span></div>`).join("")}</div>` },
-
-  { id: "systemsettings", nom: "Configuration du système", paquet: "systemsettings", desc: [
-      "Catégories dans un panneau de verre, réglages groupés sur fond flouté.",
-      "Une seule colonne de réglages, intitulés en gras, interrupteurs à droite.",
-      "Interrupteurs et curseurs bombés, sections en plaques légèrement surélevées.",
-      "Recherche en premier, liste dense de toutes les options, valeurs alignées.",
-      "Tuiles de catégories, chaque réglage dans sa propre carte avec un grand interrupteur."],
-    vue: () => `${tb("Configuration du système")}<div class="corps"><div class="lat"><div class="champ">Rechercher</div><div class="it on">Apparence</div><div class="it">Bureau</div><div class="it">Son</div><div class="it">Réseau</div><div class="it">Affichage</div></div>
-      <div class="zone">${["Thème sombre", "Teintes dynamiques", "Animations"].map((t, i) => `<div class="carteM" style="flex-direction:row;align-items:center"><div style="flex:1">${L(55, "f")}<div style="height:3px"></div>${L(80)}</div><div class="o${i < 2 ? " acc" : ""}" style="width:16px;border-radius:999px"></div></div>`).join("")}<div class="barre" style="--w:70%"><i></i></div></div></div>` },
-
-  { id: "spectacle", nom: "Captures d'écran", paquet: "spectacle", desc: [
-      "Sélection lumineuse, barre d'outils flottante en verre au-dessus de la capture.",
-      "Juste la capture et trois boutons texte : Copier, Enregistrer, Annoter.",
-      "Outils d'annotation en boutons bombés, aperçu posé comme une photo.",
-      "Barre compacte avec raccourcis clavier affichés, dimensions en pixels.",
-      "Grands boutons de mode (zone, fenêtre, écran, vidéo) en cartes."],
-    vue: () => `${tb("Captures d'écran")}<div class="outils"><div class="o acc">Zone</div><div class="o">Fenêtre</div><div class="o">Écran</div><div class="o">Vidéo</div><div class="esp"></div><div class="o">Copier</div><div class="o acc">Enregistrer</div></div>
-      <div class="zone" style="align-items:center;justify-content:center"><div class="vign" style="width:75%;outline:1.5px dashed var(--macc);outline-offset:3px"></div></div>
-      <div class="bas"><div class="o">✎</div><div class="o">▭</div><div class="o">→</div><div class="o">T</div><div class="esp"></div><div class="o">1280 × 720</div></div>` },
-
-  { id: "gwenview", nom: "Images", paquet: "gwenview", desc: [
-      "Image en grand, bande de miniatures en verre flottant en bas.",
-      "Galerie épurée : miniatures sans cadre, nom du dossier en titre.",
-      "Miniatures en tirages photo avec ombre, boutons de rotation bombés.",
-      "Informations EXIF en colonne, miniatures petites et nombreuses.",
-      "Albums en grandes cartes, gestes de zoom et boutons larges."],
-    vue: () => `${tb("Images — Vacances")}<div class="corps"><div class="col"><div class="zone"><div class="grille" style="--n:4">${["", " b", " c", "", " c", "", " b", ""].map(c => `<div class="vign${c}"></div>`).join("")}</div></div>
-      <div class="bas"><div class="o">↺</div><div class="o">↻</div><div class="esp"></div><div class="o">Diaporama</div><div class="o acc">Partager</div></div></div></div>` },
-
-  { id: "okular", nom: "Documents PDF", paquet: "okular", desc: [
-      "Page posée sur un fond flouté, sommaire en verre, surligneur vert lumineux.",
-      "Mode lecture : page seule, centrée, barre d'outils qui apparaît au survol.",
-      "Page en papier épais avec ombre, outils d'annotation en relief.",
-      "Sommaire dense numéroté, page et zoom affichés en chiffres.",
-      "Miniatures de pages en cartes, gros boutons Signer / Annoter."],
-    vue: () => `${tb("Documents — guide.pdf")}<div class="corps"><div class="lat"><div class="it on">1. Bienvenue</div><div class="it">2. Bureau</div><div class="it">3. Logiciels</div><div class="it">4. Sauvegardes</div></div>
-      <div class="zone" style="align-items:center;background:var(--mhaut)"><div class="feuille" style="width:62%">${L(60, "f")}${L(95)}${L(90)}${L(70)}<div class="ligne a" style="width:50%;opacity:.5;height:5px"></div>${L(85)}${L(60)}</div></div></div>` },
-
-  { id: "ark", nom: "Archives", paquet: "ark", desc: [
-      "Contenu de l'archive dans un panneau de verre, bouton Extraire lumineux.",
-      "Liste nue des fichiers, un seul bouton « Extraire ici ».",
-      "Archive représentée comme une boîte, fichiers en tiroirs bombés.",
-      "Tableau complet : taille, compression, date, chemin ; barre de progression texte.",
-      "Grandes cartes « Ouvrir », « Extraire », « Compresser », glisser-déposer."],
-    vue: () => `${tb("Archives — photos.zip")}<div class="outils"><div class="o acc">Extraire</div><div class="o">Ajouter</div><div class="esp"></div><div class="o">12 fichiers · 48 Mo</div></div>
-      <div class="zone">${[["Vacances/", "", "", 0], ["plage.jpg", "4,2 Mo", "92 %", 1], ["montagne.jpg", "3,8 Mo", "91 %"], ["notes.txt", "2 Ko", "38 %"], ["video.mp4", "38 Mo", "99 %"]].map(r => `<div class="rangeeF${r[3] ? " on" : ""}"><span>${r[0]}</span><span>${r[1]}</span><span>${r[2]}</span></div>`).join("")}<div class="barre" style="--w:45%"><i></i></div></div>` },
-
-  { id: "kcalc", nom: "Calculatrice", paquet: "kcalc", desc: [
-      "Touches rondes en verre, touche « = » qui brille.",
-      "Chiffres très grands, touches sans fond, historique en texte gris.",
-      "Touches bombées façon calculatrice physique.",
-      "Mode programmeur : bases hexa / binaire visibles, historique dense.",
-      "Grandes touches carrées arrondies, faciles à viser à la souris ou au doigt."],
-    vue: () => `${tb("Calculatrice")}<div class="ecran"><small>1 250 × 12 %</small>150</div>
-      <div class="zone" style="padding-top:0"><div class="touches">${["C", "±", "%", "÷", "7", "8", "9", "×", "4", "5", "6", "−", "1", "2", "3", "+", "0", ",", "⌫", "="].map(k => `<div class="t${"÷×−+%±".includes(k) ? " op" : ""}${k === "=" ? " eg" : ""}">${k}</div>`).join("")}</div></div>` },
+/* ---- Les 10 styles : apparence (classe CSS) + disposition ---- */
+const STYLES = [
+  { id: "graphite", nom: "Graphite", mode: "clair", pal: ["#f5f5f7", "#e9e9ee", "#1d1d1f", "#0a84ff"],
+    d: "Gris neutres, barre latérale translucide, onglets en segments, accent bleu.",
+    lat: "gauche", onglets: "segments", outils: "titre", etat: false },
+  { id: "encre", nom: "Encre", mode: "clair", pal: ["#f7f7f2", "#141414", "#6f6f68", "#1d3fbb"],
+    d: "Mise en page de magazine : grands titres à empattements, filets noirs, liens bleu encre.",
+    lat: "aucune", onglets: "souligne", outils: "texte", etat: false, titre: true },
+  { id: "polaire", nom: "Nuit polaire", mode: "sombre", pal: ["#2e3440", "#3b4252", "#eceff4", "#88c0d0"],
+    d: "Gris bleuté froid et reposant, accents givrés, disposition classique.",
+    lat: "gauche", onglets: "classiques", outils: "icones", etat: false },
+  { id: "synth", nom: "Synthwave", mode: "sombre", pal: ["#160d2e", "#2c1b5e", "#ff4fd8", "#3ef0ff"],
+    d: "Violet nuit, magenta et cyan lumineux, rail d'icônes, titres futuristes.",
+    lat: "rail", onglets: "pastilles", outils: "icones", etat: false },
+  { id: "brutal", nom: "Brutal", mode: "clair", pal: ["#ffffff", "#000000", "#ffe500", "#ff3d00"],
+    d: "Noir et blanc, bordures épaisses, ombres décalées, jaune vif, police à chasse fixe.",
+    lat: "droite", onglets: "classiques", outils: "texte", etat: true },
+  { id: "mica", nom: "Mica", mode: "clair", pal: ["#e3eaf5", "#fbfbfc", "#1b1b1b", "#0067c0"],
+    d: "Surfaces douces semi-transparentes, contenu posé sur un panneau arrondi, bleu discret.",
+    lat: "gauche", onglets: "titre", outils: "icones", etat: false },
+  { id: "ardoise", nom: "Ardoise", mode: "sombre", pal: ["#1e1f22", "#2b2d30", "#dfe1e5", "#e8803a"],
+    d: "Dense comme un outil professionnel, barre d'état, accent orange.",
+    lat: "gauche", onglets: "classiques", outils: "icones", etat: true },
+  { id: "pastel", nom: "Pastel", mode: "clair", pal: ["#fbf5ff", "#f0e5ff", "#8e5cff", "#ff8f7a"],
+    d: "Lavande et pêche, tout est arrondi, outils dans un dock flottant en bas.",
+    lat: "aucune", onglets: "pastilles", outils: "dock", etat: false, titre: true },
+  { id: "oled", nom: "OLED", mode: "sombre", pal: ["#000000", "#1a1a1a", "#ffffff", "#ffb020"],
+    d: "Noir pur, très grands titres, aucune bordure, accent ambre.",
+    lat: "aucune", onglets: "pastilles", outils: "icones", etat: false, titre: true },
+  { id: "retro", nom: "Rétro", mode: "clair", pal: ["#c3c3c3", "#ffffff", "#000080", "#008080"],
+    d: "Boutons en biseau, barre de titre bleu marine, barre de menus, barre d'état.",
+    lat: "gauche", onglets: "classiques", outils: "texte", etat: true, menus: true },
 ];
 
-let choix = {};
-try { choix = JSON.parse(localStorage.getItem("exolyx-styles") || "{}"); } catch (e) { choix = {}; }
-const sauver = () => { try { localStorage.setItem("exolyx-styles", JSON.stringify(choix)); } catch (e) {} };
+const L = (w, c = "") => `<div class="ligne ${c}" style="width:${w}%"></div>`;
+const MENUS = '<div class="menus"><span>Fichier</span><span>Édition</span><span>Affichage</span><span>Aide</span></div>';
 
-const racine = document.getElementById("logiciels");
-racine.innerHTML = LOGICIELS.map(l => `
+/* Fenêtre générique : la disposition change selon le style */
+function fenetre(a, s) {
+  const outils = (a.outils || []).map(o => `<div class="o${o.acc ? " acc" : ""}">${s.outils === "texte" || o.toujoursTexte ? o.t : (o.i || o.t)}</div>`).join("");
+  const champ = a.champ ? `<div class="champ">${a.champ}</div>` : "";
+  const onglets = a.onglets ? a.onglets.map((t, i) => `<div class="og${i === 0 ? " on" : ""}">${t}</div>`).join("") : "";
+  const boutons = '<i class="bt"></i><i class="bt"></i><i class="bt"></i>';
+  let h = "";
+  if (s.onglets === "titre" && a.onglets) h += `<div class="barre-titre">${onglets}<span class="esp"></span>${boutons}</div>`;
+  else if (s.outils === "titre" && (outils || champ)) h += `<div class="barre-titre">${boutons}<span class="nom" style="margin:0 4px">${a.titre}</span>${champ || '<span class="esp"></span>'}${outils}</div>`;
+  else if (s.id === "retro") h += `<div class="barre-titre"><span class="nom">${a.titre}</span><span class="esp"></span>${boutons}</div>`;
+  else h += `<div class="barre-titre">${boutons}<span class="esp"></span><span class="nom">${a.titre}</span><span class="esp"></span><span style="width:29px"></span></div>`;
+  if (s.menus) h += MENUS;
+  if (a.onglets && s.onglets !== "titre") h += `<div class="onglets">${onglets}</div>`;
+  if (s.outils !== "titre" && s.outils !== "dock" && (outils || champ)) h += `<div class="outils">${champ || '<span class="esp"></span>'}${outils}</div>`;
+  if (s.outils === "dock" && champ) h += `<div class="outils">${champ}</div>`;
+  let lat = "";
+  if (a.lat && s.lat === "gauche") lat = `<div class="lat">${a.lat}</div>`;
+  if (a.lat && s.lat === "droite") lat = `<div class="lat droite">${a.lat}</div>`;
+  if (a.lat && s.lat === "rail") lat = `<div class="rail">${[1, 0, 0, 0, 0].map(on => `<i class="${on ? "on" : ""}"></i>`).join("")}</div>`;
+  const titre = s.titre && a.grandTitre ? `<div class="grand-titre">${a.grandTitre}</div>` : "";
+  h += `<div class="corps">${lat}<div class="contenu">${titre}${a.zone(s)}</div></div>`;
+  if (s.outils === "dock" && outils) h += `<div class="dock">${outils}</div>`;
+  if (s.etat && a.etat) h += `<div class="etat">${a.etat.map(e => `<span>${e}</span>`).join("")}</div>`;
+  return h;
+}
+
+/* Note de disposition pour chaque couple logiciel × style */
+function note(a, s) {
+  const b = [];
+  if (a.lat) b.push({ gauche: "panneau à gauche", droite: "panneau à droite", rail: "rail d'icônes à gauche", aucune: "sans panneau latéral" }[s.lat]);
+  if (a.onglets) b.push({ segments: "onglets en segments", souligne: "onglets soulignés", classiques: "onglets classiques", pastilles: "onglets en pastilles", titre: "onglets dans la barre de titre" }[s.onglets]);
+  if (a.outils || a.champ) b.push({ titre: "outils intégrés à la barre de titre", texte: "boutons avec leur nom", icones: "boutons en icônes", dock: "outils dans un dock flottant" }[s.outils]);
+  if (s.menus) b.push("barre de menus");
+  if (s.etat && a.etat) b.push("barre d'état");
+  if (s.titre && a.grandTitre) b.push("grand titre de page");
+  if (!b.length) return s.d;
+  const t = b.join(", ");
+  return t.charAt(0).toUpperCase() + t.slice(1) + ".";
+}
+
+/* ---- Les 10 logiciels ---- */
+const LAT = (titre, items) => `<div class="titre">${titre}</div>` + items.map((t, i) => `<div class="it${i === 0 ? " on" : ""}">${t}</div>`).join("");
+const LOGICIELS = [
+  { id: "firefox", nom: "Firefox", paquet: "firefox", titre: "Firefox", onglets: ["Accueil", "Wikipédia", "Météo"],
+    champ: "duckduckgo.com/?q=exolyx", outils: [{ i: "‹", t: "Préc." }, { i: "›", t: "Suiv." }, { i: "☆", t: "Favori", acc: true }],
+    lat: LAT("Favoris", ["Accueil", "ExoLyx", "Wikipédia", "Flathub"]), grandTitre: "Bonjour, Alex",
+    zone: () => `<div class="zone"><div class="grille"><div class="vign"></div><div class="vign b"></div><div class="vign c"></div></div>${L(85, "f")}${L(70)}${L(60)}</div>` },
+  { id: "konsole", nom: "Terminal", paquet: "konsole", titre: "Terminal", onglets: ["~", "~/exolyx"],
+    outils: [{ i: "+", t: "Onglet" }, { i: "⊟", t: "Diviser" }],
+    zone: () => `<div class="term mono"><span class="c1">alex</span><span class="c3">@exolyx</span> <span class="c2">~</span> ❯ fastfetch<br><span class="c1">  .-''-.  </span><span class="c2">OS</span> ExoLyx<br><span class="c1"> ( () ) </span> <span class="c2">Bureau</span> Plasma 6<br><span class="c1">  '-..-'  </span><span class="c2">Mémoire</span> 3,1 / 16 Go<br><span class="c1">alex</span><span class="c3">@exolyx</span> <span class="c2">~/exolyx</span> <span class="c3">(main)</span> ❯ <span class="c4">git</span> status<br><span class="c3">Sur la branche main</span></div>`,
+    etat: ["bash", "120 × 32", "UTF-8"] },
+  { id: "kate", nom: "Éditeur de texte", paquet: "kate", titre: "accueil.py — Éditeur", onglets: ["accueil.py", "config.toml"],
+    outils: [{ i: "▶", t: "Exécuter", acc: true }, { i: "⌕", t: "Chercher" }],
+    lat: LAT("Projet", ["accueil.py", "config.toml", "README.md", "tests/"]),
+    zone: () => `<div class="code mono"><span class="n">1<br>2<br>3<br>4<br>5<br>6<br>7</span><span><span class="c3"># Page d'accueil</span><br><span class="c1">def</span> <span class="c2">saluer</span>(nom):<br>&nbsp;&nbsp;<span class="c1">return</span> <span class="c4">f"Bonjour {nom}"</span><br><br><span class="c1">for</span> n <span class="c1">in</span> [<span class="c4">"Alex"</span>]:<br>&nbsp;&nbsp;<span class="c2">print</span>(saluer(n))<br></span></div>`,
+    etat: ["Ligne 3, col. 12", "Python", "UTF-8"] },
+  { id: "discover", nom: "Logithèque", paquet: "discover", titre: "Logithèque", champ: "Rechercher une application…",
+    outils: [{ i: "⟳", t: "Mises à jour" }],
+    lat: LAT("Catégories", ["À la une", "Jeux", "Graphisme", "Bureautique", "Internet"]), grandTitre: "À la une",
+    zone: () => `<div class="zone"><div class="grille">${["", " b", " c"].map((c, i) => `<div class="bloc"><div class="vign${c}"></div>${L(75, "f")}${L(50)}<div class="o${i === 0 ? " acc" : ""}" style="align-self:flex-start">Installer</div></div>`).join("")}</div></div>`,
+    etat: ["3 mises à jour", "Flathub activé"] },
+  { id: "systemsettings", nom: "Configuration du système", paquet: "systemsettings", titre: "Configuration du système", champ: "Rechercher un réglage",
+    lat: LAT("Réglages", ["Apparence", "Bureau", "Son", "Réseau", "Affichage"]), grandTitre: "Apparence",
+    zone: () => `<div class="zone">${["Thème sombre", "Teintes dynamiques", "Animations"].map((t, i) => `<div class="bloc" style="flex-direction:row;align-items:center;gap:6px"><div style="flex:1;display:flex;flex-direction:column;gap:3px">${L(50, "f")}${L(80)}</div><div class="interr${i !== 1 ? " on" : ""}"></div></div>`).join("")}<div class="bloc"><span>Taille du texte</span><div class="curseur"><i></i></div></div></div>`,
+    etat: ["Modifications appliquées"] },
+  { id: "spectacle", nom: "Captures d'écran", paquet: "spectacle", titre: "Captures d'écran",
+    outils: [{ i: "▭", t: "Zone", acc: true, toujoursTexte: true }, { i: "▢", t: "Fenêtre", toujoursTexte: true }, { i: "▣", t: "Écran", toujoursTexte: true }, { i: "⧉", t: "Copier" }, { i: "⤓", t: "Enregistrer" }],
+    zone: () => `<div class="zone" style="justify-content:center;align-items:center"><div class="vign" style="width:68%;outline:1.5px dashed var(--acc);outline-offset:3px"></div><div style="display:flex;gap:4px"><div class="o">✎</div><div class="o">T</div><div class="o">→</div><div class="o">◯</div></div></div>`,
+    etat: ["1280 × 720 px", "PNG"] },
+  { id: "gwenview", nom: "Images", paquet: "gwenview", titre: "Images — Vacances",
+    outils: [{ i: "↺", t: "Pivoter" }, { i: "▶", t: "Diaporama" }, { i: "⇪", t: "Partager", acc: true }],
+    lat: LAT("Dossiers", ["Vacances", "Famille", "Captures", "Fonds"]), grandTitre: "Vacances",
+    zone: () => `<div class="zone"><div class="grille" style="--n:4">${["", " b", " c", "", " c", "", " b", ""].map(c => `<div class="vign${c}"></div>`).join("")}</div></div>`,
+    etat: ["24 images", "1,2 Go"] },
+  { id: "okular", nom: "Documents PDF", paquet: "okular", titre: "guide.pdf — Documents",
+    outils: [{ i: "✎", t: "Annoter" }, { i: "⌕", t: "Chercher" }, { i: "✍", t: "Signer", acc: true }],
+    lat: LAT("Sommaire", ["Bienvenue", "Le bureau", "Les logiciels", "Sauvegardes"]),
+    zone: () => `<div class="zone" style="background:var(--btn)"><div class="feuille">${L(55, "f")}${L(95)}${L(90)}<div class="surligne" style="width:70%"></div>${L(85)}${L(92)}${L(60)}</div></div>`,
+    etat: ["Page 3 / 24", "Zoom 100 %"] },
+  { id: "ark", nom: "Archives", paquet: "ark", titre: "photos.zip — Archives",
+    outils: [{ i: "⤓", t: "Extraire", acc: true }, { i: "+", t: "Ajouter" }],
+    zone: () => `<div class="zone">${[["Vacances/", "", ""], ["plage.jpg", "4,2 Mo", "92 %", 1], ["montagne.jpg", "3,8 Mo", "91 %"], ["notes.txt", "2 Ko", "38 %"], ["video.mp4", "38 Mo", "99 %"]].map(r => `<div class="rangeeF${r[3] ? " on" : ""}"><span>${r[0]}</span><span>${r[1]}</span><span>${r[2]}</span></div>`).join("")}<div class="progres"><i></i></div></div>`,
+    etat: ["12 fichiers", "48 Mo", "ZIP"] },
+  { id: "kcalc", nom: "Calculatrice", paquet: "kcalc", titre: "Calculatrice",
+    zone: () => `<div class="ecran"><small>1 250 × 12 %</small>150</div><div class="zone" style="padding-top:4px"><div class="touches">${["C", "±", "%", "÷", "7", "8", "9", "×", "4", "5", "6", "−", "1", "2", "3", "+", "0", ",", "⌫", "="].map(k => `<div class="t${"÷×−+%±".includes(k) ? " op" : ""}${k === "=" ? " eg" : ""}">${k}</div>`).join("")}</div></div>` },
+];
+
+/* ---- Rendu ---- */
+document.getElementById("nuancier").innerHTML = STYLES.map(s => `
+  <div class="nuance"><div class="pal">${s.pal.map(c => `<i style="background:${c}"></i>`).join("")}</div>
+  <b>${s.nom}</b><span class="mode">${s.mode}</span><span class="d">${s.d}</span></div>`).join("");
+document.getElementById("sommaire").innerHTML = LOGICIELS.map(l => `<a href="#${l.id}" id="s-${l.id}">${l.nom}</a>`).join("");
+document.getElementById("logiciels").innerHTML = LOGICIELS.map(l => `
   <section class="logiciel" id="${l.id}" aria-labelledby="t-${l.id}">
     <div class="entete"><h2 id="t-${l.id}">${l.nom}</h2><span class="paquet">${l.paquet}</span><span class="choisi" id="c-${l.id}"></span></div>
-    <div class="rangee">${CLASSES.map((c, i) => `
+    <div class="rangee">${STYLES.map((s, i) => `
       <button type="button" class="carte" data-l="${l.id}" data-s="${i}" aria-pressed="false">
-        <div class="m ${c}" aria-hidden="true">${c === "console" && l.vueConsole ? l.vueConsole() : l.vue()}</div>
-        <div class="legende"><b>${FAMILLES[i]}</b><span class="coche"></span></div>
-        <p>${l.desc[i]}</p>
+        <div class="st-${s.id}" style="display:contents"><div class="m" aria-hidden="true">${fenetre(l, s)}</div></div>
+        <div class="legende"><b>${s.nom}</b><small>${s.mode}</small><span class="coche"></span></div>
+        <p>${note(l, s)}</p>
       </button>`).join("")}</div>
   </section>`).join("");
+
+let choix = {};
+try { choix = JSON.parse(localStorage.getItem("exolyx-styles-v2") || "{}"); } catch (e) { choix = {}; }
+let dernier;
+const sauver = () => { try { localStorage.setItem("exolyx-styles-v2", JSON.stringify(choix)); } catch (e) {} };
 
 function afficher() {
   document.querySelectorAll(".carte").forEach(b => b.setAttribute("aria-pressed", String(choix[b.dataset.l] === +b.dataset.s)));
   LOGICIELS.forEach(l => {
-    const el = document.getElementById("c-" + l.id);
-    el.innerHTML = choix[l.id] === undefined ? "Pas encore choisi" : `Choisi : <strong>${FAMILLES[choix[l.id]]}</strong>`;
+    const c = choix[l.id];
+    document.getElementById("c-" + l.id).innerHTML = c === undefined ? "Pas encore choisi" : `Choisi : <strong>${STYLES[c].nom}</strong>`;
+    document.getElementById("s-" + l.id).classList.toggle("fait", c !== undefined);
   });
-  const n = LOGICIELS.filter(l => choix[l.id] !== undefined).length;
-  document.getElementById("compte").textContent = `${n} / ${LOGICIELS.length} choisis`;
-  document.getElementById("liste").textContent = n ? LOGICIELS.filter(l => choix[l.id] !== undefined).map(l => `${l.nom} : ${FAMILLES[choix[l.id]]}`).join(" · ") : "Cliquez sur une maquette pour la choisir.";
+  const faits = LOGICIELS.filter(l => choix[l.id] !== undefined);
+  document.getElementById("compte").textContent = `${faits.length} / ${LOGICIELS.length} choisis`;
+  document.getElementById("liste").textContent = faits.length ? faits.map(l => `${l.nom} : ${STYLES[choix[l.id]].nom}`).join(" · ") : "Cliquez sur une maquette pour la choisir.";
 }
-racine.addEventListener("click", e => {
+document.getElementById("logiciels").addEventListener("click", e => {
   const b = e.target.closest(".carte"); if (!b) return;
   const l = b.dataset.l, s = +b.dataset.s;
-  if (choix[l] === s) delete choix[l]; else choix[l] = s;
+  if (choix[l] === s) delete choix[l]; else { choix[l] = s; dernier = s; }
   sauver(); afficher();
 });
-document.getElementById("hasard").addEventListener("click", () => {
-  LOGICIELS.forEach(l => { if (choix[l.id] === undefined) choix[l.id] = Math.floor(Math.random() * 5); });
-  sauver(); afficher();
+/* « Même style partout » : applique à tous les logiciels le dernier style cliqué */
+document.getElementById("tout").addEventListener("click", () => {
+  const bouton = document.getElementById("tout");
+  const s = dernier !== undefined ? dernier : Object.values(choix).pop();
+  if (s === undefined) { bouton.textContent = "Choisissez d'abord un style"; setTimeout(() => bouton.textContent = "Même style partout", 1800); return; }
+  LOGICIELS.forEach(l => choix[l.id] = s); sauver(); afficher();
 });
 document.getElementById("copier").addEventListener("click", async () => {
-  const lignes = LOGICIELS.map(l => `- ${l.nom} : ${choix[l.id] === undefined ? "(pas de choix)" : FAMILLES[choix[l.id]]}`);
-  const texte = "Styles choisis pour ExoLyx :\n" + lignes.join("\n");
-  const zone = document.getElementById("texte");
-  const bouton = document.getElementById("copier");
+  const texte = "Styles choisis pour ExoLyx :\n" + LOGICIELS.map(l => `- ${l.nom} : ${choix[l.id] === undefined ? "(pas de choix)" : STYLES[choix[l.id]].nom}`).join("\n");
+  const zone = document.getElementById("texte"), bouton = document.getElementById("copier");
   try { await navigator.clipboard.writeText(texte); bouton.textContent = "Copié"; setTimeout(() => bouton.textContent = "Copier mes choix", 1800); }
   catch (err) { zone.hidden = false; zone.value = texte; zone.focus(); zone.select(); bouton.textContent = "Sélectionné, faites Ctrl+C"; }
 });
-function apercu(clair) {
-  document.getElementById("logiciels").classList.toggle("clairs", clair);
-  document.getElementById("b-clair").setAttribute("aria-pressed", String(clair));
-  document.getElementById("b-sombre").setAttribute("aria-pressed", String(!clair));
-}
-document.getElementById("b-sombre").addEventListener("click", () => apercu(false));
-document.getElementById("b-clair").addEventListener("click", () => apercu(true));
 afficher();
 </script>
