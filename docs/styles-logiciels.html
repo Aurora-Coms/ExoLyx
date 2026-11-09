@@ -1,0 +1,396 @@
+<title>Styles des logiciels ExoLyx</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Mise en page : en-tête court, puis une rangée de 5 maquettes par logiciel ; panneau « Mes choix » collant en bas. */
+:root {
+  --bg: #0d1310; --surface: #141c17; --haute: #1c2620; --bord: #2a362e;
+  --texte: #e6efe1; --doux: #97a893; --accent: #a8d479; --sur-accent: #0d1310;
+  --f-titre: "Bricolage Grotesque", "Inter", system-ui, sans-serif;
+  --f-texte: "Inter", "Noto Sans", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f4f8f1; --surface: #ffffff; --haute: #e9f0e4; --bord: #d3decb;
+    --texte: #16201a; --doux: #5b6b57; --accent: #4f8a26; --sur-accent: #ffffff; color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f4f8f1; --surface: #ffffff; --haute: #e9f0e4; --bord: #d3decb;
+  --texte: #16201a; --doux: #5b6b57; --accent: #4f8a26; --sur-accent: #ffffff; color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--texte); font-family: var(--f-texte); font-size: 15px; line-height: 1.5; }
+.page { max-width: 1480px; margin: 0 auto; padding-block: 40px 140px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1 { font-family: var(--f-titre); font-size: clamp(30px, 4.4vw, 50px); line-height: 1.05; margin: 0; letter-spacing: -0.5px; text-wrap: balance; }
+.intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; margin-bottom: 18px; }
+.intro p { margin: 12px 0 0; color: var(--doux); max-width: 68ch; }
+.reglages { display: flex; gap: 8px; flex-wrap: wrap; }
+.seg { display: inline-flex; border: 1px solid var(--bord); border-radius: 999px; padding: 3px; background: var(--surface); }
+.seg button { font: 500 13px var(--f-texte); color: var(--doux); background: none; border: 0; border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--sur-accent); }
+button:focus-visible, .carte:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.familles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 26px 0 8px; }
+.famille { border-top: 2px solid var(--bord); padding-top: 10px; }
+.famille b { font-family: var(--f-titre); font-size: 18px; display: block; }
+.famille span { color: var(--doux); font-size: 13px; }
+
+section.logiciel { margin-top: 44px; }
+.entete { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.entete h2 { font-family: var(--f-titre); font-size: 26px; margin: 0; }
+.entete .paquet { font: 12px var(--f-mono); color: var(--doux); }
+.entete .choisi { margin-left: auto; font-size: 13px; color: var(--doux); }
+.entete .choisi strong { color: var(--accent); }
+.rangee { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.carte { background: var(--surface); border: 1px solid var(--bord); border-radius: 12px; padding: 10px; cursor: pointer; text-align: left;
+  color: inherit; font: inherit; display: flex; flex-direction: column; gap: 10px; transition: border-color .15s, transform .15s; min-width: 0; }
+.carte:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--bord)); }
+.carte[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.carte .legende { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.carte .legende b { font-family: var(--f-titre); font-size: 16px; }
+.carte .coche { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--bord); display: grid; place-items: center; flex: none; }
+.carte[aria-pressed="true"] .coche { background: var(--accent); border-color: var(--accent); }
+.carte[aria-pressed="true"] .coche::after { content: ""; width: 9px; height: 5px; border: 2px solid var(--sur-accent); border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); }
+.carte p { margin: 0; color: var(--doux); font-size: 13px; line-height: 1.45; }
+
+@media (max-width: 1100px) { .rangee, .familles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 720px) { .rangee, .familles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .intro { grid-template-columns: 1fr; } }
+@media (max-width: 460px) { .rangee, .familles { grid-template-columns: 1fr; } }
+
+/* Panneau des choix */
+.panneau { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(12px); border-top: 1px solid var(--bord);
+  padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.panneau .int { max-width: 1480px; margin: 0 auto; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.panneau .compte { font-family: var(--f-titre); font-size: 18px; }
+.panneau .liste { flex: 1; min-width: 0; color: var(--doux); font-size: 13px; overflow-wrap: anywhere; }
+.btn { font: 600 14px var(--f-texte); border-radius: 999px; padding: 10px 18px; border: 1px solid var(--bord); background: var(--haute); color: var(--texte); cursor: pointer; }
+.btn.principal { background: var(--accent); color: var(--sur-accent); border-color: var(--accent); }
+.texte-copie { width: 100%; font: 12px var(--f-mono); background: var(--bg); color: var(--texte); border: 1px solid var(--bord); border-radius: 8px; padding: 8px; }
+
+/* ================= Maquettes ================= */
+.m { --mbg:#0d1310; --msurf:#141c17; --mhaut:#1c2620; --mbord:#2a362e; --mtxt:#e6efe1; --mdoux:#97a893; --macc:#a8d479; --msur:#0d1310;
+  --r: 8px; --rb: 6px; --pad: 7px; --font: "Inter", sans-serif;
+  aspect-ratio: 16 / 10.5; max-width: 100%; border-radius: var(--rw, 10px); overflow: hidden; position: relative;
+  background: var(--mbg); color: var(--mtxt); font: 500 8px/1.3 var(--font); display: flex; flex-direction: column;
+  border: 1px solid var(--mbord); container-type: inline-size; }
+.clairs .m { --mbg:#f4f8f1; --msurf:#ffffff; --mhaut:#e9f0e4; --mbord:#d3decb; --mtxt:#16201a; --mdoux:#5b6b57; --macc:#5e9b2e; --msur:#ffffff; }
+.m * { box-sizing: border-box; }
+.m .tb { height: 9%; min-height: 14px; display: flex; align-items: center; gap: 5px; padding: 0 7px; background: var(--mhaut); flex: none; }
+.m .tb .ti { flex: 1; text-align: center; font-weight: 600; color: var(--mdoux); white-space: nowrap; overflow: hidden; }
+.m .tb i { width: 6px; height: 6px; border-radius: 50%; background: var(--mdoux); opacity: .55; display: block; }
+.m .tb i.x { background: var(--macc); opacity: 1; }
+.m .corps { flex: 1; display: flex; min-height: 0; }
+.m .col { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.m .outils { display: flex; gap: 4px; align-items: center; padding: var(--pad); border-bottom: 1px solid var(--mbord); flex: none; }
+.m .o { height: 11px; min-width: 11px; padding: 0 4px; border-radius: var(--rb); background: var(--mhaut); display: grid; place-items: center; color: var(--mdoux); font-size: 6.5px; white-space: nowrap; }
+.m .o.acc { background: var(--macc); color: var(--msur); }
+.m .esp { flex: 1; }
+.m .champ { flex: 1; height: 12px; border-radius: var(--rb); background: var(--msurf); border: 1px solid var(--mbord); display: flex; align-items: center; padding: 0 5px; color: var(--mdoux); font-size: 6.5px; min-width: 0; overflow: hidden; white-space: nowrap; }
+.m .zone .champ, .m .lat .champ { flex: none; }
+.m .lat { width: 26%; background: var(--msurf); border-right: 1px solid var(--mbord); padding: var(--pad); display: flex; flex-direction: column; gap: 3px; flex: none; }
+.m .it { height: 11px; border-radius: var(--rb); display: flex; align-items: center; gap: 4px; padding: 0 4px; color: var(--mdoux); font-size: 6.5px; white-space: nowrap; overflow: hidden; }
+.m .it::before { content: ""; width: 6px; height: 6px; border-radius: 2px; background: currentColor; opacity: .5; flex: none; }
+.m .it.on { background: color-mix(in srgb, var(--macc) 20%, transparent); color: var(--mtxt); }
+.m .it.on::before { background: var(--macc); opacity: 1; }
+.m .zone { flex: 1; padding: var(--pad); display: flex; flex-direction: column; gap: 5px; min-height: 0; overflow: hidden; }
+.m .ligne { height: 4px; border-radius: 2px; background: var(--mdoux); opacity: .35; }
+.m .ligne.f { opacity: .7; background: var(--mtxt); }
+.m .ligne.a { background: var(--macc); opacity: .9; }
+.m .grille { display: grid; grid-template-columns: repeat(var(--n, 4), 1fr); gap: 5px; }
+.m .vign { aspect-ratio: 4/3; border-radius: var(--r); background: linear-gradient(135deg, color-mix(in srgb, var(--macc) 45%, var(--mhaut)), var(--mhaut)); }
+.m .vign.b { background: linear-gradient(160deg, #79c2d4aa, var(--mhaut)); }
+.m .vign.c { background: linear-gradient(200deg, #e8c26aaa, var(--mhaut)); }
+.m .carteM { background: var(--msurf); border: 1px solid var(--mbord); border-radius: var(--r); padding: 5px; display: flex; flex-direction: column; gap: 3px; }
+.m .onglets { display: flex; gap: 3px; padding: 4px var(--pad) 0; flex: none; }
+.m .og { height: 11px; padding: 0 7px; border-radius: var(--rb) var(--rb) 0 0; background: var(--mhaut); color: var(--mdoux); display: flex; align-items: center; font-size: 6.5px; white-space: nowrap; }
+.m .og.on { background: var(--msurf); color: var(--mtxt); }
+.m .term { font: 6.5px/1.55 "JetBrains Mono", monospace; padding: var(--pad); flex: 1; background: var(--msurf); overflow: hidden; }
+.m .term .v { color: var(--macc); } .m .term .d { color: var(--mdoux); } .m .term .j { color: #e8c26a; } .m .term .b { color: #79c2d4; }
+.m .num { color: var(--mdoux); text-align: right; padding-right: 5px; user-select: none; }
+.m .code { display: grid; grid-template-columns: auto 1fr; font: 6.5px/1.6 "JetBrains Mono", monospace; padding: var(--pad) 0; flex: 1; background: var(--msurf); }
+.m .code .k { color: var(--macc); } .m .code .s { color: #e8c26a; } .m .code .c { color: var(--mdoux); font-style: italic; } .m .code .f { color: #8dd4b4; }
+.m .feuille { background: #fbfdf9; border-radius: 3px; box-shadow: 0 2px 6px #0004; padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+.m .feuille .ligne { background: #31402f; }
+.m .touches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; flex: 1; }
+.m .t { border-radius: var(--rb); background: var(--mhaut); display: grid; place-items: center; font-size: 8px; color: var(--mtxt); }
+.m .t.op { color: var(--macc); } .m .t.eg { background: var(--macc); color: var(--msur); }
+.m .ecran { font: 600 15px "Inter", sans-serif; text-align: right; padding: 4px 6px; flex: none; }
+.m .ecran small { display: block; font-size: 7px; color: var(--mdoux); font-weight: 500; }
+.m .barre { height: 4px; border-radius: 2px; background: var(--mhaut); overflow: hidden; } .m .barre i { display: block; height: 100%; width: var(--w, 60%); background: var(--macc); }
+.m .rangeeF { display: grid; grid-template-columns: 1fr auto auto; gap: 6px; align-items: center; padding: 2px 4px; border-radius: var(--rb); font-size: 6.5px; color: var(--mdoux); }
+.m .rangeeF.on { background: color-mix(in srgb, var(--macc) 18%, transparent); color: var(--mtxt); }
+.m .pastille { width: 14px; height: 14px; border-radius: 4px; background: color-mix(in srgb, var(--macc) 40%, var(--mhaut)); flex: none; }
+.m .bas { display: flex; gap: 4px; padding: var(--pad); border-top: 1px solid var(--mbord); align-items: center; flex: none; }
+
+/* ---- Famille 1 : Orbite (verre fumé, flou, lueurs) ---- */
+.m.orbite { --r: 10px; --rb: 999px; --rw: 14px;
+  background: radial-gradient(120% 90% at 85% 0%, color-mix(in srgb, var(--macc) 30%, transparent), transparent 60%), radial-gradient(80% 70% at 0% 100%, #79c2d433, transparent 60%), var(--mbg); }
+.m.orbite .tb { background: transparent; }
+.m.orbite .lat, .m.orbite .term, .m.orbite .code, .m.orbite .carteM { background: color-mix(in srgb, var(--msurf) 55%, transparent); backdrop-filter: blur(6px); }
+.m.orbite .lat { border-right: 0; margin: 0 0 6px 6px; border-radius: 10px; }
+.m.orbite .outils { border-bottom: 0; }
+.m.orbite .o, .m.orbite .champ { background: color-mix(in srgb, var(--mtxt) 9%, transparent); border-color: transparent; }
+.m.orbite .o.acc { background: var(--macc); box-shadow: 0 0 10px color-mix(in srgb, var(--macc) 70%, transparent); }
+.m.orbite .it.on { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--macc) 60%, transparent); }
+.m.orbite .og { border-radius: 999px; margin-bottom: 3px; } .m.orbite .og.on { background: color-mix(in srgb, var(--macc) 25%, transparent); }
+.m.orbite .term, .m.orbite .code { margin: 0 6px 6px; border-radius: 10px; }
+.m.orbite .t { background: color-mix(in srgb, var(--mtxt) 8%, transparent); border-radius: 50%; } .m.orbite .t.eg { box-shadow: 0 0 10px var(--macc); }
+.m.orbite .bas { border-top: 0; }
+
+/* ---- Famille 2 : Épure (plat, aéré, sans cadres) ---- */
+.m.epure { --pad: 10px; --r: 4px; --rb: 4px; --rw: 8px; }
+.m.epure .tb { background: var(--mbg); }
+.m.epure .tb .ti { text-align: left; color: var(--mtxt); font-weight: 600; }
+.m.epure .lat { background: var(--mbg); border-right: 0; width: 22%; }
+.m.epure .it.on { background: none; color: var(--macc); }
+.m.epure .it::before { display: none; }
+.m.epure .outils { border-bottom: 0; }
+.m.epure .o { background: none; color: var(--mdoux); } .m.epure .o.acc { background: none; color: var(--macc); text-decoration: underline; }
+.m.epure .champ { background: none; border: 0; border-bottom: 1px solid var(--mbord); border-radius: 0; }
+.m.epure .carteM { background: none; border: 0; border-bottom: 1px solid var(--mbord); border-radius: 0; }
+.m.epure .og { background: none; border-bottom: 1.5px solid transparent; border-radius: 0; } .m.epure .og.on { background: none; border-color: var(--macc); }
+.m.epure .term, .m.epure .code { background: var(--mbg); }
+.m.epure .t { background: none; font-weight: 400; } .m.epure .t.eg { background: none; color: var(--macc); font-weight: 600; }
+.m.epure .bas { border-top: 0; }
+
+/* ---- Famille 3 : Relief (volumes doux, comme les icônes Relief) ---- */
+.m.relief { --r: 9px; --rb: 6px; --rw: 12px; }
+.m.relief .tb { background: linear-gradient(var(--mhaut), var(--msurf)); box-shadow: 0 1px 0 #0003; }
+.m.relief .o, .m.relief .t, .m.relief .it.on { background: linear-gradient(180deg, color-mix(in srgb, var(--mtxt) 12%, var(--mhaut)), var(--mhaut)); box-shadow: 0 1px 0 #0005, inset 0 1px 0 #ffffff1c; }
+.m.relief .o.acc, .m.relief .t.eg { background: linear-gradient(180deg, color-mix(in srgb, #fff 30%, var(--macc)), var(--macc) 55%, color-mix(in srgb, #000 20%, var(--macc))); box-shadow: 0 1px 2px #0007, inset 0 1px 0 #ffffff55; }
+.m.relief .champ, .m.relief .term, .m.relief .code { box-shadow: inset 0 1px 3px #0006; }
+.m.relief .lat { background: linear-gradient(90deg, var(--msurf), color-mix(in srgb, var(--msurf) 80%, var(--mbg))); }
+.m.relief .carteM, .m.relief .vign { box-shadow: 0 2px 4px #0005, inset 0 1px 0 #ffffff14; }
+.m.relief .og.on { box-shadow: inset 0 1px 0 #ffffff1c; }
+
+/* ---- Famille 4 : Console (dense, monospace, lignes fines) ---- */
+.m.console { --pad: 4px; --r: 0px; --rb: 2px; --rw: 4px; --font: "JetBrains Mono", monospace; font-size: 7px; }
+.m.console .tb { height: 7%; background: var(--mbg); border-bottom: 1px solid var(--mbord); }
+.m.console .tb .ti { text-align: left; color: var(--macc); }
+.m.console .tb i { border-radius: 1px; }
+.m.console .o { background: none; border: 1px solid var(--mbord); } .m.console .o.acc { background: none; color: var(--macc); border-color: var(--macc); }
+.m.console .lat { background: var(--mbg); width: 22%; }
+.m.console .it { height: 9px; } .m.console .it::before { content: "›"; background: none; width: auto; height: auto; opacity: 1; }
+.m.console .it.on { background: none; color: var(--macc); }
+.m.console .carteM { border-radius: 0; background: none; }
+.m.console .og { border-radius: 0; background: none; border: 1px solid var(--mbord); border-bottom: 0; } .m.console .og.on { color: var(--macc); }
+.m.console .vign { border-radius: 0; } .m.console .t { border-radius: 0; background: none; border: 1px solid var(--mbord); }
+.m.console .t.eg { background: none; color: var(--macc); border-color: var(--macc); }
+.m.console .ecran { font-family: "JetBrains Mono", monospace; color: var(--macc); }
+
+/* ---- Famille 5 : Cartes (tout flotte, grandes cibles, style tablette) ---- */
+.m.cartes { --pad: 8px; --r: 12px; --rb: 8px; --rw: 16px; background: var(--mhaut); }
+.m.cartes .tb { background: var(--mhaut); }
+.m.cartes .lat { background: var(--msurf); border: 0; border-radius: 12px; margin: 0 0 7px 7px; padding: 6px; }
+.m.cartes .it { height: 14px; border-radius: 7px; } .m.cartes .it.on { background: var(--macc); color: var(--msur); } .m.cartes .it.on::before { background: var(--msur); }
+.m.cartes .outils { border: 0; } .m.cartes .o { height: 14px; background: var(--msurf); border-radius: 8px; }
+.m.cartes .champ { height: 15px; border-radius: 8px; border: 0; }
+.m.cartes .zone { background: var(--msurf); border-radius: 12px; margin: 0 7px 7px; }
+.m.cartes .carteM { background: var(--mhaut); border: 0; }
+.m.cartes .og { border-radius: 8px; height: 13px; margin-bottom: 4px; } .m.cartes .og.on { background: var(--msurf); }
+.m.cartes .term, .m.cartes .code { margin: 0 7px 7px; border-radius: 12px; }
+.m.cartes .t { border-radius: 10px; background: var(--msurf); } .m.cartes .bas { border: 0; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="page">
+  <header class="intro">
+    <div>
+      <h1>Styles des logiciels ExoLyx</h1>
+      <p>Pour chaque logiciel de base, cinq interfaces possibles. Cliquez sur celle que vous voulez pour chaque logiciel, puis copiez vos choix et envoyez-les-moi. GNOME Files n'est pas concerné.</p>
+    </div>
+    <div class="reglages">
+      <div class="seg" role="group" aria-label="Aperçu des maquettes">
+        <button type="button" id="b-sombre" aria-pressed="true">Sombre</button>
+        <button type="button" id="b-clair" aria-pressed="false">Clair</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="familles" aria-label="Les cinq familles de style">
+    <div class="famille"><b>Orbite</b><span>Verre fumé, flou, lueurs vertes, pastilles</span></div>
+    <div class="famille"><b>Épure</b><span>Plat, aéré, sans cadres, texte d'abord</span></div>
+    <div class="famille"><b>Relief</b><span>Volumes doux et boutons bombés, comme les icônes Relief</span></div>
+    <div class="famille"><b>Console</b><span>Dense, police à chasse fixe, filets fins</span></div>
+    <div class="famille"><b>Cartes</b><span>Panneaux flottants arrondis, grandes cibles tactiles</span></div>
+  </div>
+
+  <main id="logiciels"></main>
+</div>
+
+<div class="panneau" aria-live="polite">
+  <div class="int">
+    <span class="compte" id="compte">0 / 10 choisis</span>
+    <span class="liste" id="liste">Cliquez sur une maquette pour la choisir.</span>
+    <button type="button" class="btn" id="hasard">Compléter au hasard</button>
+    <button type="button" class="btn principal" id="copier">Copier mes choix</button>
+    <textarea class="texte-copie" id="texte" rows="3" readonly hidden aria-label="Choix à copier"></textarea>
+  </div>
+</div>
+
+<script>
+const FAMILLES = ["Orbite", "Épure", "Relief", "Console", "Cartes"];
+const CLASSES = ["orbite", "epure", "relief", "console", "cartes"];
+const tb = t => `<div class="tb"><i></i><i></i><span class="ti">${t}</span><i></i><i class="x"></i></div>`;
+const L = (w, c = "") => `<div class="ligne ${c}" style="width:${w}%"></div>`;
+
+const LOGICIELS = [
+  { id: "firefox", nom: "Firefox", paquet: "firefox", desc: [
+      "Onglets en pastilles flottantes, barre d'adresse en verre, fond qui laisse voir la page.",
+      "Une seule barre : onglets et adresse fusionnés, aucune bordure, maximum de place pour la page.",
+      "Barre d'outils bombée, boutons en relief, onglet actif qui ressort comme une touche.",
+      "Onglets verticaux compacts à gauche, barre d'adresse en chasse fixe, idéal pour beaucoup d'onglets.",
+      "Onglets en cartes, gros boutons, page posée sur un panneau arrondi."],
+    vue: () => `${tb("Firefox")}<div class="onglets"><div class="og on">Accueil</div><div class="og">Wikipédia</div><div class="og">+</div></div>
+      <div class="outils"><div class="o">‹</div><div class="o">›</div><div class="o">↻</div><div class="champ">duckduckgo.com/?q=exolyx</div><div class="o acc">☆</div></div>
+      <div class="zone"><div class="grille" style="--n:3"><div class="vign"></div><div class="vign b"></div><div class="vign c"></div></div>${L(80, "f")}${L(65)}${L(70)}</div>`,
+    vueConsole: () => `${tb("firefox")}<div class="corps"><div class="lat"><div class="it on">Accueil</div><div class="it">Wikipédia</div><div class="it">GitHub</div><div class="it">YouTube</div><div class="it">Flathub</div></div>
+      <div class="col"><div class="outils"><div class="o">‹</div><div class="o">›</div><div class="champ">duckduckgo.com/?q=exolyx</div></div>
+      <div class="zone"><div class="grille" style="--n:3"><div class="vign"></div><div class="vign b"></div><div class="vign c"></div></div>${L(80, "f")}${L(65)}</div></div></div>` },
+
+  { id: "konsole", nom: "Terminal", paquet: "konsole", desc: [
+      "Fond translucide et flouté sur le bureau, onglets en pastilles, invite verte lumineuse.",
+      "Plein écran sans barre d'outils ni onglets visibles, marges larges, texte seul.",
+      "Cadre bombé façon écran rétro, zone de texte enfoncée, boutons d'onglets en relief.",
+      "Écran partagé en deux, barre d'état en bas, aucune décoration superflue.",
+      "Chaque onglet est une carte, gros boutons « Nouvel onglet » et « Diviser »."],
+    vue: () => `${tb("Terminal")}<div class="onglets"><div class="og on">~</div><div class="og">~/exolyx</div></div>
+      <div class="term"><span class="v">alex</span><span class="d">@exolyx</span> <span class="v">~</span> ❯ fastfetch<br><span class="v">   .-''-.</span>  <span class="b">OS</span>  ExoLyx<br><span class="v">  ( () )</span>  <span class="b">Bureau</span>  Plasma 6<br><span class="v">   '-..-'</span>  <span class="b">Thème</span>  ExoLyx<br><span class="v">alex</span><span class="d">@exolyx</span> <span class="v">~/exolyx</span> <span class="d">(main)</span> ❯ <span class="j">git</span> status</div>`,
+    vueConsole: () => `${tb("konsole — 2 volets")}<div class="corps"><div class="term" style="border-right:1px solid var(--mbord)"><span class="v">❯</span> htop<br><span class="d">CPU</span> <span class="v">▮▮▮▯▯▯</span> 32%<br><span class="d">Mém</span> <span class="j">▮▮▮▮▯▯</span> 3,1 Go</div><div class="term"><span class="v">❯</span> git log --oneline<br><span class="j">a8ed125</span> Profil ISO<br><span class="j">5461067</span> VM VirtualBox</div></div><div class="bas"><div class="o">bash</div><div class="esp"></div><div class="o">120×32</div></div>` },
+
+  { id: "kate", nom: "Éditeur de texte", paquet: "kate", desc: [
+      "Panneau de fichiers en verre, coloration ExoLyx, minicarte lumineuse à droite.",
+      "Mode écriture : une seule colonne centrée, numéros de ligne discrets, rien d'autre.",
+      "Onglets et panneau latéral bombés, zone de code légèrement enfoncée.",
+      "Dense pour coder : arborescence compacte, terminal intégré en bas, police fixe partout.",
+      "Fichiers ouverts en cartes, grands boutons Enregistrer / Exécuter."],
+    vue: () => `${tb("Éditeur — accueil.py")}<div class="corps"><div class="lat"><div class="it">src</div><div class="it on">accueil.py</div><div class="it">config.toml</div><div class="it">README.md</div></div>
+      <div class="code"><span class="num">1<br>2<br>3<br>4<br>5<br>6</span><span><span class="c"># Page d'accueil</span><br><span class="k">def</span> <span class="f">saluer</span>(nom):<br>&nbsp;&nbsp;<span class="k">return</span> <span class="s">f"Bonjour {nom}"</span><br><br><span class="f">print</span>(saluer(<span class="s">"Alex"</span>))<br></span></div></div>` },
+
+  { id: "discover", nom: "Logithèque", paquet: "discover", desc: [
+      "Bannière d'applis en verre avec halo vert, catégories en pastilles.",
+      "Liste éditoriale : grandes captures, texte court, aucune bordure.",
+      "Vignettes d'applis bombées comme des boîtes, bouton Installer en relief.",
+      "Tableau compact : nom, version, taille, source (pacman / Flatpak), tri par colonne.",
+      "Grille de grandes cartes tactiles, bouton Installer pleine largeur."],
+    vue: () => `${tb("Logithèque")}<div class="corps"><div class="lat"><div class="it on">À la une</div><div class="it">Jeux</div><div class="it">Graphisme</div><div class="it">Bureautique</div><div class="it">Mises à jour</div></div>
+      <div class="zone"><div class="champ">Rechercher une application…</div><div class="grille" style="--n:3">${["", " b", " c"].map(c => `<div class="carteM"><div class="vign${c}"></div>${L(70, "f")}<div class="o acc" style="align-self:start">Installer</div></div>`).join("")}</div></div></div>`,
+    vueConsole: () => `${tb("discover")}<div class="zone"><div class="champ">› rechercher</div>${[["gimp", "3.0.4", "pacman", 1], ["krita", "5.2.9", "pacman"], ["steam", "1.0.0.83", "flatpak"], ["vlc", "3.0.21", "pacman"], ["obs-studio", "31.1", "pacman"]].map(r => `<div class="rangeeF${r[3] ? " on" : ""}"><span>${r[0]}</span><span>${r[1]}</span><span>${r[2]}</span></div>`).join("")}</div>` },
+
+  { id: "systemsettings", nom: "Configuration du système", paquet: "systemsettings", desc: [
+      "Catégories dans un panneau de verre, réglages groupés sur fond flouté.",
+      "Une seule colonne de réglages, intitulés en gras, interrupteurs à droite.",
+      "Interrupteurs et curseurs bombés, sections en plaques légèrement surélevées.",
+      "Recherche en premier, liste dense de toutes les options, valeurs alignées.",
+      "Tuiles de catégories, chaque réglage dans sa propre carte avec un grand interrupteur."],
+    vue: () => `${tb("Configuration du système")}<div class="corps"><div class="lat"><div class="champ">Rechercher</div><div class="it on">Apparence</div><div class="it">Bureau</div><div class="it">Son</div><div class="it">Réseau</div><div class="it">Affichage</div></div>
+      <div class="zone">${["Thème sombre", "Teintes dynamiques", "Animations"].map((t, i) => `<div class="carteM" style="flex-direction:row;align-items:center"><div style="flex:1">${L(55, "f")}<div style="height:3px"></div>${L(80)}</div><div class="o${i < 2 ? " acc" : ""}" style="width:16px;border-radius:999px"></div></div>`).join("")}<div class="barre" style="--w:70%"><i></i></div></div></div>` },
+
+  { id: "spectacle", nom: "Captures d'écran", paquet: "spectacle", desc: [
+      "Sélection lumineuse, barre d'outils flottante en verre au-dessus de la capture.",
+      "Juste la capture et trois boutons texte : Copier, Enregistrer, Annoter.",
+      "Outils d'annotation en boutons bombés, aperçu posé comme une photo.",
+      "Barre compacte avec raccourcis clavier affichés, dimensions en pixels.",
+      "Grands boutons de mode (zone, fenêtre, écran, vidéo) en cartes."],
+    vue: () => `${tb("Captures d'écran")}<div class="outils"><div class="o acc">Zone</div><div class="o">Fenêtre</div><div class="o">Écran</div><div class="o">Vidéo</div><div class="esp"></div><div class="o">Copier</div><div class="o acc">Enregistrer</div></div>
+      <div class="zone" style="align-items:center;justify-content:center"><div class="vign" style="width:75%;outline:1.5px dashed var(--macc);outline-offset:3px"></div></div>
+      <div class="bas"><div class="o">✎</div><div class="o">▭</div><div class="o">→</div><div class="o">T</div><div class="esp"></div><div class="o">1280 × 720</div></div>` },
+
+  { id: "gwenview", nom: "Images", paquet: "gwenview", desc: [
+      "Image en grand, bande de miniatures en verre flottant en bas.",
+      "Galerie épurée : miniatures sans cadre, nom du dossier en titre.",
+      "Miniatures en tirages photo avec ombre, boutons de rotation bombés.",
+      "Informations EXIF en colonne, miniatures petites et nombreuses.",
+      "Albums en grandes cartes, gestes de zoom et boutons larges."],
+    vue: () => `${tb("Images — Vacances")}<div class="corps"><div class="col"><div class="zone"><div class="grille" style="--n:4">${["", " b", " c", "", " c", "", " b", ""].map(c => `<div class="vign${c}"></div>`).join("")}</div></div>
+      <div class="bas"><div class="o">↺</div><div class="o">↻</div><div class="esp"></div><div class="o">Diaporama</div><div class="o acc">Partager</div></div></div></div>` },
+
+  { id: "okular", nom: "Documents PDF", paquet: "okular", desc: [
+      "Page posée sur un fond flouté, sommaire en verre, surligneur vert lumineux.",
+      "Mode lecture : page seule, centrée, barre d'outils qui apparaît au survol.",
+      "Page en papier épais avec ombre, outils d'annotation en relief.",
+      "Sommaire dense numéroté, page et zoom affichés en chiffres.",
+      "Miniatures de pages en cartes, gros boutons Signer / Annoter."],
+    vue: () => `${tb("Documents — guide.pdf")}<div class="corps"><div class="lat"><div class="it on">1. Bienvenue</div><div class="it">2. Bureau</div><div class="it">3. Logiciels</div><div class="it">4. Sauvegardes</div></div>
+      <div class="zone" style="align-items:center;background:var(--mhaut)"><div class="feuille" style="width:62%">${L(60, "f")}${L(95)}${L(90)}${L(70)}<div class="ligne a" style="width:50%;opacity:.5;height:5px"></div>${L(85)}${L(60)}</div></div></div>` },
+
+  { id: "ark", nom: "Archives", paquet: "ark", desc: [
+      "Contenu de l'archive dans un panneau de verre, bouton Extraire lumineux.",
+      "Liste nue des fichiers, un seul bouton « Extraire ici ».",
+      "Archive représentée comme une boîte, fichiers en tiroirs bombés.",
+      "Tableau complet : taille, compression, date, chemin ; barre de progression texte.",
+      "Grandes cartes « Ouvrir », « Extraire », « Compresser », glisser-déposer."],
+    vue: () => `${tb("Archives — photos.zip")}<div class="outils"><div class="o acc">Extraire</div><div class="o">Ajouter</div><div class="esp"></div><div class="o">12 fichiers · 48 Mo</div></div>
+      <div class="zone">${[["Vacances/", "", "", 0], ["plage.jpg", "4,2 Mo", "92 %", 1], ["montagne.jpg", "3,8 Mo", "91 %"], ["notes.txt", "2 Ko", "38 %"], ["video.mp4", "38 Mo", "99 %"]].map(r => `<div class="rangeeF${r[3] ? " on" : ""}"><span>${r[0]}</span><span>${r[1]}</span><span>${r[2]}</span></div>`).join("")}<div class="barre" style="--w:45%"><i></i></div></div>` },
+
+  { id: "kcalc", nom: "Calculatrice", paquet: "kcalc", desc: [
+      "Touches rondes en verre, touche « = » qui brille.",
+      "Chiffres très grands, touches sans fond, historique en texte gris.",
+      "Touches bombées façon calculatrice physique.",
+      "Mode programmeur : bases hexa / binaire visibles, historique dense.",
+      "Grandes touches carrées arrondies, faciles à viser à la souris ou au doigt."],
+    vue: () => `${tb("Calculatrice")}<div class="ecran"><small>1 250 × 12 %</small>150</div>
+      <div class="zone" style="padding-top:0"><div class="touches">${["C", "±", "%", "÷", "7", "8", "9", "×", "4", "5", "6", "−", "1", "2", "3", "+", "0", ",", "⌫", "="].map(k => `<div class="t${"÷×−+%±".includes(k) ? " op" : ""}${k === "=" ? " eg" : ""}">${k}</div>`).join("")}</div></div>` },
+];
+
+let choix = {};
+try { choix = JSON.parse(localStorage.getItem("exolyx-styles") || "{}"); } catch (e) { choix = {}; }
+const sauver = () => { try { localStorage.setItem("exolyx-styles", JSON.stringify(choix)); } catch (e) {} };
+
+const racine = document.getElementById("logiciels");
+racine.innerHTML = LOGICIELS.map(l => `
+  <section class="logiciel" id="${l.id}" aria-labelledby="t-${l.id}">
+    <div class="entete"><h2 id="t-${l.id}">${l.nom}</h2><span class="paquet">${l.paquet}</span><span class="choisi" id="c-${l.id}"></span></div>
+    <div class="rangee">${CLASSES.map((c, i) => `
+      <button type="button" class="carte" data-l="${l.id}" data-s="${i}" aria-pressed="false">
+        <div class="m ${c}" aria-hidden="true">${c === "console" && l.vueConsole ? l.vueConsole() : l.vue()}</div>
+        <div class="legende"><b>${FAMILLES[i]}</b><span class="coche"></span></div>
+        <p>${l.desc[i]}</p>
+      </button>`).join("")}</div>
+  </section>`).join("");
+
+function afficher() {
+  document.querySelectorAll(".carte").forEach(b => b.setAttribute("aria-pressed", String(choix[b.dataset.l] === +b.dataset.s)));
+  LOGICIELS.forEach(l => {
+    const el = document.getElementById("c-" + l.id);
+    el.innerHTML = choix[l.id] === undefined ? "Pas encore choisi" : `Choisi : <strong>${FAMILLES[choix[l.id]]}</strong>`;
+  });
+  const n = LOGICIELS.filter(l => choix[l.id] !== undefined).length;
+  document.getElementById("compte").textContent = `${n} / ${LOGICIELS.length} choisis`;
+  document.getElementById("liste").textContent = n ? LOGICIELS.filter(l => choix[l.id] !== undefined).map(l => `${l.nom} : ${FAMILLES[choix[l.id]]}`).join(" · ") : "Cliquez sur une maquette pour la choisir.";
+}
+racine.addEventListener("click", e => {
+  const b = e.target.closest(".carte"); if (!b) return;
+  const l = b.dataset.l, s = +b.dataset.s;
+  if (choix[l] === s) delete choix[l]; else choix[l] = s;
+  sauver(); afficher();
+});
+document.getElementById("hasard").addEventListener("click", () => {
+  LOGICIELS.forEach(l => { if (choix[l.id] === undefined) choix[l.id] = Math.floor(Math.random() * 5); });
+  sauver(); afficher();
+});
+document.getElementById("copier").addEventListener("click", async () => {
+  const lignes = LOGICIELS.map(l => `- ${l.nom} : ${choix[l.id] === undefined ? "(pas de choix)" : FAMILLES[choix[l.id]]}`);
+  const texte = "Styles choisis pour ExoLyx :\n" + lignes.join("\n");
+  const zone = document.getElementById("texte");
+  const bouton = document.getElementById("copier");
+  try { await navigator.clipboard.writeText(texte); bouton.textContent = "Copié"; setTimeout(() => bouton.textContent = "Copier mes choix", 1800); }
+  catch (err) { zone.hidden = false; zone.value = texte; zone.focus(); zone.select(); bouton.textContent = "Sélectionné, faites Ctrl+C"; }
+});
+function apercu(clair) {
+  document.getElementById("logiciels").classList.toggle("clairs", clair);
+  document.getElementById("b-clair").setAttribute("aria-pressed", String(clair));
+  document.getElementById("b-sombre").setAttribute("aria-pressed", String(!clair));
+}
+document.getElementById("b-sombre").addEventListener("click", () => apercu(false));
+document.getElementById("b-clair").addEventListener("click", () => apercu(true));
+afficher();
+</script>
